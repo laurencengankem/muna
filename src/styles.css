@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+.background {
+    display: block;
+    height: 100vh;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    /* transition: background-image 5 ease-in-out; */
+    animation: fadeIn 20s ease-in-out infinite;
+  }
+  
+  @keyframes fadeIn {
+    0% { background-image: url("assets/images/img6.jpg"); }
+    25% { background-image: url("assets/images/img6.jpg"); }
+    50% { background-image: url("assets/images/img4.jpg"); }
+    75% { background-image: url("assets/images/img4.jpg"); }
+    100% { background-image: url("assets/images/img6.jpg"); }
+  }
