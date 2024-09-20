@@ -2,21 +2,42 @@
 
 
 
-.background {
+body {
     display: block;
     height: 100vh;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     background-color: black;
-    /* transition: background-image 5 ease-in-out; */
-    animation: fadeIn 20s ease-in-out infinite;
+  }
+
+  #carouselExample {
+    height: 400px;
   }
   
-  @keyframes fadeIn {
-    0% { background-image: url("assets/images/img6.jpg"); }
-    25% { background-image: url("assets/images/img6.jpg"); }
-    50% { background-image: url("assets/images/img4.jpg"); }
-    75% { background-image: url("assets/images/img4.jpg"); }
-    100% { background-image: url("assets/images/img6.jpg"); }
-  }
+
+  /* Enable dropdown on hover */
+.navbar-nav .dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Ensure proper positioning */
+}
+
+.navbar-nav .dropdown-toggle::after {
+  display: none; /* Remove the toggle icon */
+}
+
+.nav-link{
+  padding: 10px 0px;
+  font-size: 1.5em;
+  margin-left: 20px;
+}
+
+.dropdown-item:hover{
+  background-color: lightgrey;
+}
+
+
+
+
+
+
