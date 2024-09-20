@@ -1,44 +1,48 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+
+<div class="navbar-div">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">MUNA</a>
+      <a class="navbar-brand" href="#"><strong>MUNA</strong></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="mx-auto"> <!-- This will center the menu -->
-          <ul class="navbar-nav d-flex justify-content-center"> <!-- Centering the dropdown buttons -->
-            <li class="nav-item dropdown">
-              <a class="nav-link left" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Garcon
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Chaussures</a></li>
-                <li><a class="dropdown-item" href="#">Pantalons</a></li>
-                <li><a class="dropdown-item" href="#">Jeans</a></li>
-                <li><a class="dropdown-item" href="#">T-shirt</a></li>
-                <li><a class="dropdown-item" href="#">Blouson</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Tout</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Fille
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Chaussures</a></li>
-                <li><a class="dropdown-item" href="#">Pantalons</a></li>
-                <li><a class="dropdown-item" href="#">Jupes</a></li>
-                <li><a class="dropdown-item" href="#">Robes</a></li>
-                <li><a class="dropdown-item" href="#">Jeans</a></li>
-                <li><a class="dropdown-item" href="#">T-shirt</a></li>
-                <li><a class="dropdown-item" href="#">Blouson</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Tout</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        <!-- Move navbar-nav outside the centered div -->
+        <ul class="navbar-nav me-auto"> <!-- 'me-auto' pushes links to the left -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Garcon
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Chaussures</a></li>
+              <li><a class="dropdown-item" href="#">Pantalons</a></li>
+              <li><a class="dropdown-item" href="#">Jeans</a></li>
+              <li><a class="dropdown-item" href="#">Short</a></li>
+              <li><a class="dropdown-item" href="#">T-shirt</a></li>
+              <li><a class="dropdown-item" href="#">Blouson</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Tout</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fille
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Chaussures</a></li>
+              <li><a class="dropdown-item" href="#">Pantalons</a></li>
+              <li><a class="dropdown-item" href="#">Jupes</a></li>
+              <li><a class="dropdown-item" href="#">Robes</a></li>
+              <li><a class="dropdown-item" href="#">Jeans</a></li>
+              <li><a class="dropdown-item" href="#">T-shirt</a></li>
+              <li><a class="dropdown-item" href="#">Blouson</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Tout</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
+</div>
+

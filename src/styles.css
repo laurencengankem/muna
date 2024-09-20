@@ -11,29 +11,90 @@ body {
     background-color: black;
   }
 
-  #carouselExample {
-    height: 400px;
-  }
-  
 
-  /* Enable dropdown on hover */
-.navbar-nav .dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0; /* Ensure proper positioning */
-}
+  .navbar-div{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height:  60px;
+    z-index: 100;
+    opacity: 0.95;
+  }
+
+
 
 .navbar-nav .dropdown-toggle::after {
   display: none; /* Remove the toggle icon */
 }
 
 .nav-link{
-  padding: 10px 0px;
   font-size: 1.5em;
   margin-left: 20px;
 }
 
+
+.dropdown-menu{
+  margin-top: 7px !important;
+  border-radius: 0px !important;
+  margin-left: 25px !important;
+}
+
 .dropdown-item:hover{
   background-color: lightgrey;
+}
+
+.component-body{
+  height: 95vh;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  height: 100%; /* Ensure carousel takes full height */
+}
+
+.carousel-item {
+  height: 100%; /* Ensure each carousel item takes full height */
+}
+
+.carousel-item img {
+  height: 100%; /* Make image height 100% of its parent */
+  width: auto; /* Allow width to adjust while maintaining aspect ratio */
+  object-fit: cover; /* Ensure the image fits within the container */
+}
+
+
+.footer{
+  background-color: white;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.msg-accueil{
+  position: absolute;
+  top:30vh;
+  width: 60%;
+  margin-left: 20%;
+  background-color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.img-accueil{
+  height: 40vh;
+  background-image: url('./assets/images/img1.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.msg-btn{
+  min-height: 60px;
+  box-shadow: 2px 3px black;
+  border-radius: 5px;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 
