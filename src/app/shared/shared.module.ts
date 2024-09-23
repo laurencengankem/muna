@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
-    NgxSpinnerModule
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
-    NgxSpinnerModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

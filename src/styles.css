@@ -9,8 +9,13 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-color: black;
+    font-family: 'Merriweather', sans-serif;
   }
 
+  .navbar{
+    color: white;
+  }
+  
 
   .navbar-div{
     position: fixed;
@@ -19,6 +24,7 @@ body {
     height:  60px;
     z-index: 100;
     opacity: 0.95;
+    background-color: black !important;
   }
 
 
@@ -27,10 +33,12 @@ body {
   display: none; /* Remove the toggle icon */
 }
 
-.nav-link{
+a.nav-link {
   font-size: 1.5em;
   margin-left: 20px;
+  color: white !important;
 }
+
 
 
 .dropdown-menu{
@@ -44,8 +52,10 @@ body {
 }
 
 .component-body{
-  height: 95vh;
-  overflow: hidden;
+  min-height: 95vh;
+  background-color: white;
+  padding: 10px;
+  margin-top: 60px;
 }
 
 .carousel-inner {
@@ -64,11 +74,12 @@ body {
 
 
 .footer{
-  background-color: white;
+  background-color: black;
   height: 50px;
   display: flex;
   justify-content: center;
   padding: 10px;
+  color: white;
 }
 
 .msg-accueil{
@@ -96,6 +107,19 @@ body {
   font-size: 1.5em;
   font-weight: bold;
 }
+
+#phn{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width:100%;
+  background-color:  rgb(208, 229, 248);
+}
+
+#cart-icon{
+  float:left ;
+}
+
 
 
 

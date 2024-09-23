@@ -4,12 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../models/item.model';
 import { GlobalVariable } from '../global/global';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { CardItemComponent } from '../card-item/card-item.component';
 
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [HttpClient],
+  imports: [SharedModule, CardItemComponent],
   templateUrl: './results.component.html',
   styleUrl: './results.component.css'
 })
@@ -17,8 +19,8 @@ export class ResultsComponent implements OnInit {
 
   priceForm: FormGroup;
   categoryForm: FormGroup;
-  filtered: Item[] | undefined;
-  items: Item[] | undefined;
+  filtered: Item[] =[];
+  items: Item[] = [];
   b=false;
   order= new FormControl();
   categories= new Array(0);
@@ -45,7 +47,9 @@ export class ResultsComponent implements OnInit {
     this.http.post<Item[]>(GlobalVariable.BASE_API_URL+"item/searchItems",{"txt":null}).
     subscribe(data=> {
       this.items=data;
-      this.filtered!=data;
+      this.filtered=data;
+      console.log(data);
+      console.log(this.filtered)
       if(data.length){
         this.setMaxMin();
         this.setCategories();

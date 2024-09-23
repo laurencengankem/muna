@@ -1,4 +1,4 @@
-import { Picture } from "./picture.model.ts";
+import { Picture } from "./picture.model";
 
 export class Item{
     id!: number;
