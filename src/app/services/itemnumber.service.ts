@@ -19,6 +19,11 @@ export class ItemNumberService {
     }
 
     getNum(): number {
+        var data= localStorage.getItem('cart');
+        if(data){
+            let datas = JSON.parse(data);
+            this.num=datas.length;
+        }
         return this.num;
     }
 }

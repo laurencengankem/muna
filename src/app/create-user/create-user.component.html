@@ -1,0 +1,70 @@
+<div class="component-body">
+    <div class="container mt-5 p-5 pt-1">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <h2 class="text-center mb-4">Informations Utilisateur</h2>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                formControlName="email" 
+                placeholder="Enter your email">
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                Entrer Un Mot De Passe Valide
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="firstName" class="form-label">Prénom</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="firstName" 
+                formControlName="firstName" 
+                placeholder="Enter your first name">
+              <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+                Remplir Le Prénom.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Nom</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="lastName" 
+                formControlName="lastName" 
+                placeholder="Enter your last name">
+              <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+                Remplir Le Nom.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="role" class="form-label">Role</label>
+              <select 
+                class="form-select" 
+                id="role" 
+                formControlName="role">
+                <option value="" disabled>Choisir Un Role</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="OPERATOR">OPERATOR</option>
+              </select>
+              <div *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched" class="text-danger">
+                Choisir Un Role.
+              </div>
+            </div>
+            
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success" [disabled]="userForm.invalid">Envoyer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

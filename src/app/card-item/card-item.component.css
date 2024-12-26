@@ -1,14 +1,16 @@
-.card-title{
-    white-space: nowrap; overflow:hidden; text-overflow:ellipsis; width:30ch;
+.card-gr{
+    width: 100%;
+    margin-bottom: 10px;
+    min-width: 220px;
+    padding: 10px;
+    max-width: 300px;
 }
 
-.card:hover{
-    transition: 0.2s ease-in-out;
-    transform: scale(1.1);
-    border: solid;
-    border-color: grey;
-    
-}
-.card-group{
-    width: 220px
-}
+@media screen and (max-width: 700px) {
+
+
+    .card-gr{
+        width: 100%;
+        max-width: 100%;
+    }
+  }

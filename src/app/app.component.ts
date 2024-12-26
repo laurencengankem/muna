@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FooterComponent } from './footer/footer.component';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

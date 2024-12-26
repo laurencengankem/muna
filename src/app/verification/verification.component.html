@@ -1,0 +1,9 @@
+<div class="component-body">
+    <div id="verification">
+        <form (ngSubmit)="verify()">
+            Insert the code received &nbsp; <input type="text" id="code" [formControl]="fc" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+            <input type="submit" value="send">
+        </form>
+        <a href="javascript:void(0)" (click)="resend()">Resend the code</a>
+    </div>    
+</div>

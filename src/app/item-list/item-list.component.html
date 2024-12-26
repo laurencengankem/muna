@@ -1,0 +1,140 @@
+<div class="component-body">
+    <div id="itemList">
+        <button class="addbutton" id="additem" (click)="showOrHide()">Ajouter Un Article</button>
+        <!-- <button class="addbutton" id="additem" (click)="showOrHide('additemform')">add new item</button>
+        <button class="addbutton" id="addlist" (click)="showOrHide('addlistform')">add new list</button>
+        
+        <div id="formContainer">
+          <div id="additemform">
+            <h1>Add new Item</h1>
+            <p>Fill all the fields</p>
+            <form (ngSubmit)="send()" id="addform" [formGroup]="form">
+              <table class="items small">
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" formControlName="name"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea  id="" cols="100" rows="2" formControlName="description"></textarea></td>
+                </tr>
+                <tr>
+                  <td>Category</td>
+                  <td><input type="text" formControlName="category"></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type="number" formControlName="price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
+                </tr>
+                <tr>
+                  <td>Discount</td>
+                  <td><input type="number" formControlName="discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
+                </tr>
+                <tr>
+                  <td>Quantity</td>
+                  <td><input type="number" formControlName="quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
+                </tr>
+            </table> 
+            <input type="submit" value="add" id="add" [disabled]="!form.valid">
+            </form>
+          </div>
+      
+          <div id="addlistform">
+            <h1>Add list of new Items</h1>
+            <p>Click on the "Choose File" button to upload json file of new items:</p>
+            <input type="file" #myFile style="width:25%" name="filename" (change)="onFileSelected($event)" accept=".json">
+            <button (click)="onUpload()"> send file </button> <br>
+            <h1 id="msg"></h1>
+          </div>
+        </div> -->
+    <div *ngIf="showForm" >
+        <app-product-form (formSubmitted)="onFormSubmitted($event)"></app-product-form>
+    </div>    
+        
+    
+    <h1 class="mt-5">Catalogue Articles</h1>
+    <div id="search">
+      <input id="itemsearch" type="text" placeholder="search item"  (keyup.enter)="searchItems()">
+      <button id="ico" (click)="searchItems()" ><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+    </svg></button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover items">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col" class="d-none d-md-table-cell">Description</th>
+            <th scope="col">Categorie</th>
+            <th scope="col">Réduction</th>
+            <th scope="col" class="d-none d-lg-table-cell">Disponibilité</th>
+            <th scope="col">Modifier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>{{ item.id.toString().padStart(5, '0') }}</td>
+            <td>
+              {{ item.name }}
+              <sup *ngIf="item.newlyAdded" style="color: rgb(180, 180, 6)">new</sup>
+            </td>
+            <td class="d-none d-md-table-cell">{{ item.description }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.discount }}</td>
+            <td class="d-none d-lg-table-cell">{{ item.available }}</td>
+            <td class="update">
+              <button
+                class="btn"
+                id="{{ item.id }}"
+                (click)="edit(item)"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  stroke-width="1.5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 12V5.74853C20 5.5894 19.9368 5.43679 19.8243 5.32426L16.6757 2.17574C16.5632 2.06321 16.4106 2 16.2515 2H4.6C4.26863 2 4 2.26863 4 2.6V21.4C4 21.7314 4.26863 22 4.6 22H11"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M8 10H16M8 6H12M8 14H11"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M16 5.4V2.35355C16 2.15829 16.1583 2 16.3536 2C16.4473 2 16.5372 2.03725 16.6036 2.10355L19.8964 5.39645C19.9628 5.46275 20 5.55268 20 5.64645C20 5.84171 19.8417 6 19.6464 6H16.6C16.2686 6 16 5.73137 16 5.4Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M17.9541 16.9394L18.9541 15.9394C19.392 15.5015 20.102 15.5015 20.5399 15.9394V15.9394C20.9778 16.3773 20.9778 17.0873 20.5399 17.5252L19.5399 18.5252M17.9541 16.9394L14.963 19.9305C14.8131 20.0804 14.7147 20.2741 14.6821 20.4835L14.4394 22.0399L15.9957 21.7973C16.2052 21.7646 16.3988 21.6662 16.5487 21.5163L19.5399 18.5252M17.9541 16.9394L19.5399 18.5252"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    </div>
+    
+</div>
+

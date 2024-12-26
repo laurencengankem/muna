@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Item } from '../models/item.model';
-import { CartService } from '../services/cart.service';
 import { SharedModule } from '../shared/shared.module';
+import { CartService } from '../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -11,13 +12,14 @@ import { SharedModule } from '../shared/shared.module';
   imports: [SharedModule],
   templateUrl: './card-item.component.html',
   styleUrl: './card-item.component.css',
-  providers: [CartService]
+  providers: []
 })
+
 export class CardItemComponent implements OnInit {
   @Input() item: Item =new Item();
   picture:string= '';
   b:boolean =false;
-  constructor(private router: Router,private cartService: CartService) { }
+  constructor(private router: Router,private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     if(this.item.pictures.length>0){
@@ -59,7 +61,6 @@ export class CardItemComponent implements OnInit {
   
   addToCart(){
     let cartData: any= this.cartService.cartItemList;
-    console.log(cartData);
     let itemIsPresent =false;
       for(let i=0; i<cartData.length; i++){
         if(cartData[i]['id'] ==this.item.id){
@@ -68,7 +69,6 @@ export class CardItemComponent implements OnInit {
           cartData[i]['quantity']=newQty;
           cartData[i]['total'] = newQty* cartData[i]['discounted'];
           itemIsPresent =true;
-            
         }
       }
       
@@ -87,6 +87,7 @@ export class CardItemComponent implements OnInit {
           "total":this.item.discounted*1
         })
       }
+      this.toastr.success(`"${this.item.name}"  ajouté au panier`);
       this.cartService.setCartItemNumber(cartData.length);
       localStorage.setItem('cart',JSON.stringify(cartData));
       this.cartService.setItems(cartData);
@@ -94,7 +95,6 @@ export class CardItemComponent implements OnInit {
       if(response!=null){
         response.subscribe((res: any)=>console.log(res))
       }
-      var msg= '<em style="color:green;font-size:1.5em">'+this.item.name+'</em>'+ ' added to the cart';
   
 
   }

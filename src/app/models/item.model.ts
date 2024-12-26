@@ -11,5 +11,10 @@ export class Item{
     pictures!: Picture[];
     newlyAdded!: boolean;
     category!: string;
+    brand!: string;
+    sex!:string;
+    sizes!: any[];
+    requestedSize!: string;
+    available!: boolean
 
 }

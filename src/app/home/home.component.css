@@ -1,0 +1,22 @@
+
+@media screen and (max-width: 700px) {
+    .img-accueil{
+        height: 20vh;
+        z-index: 0;
+      }
+
+    .msg-accueil{
+      width: 90%;
+      margin-left: 5%;
+      margin-top: 15px;
+    }
+
+    .component-body{
+      background-image: url('../../assets/images/img9.jpg');
+      background-attachment: fixed;
+      background-size: contain;
+      background-position: 0px 35px ;
+      background-repeat: no-repeat;
+    }
+   
+}

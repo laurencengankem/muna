@@ -1,0 +1,80 @@
+<div class="component-body">
+
+    <div class="container">
+        <h1 class="text-center m-5">
+            Liste Des Commandes Effectuées
+        </h1>
+    
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">ID Commande</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Opérateur</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders">
+                  <td>{{ order.orderId }}</td>
+                  <td>{{ order.total | currency }}</td>
+                  <td>{{ order.username }}</td>
+                  <td>{{ order.date | date:'medium' }}</td>
+                  <td> <button class="btn" (click)="openModal(order)"><i class="bi bi-eye"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    
+    
+    <!-- Button trigger modal -->
+    <button id="modalButton" type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Commande N° {{order.orderId}} </h5>
+            <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col">Article</th>
+                          <th scope="col">Quantité</th>
+                          <th scope="col">Prix</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of orderItems">
+                          <td>{{ product.item }}</td>
+                          <td class="text-center">{{ product.quantity }}</td>
+                          <td>{{ product.total/product.quantity | currency }}</td>
+                          <td>{{ product.total | currency }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p class="text-end">Total: {{ order.total | currency}}</p>
+                  </div>
+                  
+            </div>
+            <div class="modal-footer">
+            <div class="text-end">
+                <button type="button" class="btn btn-success" (click)="generateReceipt()">Télécharger Le Reçu</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+  
+
+</div>

@@ -1,0 +1,171 @@
+<div class="component-body">
+    <div class="deleteConfirmation">
+        <p style="font-size: 1.3em">Effacer l'Article Du Catalogue?</p>
+        <button class="sub nm" (click)="delete()" >OUI</button>
+        <button class="sub" (click)="showConfirmation()">NON</button>
+    </div>
+    <div id="itemUpdate">
+        <h1>Articles</h1>
+
+    <button class="sub nm" (click)="showConfirmation()">Effacer</button>
+    
+        
+    
+    <div class="container" *ngIf="loaded">
+        <form [formGroup]="clothProductForm" (ngSubmit)="saveProduct()" class="container mt-4">
+    
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Nom</label>
+                    <input 
+                    formControlName="name" 
+                    id="name" 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Enter Product Name">
+                    <div *ngIf="clothProductForm.get('name')?.invalid && clothProductForm.get('name')?.touched" class="text-danger">
+                        Le Nom Est Obligatoire
+                    </div>
+                </div>
+          
+                <div class="col-md-6 mb-3">
+                    <label for="brand" class="form-label">Marque</label>
+                    <input 
+                    formControlName="brand" 
+                    id="brand" 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Enter Product Brand">
+                </div>
+            </div>
+    
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea 
+                formControlName="description" 
+                id="description" 
+                class="form-control" 
+                placeholder="Enter product description"></textarea>
+              <div *ngIf="clothProductForm.get('description')?.invalid && clothProductForm.get('description')?.touched" class="text-danger">
+                La Description Est Obligatoire
+              </div>
+            </div>
+    
+          
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="discount" class="form-label">Réduction (%)</label>
+                <input 
+                  formControlName="discount" 
+                  id="discount" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Enter discount percentage">
+                <div *ngIf="clothProductForm.get('discount')?.invalid && clothProductForm.get('discount')?.touched" class="text-danger">
+                  La Réduction Doit Se Situer Entre 0 Et 100
+                </div>
+              </div>
+          
+              <div class="col-md-6 mb-3">
+                <label for="sex" class="form-label">Sexe</label>
+                <select formControlName="sex" id="sex" class="form-select">
+                  <option value="MALE">Masculin</option>
+                  <option value="FEMALE">Feminin</option>
+                  <option value="UNISEX">Unisex</option>
+                </select>
+              </div>
+            </div>
+          
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="category" class="form-label">Categorie</label>
+                    <input 
+                      formControlName="category" 
+                      id="category" 
+                      type="text" 
+                      class="form-control" 
+                      placeholder="Enter product category">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="available" class="form-label">Disponibilité</label>
+                    <select formControlName="available" id="available" class="form-select">
+                      <option value="true">OUI</option>
+                      <option value="false">NON</option>
+                    </select>
+                </div>
+
+            </div>
+            
+          
+            <div class="mb-3">
+              <label for="sizes" class="form-label">Tailles</label>
+              <div formArrayName="sizes">
+                <div *ngFor="let size of sizes.controls; let i = index" class="row mb-2">
+                  <div [formGroupName]="i" class="col-md-3">
+                    Nom
+                    <input 
+                      formControlName="name" 
+                      type="text" 
+                      class="form-control" 
+                      placeholder="Size (e.g. S, M, L)">
+                  </div>
+                  <div [formGroupName]="i" class="col-md-3">
+                    Quantité
+                    <input 
+                      formControlName="quantity" 
+                      type="number" 
+                      class="form-control" 
+                      placeholder="Quantity">
+                  </div>
+                  <div [formGroupName]="i" class="col-md-3">
+                    Prix
+                    <input 
+                      formControlName="price" 
+                      type="number" 
+                      class="form-control" 
+                      placeholder="Price">
+                  </div>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-danger" (click)="removeSize(i)">Eliminer</button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" (click)="addSize()">Ajouter Une Taille</button>
+            </div>
+          
+            <button type="submit" class="btn btn-success" [disabled]="!clothProductForm.valid">Modifier L'Article</button>
+          </form>
+    
+      </div>
+
+
+
+
+
+    
+    <p>Click on the "Choose File" button to upload images for your item:</p>
+    
+    <input type="file" #myFile name="filename" (change)="onFileSelected($event)" accept="image/png, image/gif, image/jpeg">
+    <button (click)="onUpload()"> send file</button>
+    
+    <div id="images">
+        
+        <div *ngFor="let pic of item.pictures; let i= index" class="image" >
+            <div class="deletePicture">
+                <p>confirm deletion?</p>
+                <button class="sub nm" (click)="deletePic(i,1)">YES</button>
+                <button class="sub" (click)="deletePic(i,2)">No</button>
+            </div>
+            <a href="javascript:void(0)" (click)="updateMain(i)" >set as main picture</a>
+            <img src={{pic.url}} alt=""  (click)="show(pic.url)">
+            <a href="javascript:void(0)" (click)="deletePic(i,0)" >delete</a><br>
+        </div>
+    </div>
+    <hr>
+    <p style="font-size:1.2em;">Main Image</p>
+    <div id="main">
+        <img src={{mainPhoto}} (click)="show(mainPhoto)" alt="">
+    </div>
+    
+    </div>
+</div>

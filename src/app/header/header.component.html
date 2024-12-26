@@ -1,48 +1,85 @@
-
 <div class="navbar-div">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <!-- <a class="navbar-brand" href="#"><strong>MUNA</strong></a> -->
+      <a class="navbar-brand" href="#"><strong class="text-white fs-3">MUNA</strong></a>
+      <div *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-block d-md-none">
+        <a class="nav-link" href="javascript:void(0)" (click)=goToCart()>
+          <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) <!-- Font Awesome cart icon -->
+        </a>
+      </div>
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Move navbar-nav outside the centered div -->
         <ul class="navbar-nav me-auto"> <!-- 'me-auto' pushes links to the left -->
           <li class="nav-item dropdown">
+            <a class="nav-link" href="/products" role="button" >
+              Articles
+            </a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Garcon
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Chaussures</a></li>
-              <li><a class="dropdown-item" href="#">Pantalons</a></li>
-              <li><a class="dropdown-item" href="#">Jeans</a></li>
-              <li><a class="dropdown-item" href="#">Short</a></li>
-              <li><a class="dropdown-item" href="#">T-shirt</a></li>
-              <li><a class="dropdown-item" href="#">Blouson</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Tout</a></li>
+              <li *ngFor="let category of categoriesBoy">
+                <a class="dropdown-item" href="/{{ category.route }}">{{ category.name }}</a>
+              </li>
+              <!-- <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" [routerLink]="allCategory.route">{{ allCategory.name }}</a>
+              </li> -->
             </ul>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Fille
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Chaussures</a></li>
-              <li><a class="dropdown-item" href="#">Pantalons</a></li>
-              <li><a class="dropdown-item" href="#">Jupes</a></li>
-              <li><a class="dropdown-item" href="#">Robes</a></li>
-              <li><a class="dropdown-item" href="#">Jeans</a></li>
-              <li><a class="dropdown-item" href="#">T-shirt</a></li>
-              <li><a class="dropdown-item" href="#">Blouson</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Tout</a></li>
+              <li *ngFor="let category of categoriesGirl">
+                <a class="dropdown-item" href="/{{ category.route }}">{{ category.name }}</a>
+              </li>
+              <!-- <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" [routerLink]="allCategory.route">{{ allCategory.name }}</a>
+              </li> -->
             </ul>
+          </li>
+        </ul>
+        <!-- Add cart icon here, aligned to the right -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown me-3"> 
+              <a *ngIf="user!=''" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user}}</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/direct">Caisse</a>
+                </li>
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/catalog">Catalogue</a>
+                </li>
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/create-user">Creation Utilisateur</a>
+                </li>
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/user-setup">Gestion Utilisateurs</a>
+                </li>
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/orderList">Liste Commandes</a>
+                </li>
+                <li>
+                  <a class="dropdown-item"  href="javascript:void(0)" (click)="logout()">Déconnexion</a>
+                </li>
+              </ul>
+              <a *ngIf="user==''" class="nav-link" routerLink="/login">Connexion</a>
+          </li>
+          <li *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-none d-md-block">
+            <a class="nav-link" href="javascript:void(0)" (click)=goToCart()>
+              <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) <!-- Font Awesome cart icon -->
+            </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </div>
-

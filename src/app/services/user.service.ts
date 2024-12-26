@@ -9,6 +9,7 @@ export class UserService {
 intervalId: any;
 
   public orderPageNum= new BehaviorSubject<number>(1);
+  public loggedUser= new BehaviorSubject<any>(localStorage.getItem('username'));
   constructor() { }
 
   isUserlogged():boolean{
@@ -33,6 +34,14 @@ intervalId: any;
   }
   setOrderPageNum(pageNumber: number){
     this.orderPageNum.next(pageNumber);
+  }
+
+  getLoggedUser(){
+    return this.loggedUser.asObservable();
+  }
+
+  setLoggedUser(user: string){
+    this.loggedUser.next(user);
   }
 
   checkLogin(){

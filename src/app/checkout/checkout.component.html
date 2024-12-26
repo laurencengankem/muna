@@ -1,0 +1,137 @@
+<div class="component-body">
+
+    <div class="container mt-3">
+        <form (ngSubmit)="onSearch()">
+          <div class="input-group">
+            <input type="text" class="form-control text-center" placeholder="Entrer le code de l'article" [(ngModel)]="productCode" name="productCode" required>
+            <button class="btn btn-success" type="submit">{{ directMode ? 'Ajouter': 'Chercher'}}</button>
+          </div>
+        </form>
+    </div>
+
+    <div *ngIf="searching && directMode" class="d-flex justify-content-center mt-3">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div style="min-height: 200px;" *ngIf="!directMode">
+        <div class="container mt-3">
+            <div *ngIf="!notFound && !found" class="row border p-3 d-flex align-items-center" style="min-height: 200px;">
+                <div *ngIf="searching" class="d-flex justify-content-center mt-3">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="notFound" class="row border p-3 d-flex align-items-center" style="min-height: 200px;">
+                <h1 style="color:red;text-align:center">Article Introuvable</h1>
+            </div>
+            <div *ngIf="found" class="row border p-3" style="min-height: 200px;">
+              <!-- Picture Section -->
+              <div class="col-3 d-flex align-items-center">
+                <img [src]="product.picture" alt="Name:{{ product.name }}" class="img-fluid" style="max-height: 200px;">
+              </div>
+              
+              <!-- Size Section -->
+              <div class="col-3 d-flex align-items-center">
+                <div>
+                    <p>Taille: {{ product.size }}</p>
+                    <p>Nom: {{ product.name }}</p>
+                    <p *ngIf="!directMode">Quantité: {{ product.quantity }}  </p>
+                </div>
+              </div>
+              
+              <!-- Price Section -->
+              <div class="col-3 d-flex align-items-center">
+                <p>Prix: {{ product.price | currency }}</p>
+              </div>
+          
+              <!-- Availability Section -->
+              <div class="col-3 d-flex align-items-center">
+                <ng-container *ngIf="product.available; else outOfStock">
+                  <button *ngIf="!directMode" class="btn btn-success" (click)="addProduct()" style="margin-top: -30px;">Add to Cart</button>
+                  <p *ngIf="directMode">Quantité: {{ product.quantity }}  </p>
+                </ng-container>
+                <ng-template #outOfStock>
+                  <p class="text-danger">Non Disponible</p>
+                </ng-template>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="container mt-5">
+    <div class="d-flex justify-content-end align-items-center">
+        <label class="me-2"><strong>Total:</strong></label>
+        <span>{{ calculateTotalPrice() | currency }}</span>
+    </div>
+    </div>
+
+    <div class="container mt-2">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Taille</th>
+              <th>Prix</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products; let i = index">
+              <td>{{ product.name }}</td>
+              <td>{{ product.size }}</td>
+              <td>{{ product.price | currency }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="removeProduct(i)">Eliminer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="errorsMsg.length>0" class= "container bg-danger text-white text-center p-3">
+        <h2>ERROR!</h2>
+        <p *ngFor="let msg of errorsMsg">{{msg}}</p>
+      </div>
+      
+      <div class="container mt-1">
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+          <button class="btn btn-success" (click)="submit()" [disabled]="this.products.length==0">Valider La Commande</button>
+        </div>
+      </div>
+      
+  <!-- Button trigger modal -->
+  <button id="modalButton" type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+          <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Le paiement a-t-il correctement été complété?
+        </div>
+        <div class="modal-footer">
+          <div class="text-start">
+            <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-success" (click)="generateReceipt()">Oui</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

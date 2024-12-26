@@ -6,6 +6,7 @@ import { GlobalVariable } from '../global/global';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CardItemComponent } from '../card-item/card-item.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -18,15 +19,24 @@ import { CardItemComponent } from '../card-item/card-item.component';
 export class ResultsComponent implements OnInit {
 
   priceForm: FormGroup;
+  sizeForm: FormGroup;
   categoryForm: FormGroup;
+  brandForm: FormGroup;
   filtered: Item[] =[];
   items: Item[] = [];
+  txt='';
   b=false;
   order= new FormControl();
   categories= new Array(0);
+  page=1;
+  sizes: string[]=[];
+  brands: string[]=[];
+  sex='';
+  category='';
+  error= false;
 
-  constructor(public route: ActivatedRoute, private http: HttpClient,
-     public router: Router, private fb: FormBuilder ) {
+  constructor(public route: ActivatedRoute, private http: HttpClient, 
+     public router: Router, private fb: FormBuilder,private spinner: NgxSpinnerService ) {
 
       this.priceForm=fb.group(
         {
@@ -36,31 +46,53 @@ export class ResultsComponent implements OnInit {
       )
 
       this.categoryForm= fb.group({
-        "selectedCategories": new FormArray([])
-      })
+        "selected": new FormArray([])
+      });
+
+      this.sizeForm= fb.group({
+        "selected": new FormArray([])
+      });
+
+      this.brandForm= fb.group({
+        "selected": new FormArray([])
+      });
     
   }
       
-   
 
   ngOnInit(): void {
-    this.http.post<Item[]>(GlobalVariable.BASE_API_URL+"item/searchItems",{"txt":null}).
+
+    this.sex= <string> <unknown>this.route.snapshot.paramMap.get('sex');
+    this.category= <string> <unknown>this.route.snapshot.paramMap.get('category');
+
+    localStorage.setItem("lastUrl",'other')
+    this.spinner.show();
+
+    var URL= GlobalVariable.BASE_API_URL+"item/getItemsList"
+    if(this.sex!=null && this.category!=null){
+      URL= GlobalVariable.BASE_API_URL+"item/"+this.sex+"/"+this.category;
+    }
+    
+    this.http.get<Item[]>(URL).
     subscribe(data=> {
       this.items=data;
       this.filtered=data;
-      console.log(data);
-      console.log(this.filtered)
       if(data.length){
+        this.removeUnavailable();
         this.setMaxMin();
         this.setCategories();
+        this.setBrands();
+        this.setSizes();
       }
        
       this.b=true;
+      this.error=false;
+      this.spinner.hide();
     },
     error=>{
       this.b=true;
-      let elmt= document.getElementById("cnx");
-      (elmt as HTMLElement).style.display='block';
+      this.error= true;
+      this.spinner.hide(); 
     });
   }
 
@@ -75,7 +107,7 @@ export class ResultsComponent implements OnInit {
     subscribe(
       res=> {
         this.items=res;
-        this.filtered!=res;
+        this.filtered=res;
         if(res.length==0){
           (elmt1 as HTMLElement).style.display='block';
         }
@@ -97,120 +129,185 @@ export class ResultsComponent implements OnInit {
   }
 
   setMaxMin(){
-    let min=this.filtered![0].discounted;
-    let max=this.filtered![0].discounted;
-    for(let i=1;i<this.filtered!.length;i++){
-      if(this.filtered![i].discounted<min)
-        min=this.filtered![i].discounted
-      if(this.filtered![i].discounted>max)
-        max=this.filtered![i].discounted;
+    let min=0;
+    let max=0;
+    for(let i=1;i<this.filtered.length;i++){
+      for(let j=0; j<this.filtered[i].sizes.length; j++){
+        if(this.filtered[i].sizes[j].price<min)
+          min=this.filtered[i].sizes[j].price
+        if(this.filtered[i].sizes[j].price>max)
+          max=this.filtered[i].sizes[j].price;
+      }
     }
     this.priceForm.controls['from'].setValue(min);
     this.priceForm.controls['to'].setValue(max);
-    console.log('max='+max+' min='+min);
   }
 
   setCategories(){
-    this.categories;
     let temp:string[]=new Array(0);
-    for(let i=0;i<this.filtered!.length;i++){
-      if(!temp.find(it=> it==this.filtered![i].category)){
-        temp.push(this.filtered![i].category);
-        console.log(this.filtered![i].category);
+    for(let i=0;i<this.filtered.length;i++){
+      if(!temp.find(it=> it==this.filtered[i].category)){
+        temp.push(this.filtered[i].category);
       }
     }
     this.categories= temp;
   }
 
-
-  filter(field:string){
-    this.filterFromCategory(this.filterFromPrice(this.items!));
+  setBrands(){
+    let temp:string[]=new Array(0);
+    for(let i=0;i<this.filtered.length;i++){
+      if(!temp.find(it=> it==this.filtered[i].brand)){
+        temp.push(this.filtered[i].brand);
+      }
+    }
+    this.brands= temp;
   }
 
-  filterFromPrice(data:Item[]){
-    this.filtered!=data;
-    let from= this.priceForm.controls['from'].value;
-    let to= this.priceForm.controls['to'].value;
-    let temp= new Array(0);
-    console.log("Here");
-    if(from!=null && to==null){
-        console.log("it is inside")
-        for(let i=0;i<this.filtered!.length;i++){
-          if(this.filtered![i].discounted>=from)
-           temp.push(this.filtered![i]);
+  setSizes(){
+    let temp:string[]=new Array(0);
+    for(let i=0;i<this.filtered.length;i++){
+      for(let j=0; j<this.filtered[i].sizes.length; j++){
+        if(!temp.find(it=> it==this.filtered[i].sizes[j].name)){
+          if(Number(this.filtered[i].sizes[j].quantity)>0)
+            temp.push(this.filtered[i].sizes[j].name);
         }
-    }
-    else if(from==null && to!=null){
-      for(let i=0;i<this.filtered!.length;i++){
-        if(this.filtered![i].discounted<=to)
-         temp.push(this.filtered![i]);
       }
     }
-    else if(from!=null && to!=null){
-      for(let i=0;i<this.filtered!.length;i++){
-        if(this.filtered![i].discounted>=from && this.filtered![i].discounted<=to)
-         temp.push(this.filtered![i]);
-      }
-    }
-    this.filtered!=temp;
-    console.log(this.filtered!)
-    return temp;
+    this.sizes= temp;
   }
+
 
   ordertheProducts(){
     if(this.order.value=="asc"){
       let temp;
-      for(let i=0;i<this.filtered!.length;i++){
-        for(let j=i+1; j<this.filtered!.length; j++){
-          if(this.filtered![j].discounted<this.filtered![i].discounted){
-            temp= this.filtered![j];
-            this.filtered![j]=this.filtered![i];
-            this.filtered![i]=temp;
+      for(let i=0;i<this.filtered.length;i++){
+        for(let j=i+1; j<this.filtered.length; j++){
+          if(this.filtered[j].discounted<this.filtered[i].discounted){
+            temp= this.filtered[j];
+            this.filtered[j]=this.filtered[i];
+            this.filtered[i]=temp;
           }
         }
       }
     }
     else if(this.order.value=="desc"){
       let temp;
-      for(let i=0;i<this.filtered!.length;i++){
-        for(let j=i+1; j<this.filtered!.length; j++){
-          if(this.filtered![j].discounted>this.filtered![i].discounted){
-            temp= this.filtered![j];
-            this.filtered![j]=this.filtered![i];
-            this.filtered![i]=temp;
+      for(let i=0;i<this.filtered.length;i++){
+        for(let j=i+1; j<this.filtered.length; j++){
+          if(this.filtered[j].discounted>this.filtered[i].discounted){
+            temp= this.filtered[j];
+            this.filtered[j]=this.filtered[i];
+            this.filtered[i]=temp;
           }
         }
       }
     }
-
-  }
-
-  filterFromCategory(data:Item[]){
-    let categories:string[]=this.categoryForm.controls['selectedCategories'].value;
-    let temp= new Array(0);
-    this.filtered!=data;
-    if(categories.length>0){
-      for(let i=0;i<this.filtered!.length;i++){
-        if(categories.find(cat=>this.filtered!![i].category==cat))
-          temp.push(this.filtered![i]);
-      }
-      this.filtered!=temp;
-    }
-
+    this.page=1;
   }
 
 
-  onCheckboxChange(event: any) {
-    
-    const selectedCategories = (this.categoryForm.controls['selectedCategories'] as FormArray);
+  onCheckboxGenericChange(event: any,form: FormGroup) {
+    const selected = (form.controls['selected'] as FormArray);
     if (event.target.checked) {
-      selectedCategories.push(new FormControl(event.target.value));
+      selected.push(new FormControl(event.target.value));
     } else {
-      const index =  selectedCategories.controls
+      const index =  selected.controls
       .findIndex(x => x.value === event.target.value);
-      selectedCategories.removeAt(index);
+      selected.removeAt(index);
     }
-    console.log(selectedCategories.value);
+    form.controls['selected']=selected;
   }
 
+
+  filterProducts(){
+    this.spinner.show();
+    setTimeout(()=>{
+      this.filtered=this.items;
+      this.filterByPrice(this.filtered);
+      this.filterByCategory(this.filtered);
+      this.filterBySizes(this.filtered);
+      this.page=1;
+      this.spinner.hide();
+    },700) 
+  }
+
+  filterByPrice(data: Item[]) {
+    let temp: Item[] = []; // initialize array
+    let from: number = Number(this.priceForm.controls["from"].value); // explicitly convert to number
+    let to: number = Number(this.priceForm.controls["to"].value);
+    for (let i = 0; i < data.length; i++) {
+      let size = data[i].sizes.find(s => this.discountedPrice(s.price,data[i].discount) <= to && this.discountedPrice(s.price,data[i].discount)  >= from); // compare price
+      if (size != null) {
+        temp.push(data[i]); // add item if size is found
+      }
+    }
+    this.filtered = temp;
+  }
+
+  filterByCategory(data: Item[]){
+    let categories:string[]=this.categoryForm.controls['selected'].value;
+    categories= categories.filter(value => value !== null);
+    let temp= new Array(0);
+    if(categories.length>0){
+      for(let i=0;i<data.length;i++){
+        if(categories.find(cat=>data[i].category==cat))
+          temp.push(data[i]);
+      }
+      this.filtered=temp;
+    }
+  }
+
+  filterByBrand(data: Item[]){
+    let brands:string[]=this.brandForm.controls['selected'].value;
+    brands= brands.filter(value => value !== null);
+    let temp= new Array(0);
+    if(brands.length>0){
+      for(let i=0;i<data.length;i++){
+        if(brands.find(brand=>data[i].brand==brand))
+          temp.push(data[i]);
+      }
+      this.filtered=temp;
+    }
+  }
+
+  filterBySizes(data: Item[]){
+    let sizes:string[]=this.sizeForm.controls['selected'].value;
+    sizes= sizes.filter(value => value !== null);
+    let temp= new Array(0);
+    if(sizes.length>0){
+      for(let i=0;i<data.length;i++){
+        let size = data[i].sizes.find(s => sizes.includes(s.name) && s.quantity>0);
+        if (size != null) {
+          temp.push(data[i]);
+        }
+      }
+      this.filtered=temp;
+    }
+  }
+  
+
+  discountedPrice(price:number , discount:number){
+    return price * (1-(discount/100));
+  }
+
+
+  removeUnavailable(){
+    let temp=[];
+    for(let i=0; i<this.filtered.length;i++){
+      let size = this.filtered[i].sizes.find(s => s.quantity>0);
+      if (size != null && this.filtered[i].available) {
+        temp.push(this.filtered[i]);
+      }
+    }
+    this.filtered=temp;
+  }
+
+  showFilters=false;
+
+  toggleContent(){
+    this.showFilters=!this.showFilters;
+  }
+
+  
 }
+

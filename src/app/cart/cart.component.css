@@ -1,0 +1,145 @@
+.cart{
+    display:flex;
+    min-height: 90vh;
+    width: 100%;
+    background-color: white;
+    padding: 30px 0px;
+    color: black;
+}
+
+#items{
+    width: 60%;
+    min-height: 70vh;
+    margin-left: 2%;
+    display: block;
+    padding-top: 20px;
+}
+
+#delete{
+    position: fixed;
+    width:60%;
+    padding-top:50px;
+    font-size: 1.3em;
+    top:20%;
+    left:20%;
+    background-color:  rgb(44, 43, 43);;
+    min-height: 200px ;
+    display: none;
+    text-align: center;
+    border: 1px solid black;
+    color:white;
+    z-index: 20;
+}
+
+#delete button{
+    min-height: 40px;
+    min-width: 100px;
+}
+
+
+.item{
+    margin-top: 20px;
+    display: flex;
+    min-height:130px;
+    padding-bottom: 10px;
+    width:100%;
+    background-color: whitesmoke;
+}
+
+.txt{
+    padding-top:20px;
+}
+
+.item img{
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+    margin-left: 10px;
+}
+.item img:hover{
+    border: 1px solid black;
+}
+
+.element{
+    width:33%;
+    text-align: center;
+    padding: 10px;
+}
+
+#buy{
+    background-color: whitesmoke;
+    width:35%;
+    min-height: 70vh;
+    margin-left: 2%;
+    padding-top: 30px;
+    text-align: center;
+}
+
+table{
+    width: 100%;
+    padding: 5px;
+}
+td,th{
+    padding: 5px;
+}
+
+#buyButton{
+    margin-top: 60px;
+}
+
+#buyButton button{
+    background-color: rgb(49, 48, 48);
+    color: white;
+    width: 80%;
+    height: 50px;
+}
+
+#buyButton button:hover{
+    background-color: black;
+}
+
+#accepted{
+    margin-top:150px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+#accepted div{
+    margin-left:20px;
+}
+
+@media screen and (max-width: 700px) {
+    #cart{
+        display: block;
+        min-height:0vh;
+        margin-top: -35px;
+        font-size: 0.8em;
+        margin-left: 2%;
+        width: 95%;
+    }
+
+    #items,#buy{
+        
+        width: 95%;
+        min-height: auto;
+    }
+    #buy{
+        margin-top:20px;
+    }
+    select{
+        font-size: 1.3em;;
+    }
+    #delete button{
+        min-height: 40px;
+        min-width: 50px;
+        margin-bottom: 10px;
+    }
+
+    #delete{
+        font-size: 0.85em;
+        width:80%;
+        left: 10%;
+    }
+}
+

@@ -1,0 +1,26 @@
+#verification{
+    height: 80vh;
+    width:100%;
+    background-color: white;
+    padding-top:200px ;
+    text-align: center;
+    
+}
+
+form{
+    width: 100%;
+    color:black;
+    display: flex;
+    justify-content: center;
+    padding-top:10px;
+
+}
+
+#code{
+    width:50%;
+}
+input,button {
+    height:30px;
+    min-width: 100px;
+    margin-bottom: 40px;
+}

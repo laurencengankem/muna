@@ -12,6 +12,7 @@ export class SpinnerComponent {
 
   constructor(private spinner: NgxSpinnerService) {}
 
+
   showSpinner() {
     this.spinner.show();
   }
