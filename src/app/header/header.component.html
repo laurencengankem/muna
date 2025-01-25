@@ -53,7 +53,10 @@
               <a *ngIf="user!=''" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user}}</a>
               <ul class="dropdown-menu">
                 <li>
-                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/direct">Caisse</a>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/indirect">Caisse</a>
+                </li>
+                <li>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/direct">Caisse Directe</a>
                 </li>
                 <li>
                   <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/catalog">Catalogue</a>

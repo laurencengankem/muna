@@ -46,7 +46,7 @@ export class UserSetupComponent implements OnInit {
       .subscribe(res=>{
         this.spinner.hide();
         if(res){
-          this.toast.success('user updated successfully');
+          this.toast.success('Utilisateur ajourné correctement');
           var url=GlobalVariable.BASE_API_URL+"admin/getUserList"
           this.spinner.show();
           this.http.get<any>(url,{headers}).subscribe(res=>{
@@ -55,7 +55,7 @@ export class UserSetupComponent implements OnInit {
           }, error=>{this.spinner.hide();});
           
         }else{
-          this.toast.error('something went wrong!');
+          this.toast.error('Oops! Quelque chose s\'est mal passé');
         }
       }, error =>{this.spinner.hide();})
   }

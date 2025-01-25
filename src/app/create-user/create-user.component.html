@@ -3,7 +3,7 @@
       <div class="row justify-content-center">
         <div class="col-md-6">
           <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-            <h2 class="text-center mb-4">Informations Utilisateur</h2>
+            <h2 class="text-center mb-4">Données Utilisateur</h2>
             
             <div class="mb-3">
               <label for="email" class="form-label">Adresse Email</label>
@@ -27,7 +27,7 @@
                 formControlName="firstName" 
                 placeholder="Enter your first name">
               <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
-                Remplir Le Prénom.
+                Entrer Le Prénom.
               </div>
             </div>
             
@@ -40,7 +40,7 @@
                 formControlName="lastName" 
                 placeholder="Enter your last name">
               <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
-                Remplir Le Nom.
+                Entrer Le Nom.
               </div>
             </div>
             
@@ -52,7 +52,7 @@
                 formControlName="role">
                 <option value="" disabled>Choisir Un Role</option>
                 <option value="ADMIN">ADMIN</option>
-                <option value="OPERATOR">OPERATOR</option>
+                <option value="OPERATOR">OPERATEUR</option>
               </select>
               <div *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched" class="text-danger">
                 Choisir Un Role.

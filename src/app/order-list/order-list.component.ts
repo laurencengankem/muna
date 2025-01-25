@@ -16,9 +16,14 @@ import { GlobalVariable } from '../global/global';
 })
 export class OrderListComponent implements OnInit {
 
+  originalOrders: any[]=[];
   orders: any[]=[];
   orderItems: any[] = [];
   order: any={};
+  orderNumFilter= null;
+  orderDateFilter=null;
+  orderTotalFilter= null;
+  orderOpFilter= null;
   headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") });
 
   constructor(private http: HttpClient, private userService: UserService,
@@ -30,6 +35,7 @@ export class OrderListComponent implements OnInit {
     this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderList",{headers:this.headers})
     .subscribe(res=>{
       this.orders=res;
+      this.originalOrders=this.orders;
     })
   }
 
@@ -77,5 +83,46 @@ export class OrderListComponent implements OnInit {
     downloadLink.click();
     document.body.removeChild(downloadLink);
   }
+
+  filterOrders(){
+    console.log(this.orderNumFilter);
+    console.log(this.orderDateFilter);
+    console.log(this.orders);
+    
+    this.orders= this.originalOrders.filter(order => {
+
+      var isExactDateMatch = true;
+      var containsOrderId = true;
+      var isTotalMatch= true;
+      var isOperatorMatch= true;
+
+      const orderDate = new Date(order.date).toISOString().split('T')[0];
+      
+      if(this.orderDateFilter!== null && this.orderDateFilter!=''){
+        const targetDate = new Date(<string>this.orderDateFilter).toISOString().split('T')[0];
+        isExactDateMatch = orderDate === targetDate;
+      }
+        
+      if(this.orderNumFilter!==null){
+        containsOrderId = this.orderNumFilter
+          ? order.orderId.toLowerCase().includes((<string>this.orderNumFilter).toLowerCase())
+          : true;
+      }
+
+      if(this.orderOpFilter!==null){
+        isOperatorMatch = this.orderOpFilter
+          ? order.username.toLowerCase().includes((<string>this.orderOpFilter).toLowerCase())
+          : true;
+      }
+
+      if(this.orderTotalFilter!=null){
+        isTotalMatch= Number(order.total) === Number(this.orderTotalFilter);
+      }
+      
+  
+      return isExactDateMatch && containsOrderId && isTotalMatch && isOperatorMatch;
+    });
+  }
+
 
 }
