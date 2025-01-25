@@ -23,7 +23,7 @@
             </div>
             <div class="element txt d-none d-md-block">
                 Prix <br><br>
-                {{item.price| currency}}<br>
+                {{item.price| customCurrency }}<br>
             </div>
             <div class="element txt">
                 Taille <br><br>
@@ -31,8 +31,8 @@
             </div>
             <div class="element txt">
                 Total <br>
-                <em *ngIf="item.discount!=null && item.discount>0" style="text-decoration: line-through; color:grey">{{item.quantity*item.price| currency}}</em><br>
-                {{item.total| currency}}<br>
+                <em *ngIf="item.discount!=null && item.discount>0" style="text-decoration: line-through; color:grey">{{item.quantity*item.price| customCurrency}}</em><br>
+                {{item.total| customCurrency }}<br>
                 <em *ngIf="item.discount!=null && item.discount>0" style="color:red">Réduction:{{item.discount}}%</em>
             </div>    
         </div>

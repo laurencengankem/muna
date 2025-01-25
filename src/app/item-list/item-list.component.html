@@ -67,7 +67,7 @@
       <table class="table table-striped table-hover items">
         <thead class="table-dark">
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">Code</th>
             <th scope="col">Nom</th>
             <th scope="col" class="d-none d-md-table-cell">Description</th>
             <th scope="col">Categorie</th>
@@ -78,7 +78,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of items">
-            <td>{{ item.id.toString().padStart(5, '0') }}</td>
+            <td>{{ item.code }}</td>
             <td>
               {{ item.name }}
               <sup *ngIf="item.newlyAdded" style="color: rgb(180, 180, 6)">new</sup>

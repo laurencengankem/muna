@@ -12,6 +12,8 @@ export class Item{
     newlyAdded!: boolean;
     category!: string;
     brand!: string;
+    location!: string;
+    code!: string;
     sex!:string;
     sizes!: any[];
     requestedSize!: string;

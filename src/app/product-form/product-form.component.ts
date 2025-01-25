@@ -26,11 +26,13 @@ export class ProductFormComponent implements OnInit {
   ngOnInit(): void {
     this.clothProductForm = this.fb.group({
       name: ['',Validators.required],
-      description: ['HABIT', Validators.required],
+      description: ['', Validators.required],
       discount: [0, [Validators.min(0), Validators.max(100)]],
-      sex: ['UNISEX', Validators.required],
-      brand:['PUMA'],
-      category: ['HABIT', Validators.required],
+      sex: ['U', Validators.required],
+      brand:[''],
+      location: [''],
+      code: [null, Validators.required],
+      category: ['', Validators.required],
       sizes: this.fb.array([this.createSize()])
     });
   }

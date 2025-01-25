@@ -74,6 +74,8 @@ export class ItemUpdateComponent implements OnInit {
         discount: [this.item.discount, [Validators.min(0), Validators.max(100)]],
         sex: [this.item.sex, Validators.required],
         brand:[this.item.brand],
+        location: [this.item.location],
+        code: [this.item.code],
         category: [this.item.category, Validators.required],
         sizes: this.fb.array(this.addSavedSize(this.item.sizes))
       });

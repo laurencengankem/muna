@@ -5,10 +5,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CustomCurrencyPipe } from './customPipe';
 
 
 
 @NgModule({
+  declarations: [
+    CustomCurrencyPipe // Declare the pipe
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -30,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     NgxPaginationModule,
     ToastrModule,
+    CustomCurrencyPipe
   ]
 })
 export class SharedModule { 

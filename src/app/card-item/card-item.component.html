@@ -18,14 +18,14 @@
 
             <p class="card-text" *ngIf="item.discount > 0">
                 <strong>Price:</strong>
-                <em style="text-decoration: line-through; color: grey;">{{item.sizes[0].price | currency}}</em>
-                <strong style="color: rgba(255, 123, 0, 0.781);"> {{item.sizes[0].price * (1 - item.discount / 100) | currency}}</strong><br/>
+                <em style="text-decoration: line-through; color: grey;">{{item.sizes[0].price | customCurrency}}</em>
+                <strong style="color: rgba(255, 123, 0, 0.781);"> {{item.sizes[0].price * (1 - item.discount / 100) | customCurrency }}</strong><br/>
                 <em style="color: red;">discount: {{item.discount}}%</em>
             </p>
 
             <p class="card-text" *ngIf="item.discount == 0">
                 <strong>Price:</strong>
-                <strong style="color: rgba(255, 123, 0, 0.781);">{{item.sizes[0].price | currency}}</strong>
+                <strong style="color: rgba(255, 123, 0, 0.781);">{{item.sizes[0].price | customCurrency }}</strong>
                 <br>
                 <em style="visibility: hidden;">discount:{{item.discount}}%</em>
             </p>

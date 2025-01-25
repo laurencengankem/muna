@@ -15,7 +15,18 @@
         <form [formGroup]="clothProductForm" (ngSubmit)="saveProduct()" class="container mt-4">
     
             <div class="row">
-                <div class="col-md-6 mb-3">
+
+              <div class="col-md-4 mb-3">
+                <label for="code" class="form-label">Code Modèle</label>
+                <input 
+                formControlName="code" 
+                id="code" 
+                type="text" 
+                class="form-control" 
+                placeholder="Entrer Code Modèle">
+              </div>
+
+                <div class="col-md-4 mb-3">
                     <label for="name" class="form-label">Nom</label>
                     <input 
                     formControlName="name" 
@@ -28,7 +39,7 @@
                     </div>
                 </div>
           
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="brand" class="form-label">Marque</label>
                     <input 
                     formControlName="brand" 
@@ -77,7 +88,7 @@
             </div>
           
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="category" class="form-label">Categorie</label>
                     <input 
                       formControlName="category" 
@@ -86,7 +97,16 @@
                       class="form-control" 
                       placeholder="Enter product category">
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
+                  <label for="location" class="form-label">Emplacement</label>
+                  <input 
+                    formControlName="location" 
+                    id="location" 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Entrer L'Emplacement">
+                </div>
+                <div class="col-md-4 mb-3">
                     <label for="available" class="form-label">Disponibilité</label>
                     <select formControlName="available" id="available" class="form-select">
                       <option value="true">OUI</option>

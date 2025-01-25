@@ -3,7 +3,7 @@
     <div class="container mt-3">
         <form (ngSubmit)="onSearch()">
           <div class="input-group">
-            <input type="text" class="form-control text-center" placeholder="Entrer le code de l'article" [(ngModel)]="productCode" name="productCode" required>
+            <input type="text" class="form-control text-center" placeholder="Code Modèle / Taille" [(ngModel)]="productCode" name="productCode" required>
             <button class="btn btn-success" type="submit">{{ directMode ? 'Ajouter': 'Chercher'}}</button>
           </div>
         </form>
@@ -27,7 +27,7 @@
             <div *ngIf="notFound" class="row border p-3 d-flex align-items-center" style="min-height: 200px;">
                 <h1 style="color:red;text-align:center">Article Introuvable</h1>
             </div>
-            <div *ngIf="found" class="row border p-3" style="min-height: 200px;">
+            <div *ngIf="found" class="row border p-3 d-flex justify-content-center" style="min-height: 200px;">
               <!-- Picture Section -->
               <div class="col-3 d-flex align-items-center">
                 <img [src]="product.picture" alt="Name:{{ product.name }}" class="img-fluid" style="max-height: 200px;">
@@ -36,19 +36,20 @@
               <!-- Size Section -->
               <div class="col-3 d-flex align-items-center">
                 <div>
-                    <p>Taille: {{ product.size }}</p>
+                    <p *ngIf="product.size!==null">Taille: {{ product.size }}</p>
                     <p>Nom: {{ product.name }}</p>
-                    <p *ngIf="!directMode">Quantité: {{ product.quantity }}  </p>
+                    <p>Emplacement: {{ product.location }}</p>
+                    <p *ngIf="!directMode && product.size!==null">Quantité: {{ product.quantity }}  </p>
                 </div>
               </div>
               
               <!-- Price Section -->
-              <div class="col-3 d-flex align-items-center">
-                <p>Prix: {{ product.price | currency }}</p>
+              <div *ngIf="product.size!==null" class="col-3 d-flex align-items-center">
+                <p>Prix: {{ product.price | customCurrency }}</p>
               </div>
           
               <!-- Availability Section -->
-              <div class="col-3 d-flex align-items-center">
+              <div *ngIf="product.size!==null" class="col-3 d-flex align-items-center">
                 <ng-container *ngIf="product.available; else outOfStock">
                   <button *ngIf="!directMode" class="btn btn-success" (click)="addProduct()" style="margin-top: -30px;">Add to Cart</button>
                   <p *ngIf="directMode">Quantité: {{ product.quantity }}  </p>
@@ -57,6 +58,11 @@
                   <p class="text-danger">Non Disponible</p>
                 </ng-template>
               </div>
+              
+              <div *ngIf="product.size==null" class="col-3 d-flex align-items-center">
+                <p>Tailles Disponibles <br /> {{ product.availableSizes }}  </p>
+              </div>
+
             </div>
         </div>
     </div>
@@ -66,7 +72,7 @@
     <div class="container mt-5">
     <div class="d-flex justify-content-end align-items-center">
         <label class="me-2"><strong>Total:</strong></label>
-        <span>{{ calculateTotalPrice() | currency }}</span>
+        <span>{{ calculateTotalPrice() | customCurrency }}</span>
     </div>
     </div>
 
@@ -84,7 +90,7 @@
             <tr *ngFor="let product of products; let i = index">
               <td>{{ product.name }}</td>
               <td>{{ product.size }}</td>
-              <td>{{ product.price | currency }}</td>
+              <td>{{ product.price | customCurrency }}</td>
               <td>
                 <button class="btn btn-danger btn-sm" (click)="removeProduct(i)">Eliminer</button>
               </td>

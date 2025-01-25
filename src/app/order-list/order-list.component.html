@@ -38,7 +38,7 @@
               <tbody>
                 <tr *ngFor="let order of orders">
                   <td>{{ order.orderId }}</td>
-                  <td>{{ order.total | currency }}</td>
+                  <td>{{ order.total | customCurrency }}</td>
                   <td>{{ order.username }}</td>
                   <td>{{ order.date | date:'medium' }}</td>
                   <td> <button class="btn" (click)="openModal(order)"><i class="bi bi-eye"></i></button></td>
@@ -77,12 +77,12 @@
                         <tr *ngFor="let product of orderItems">
                           <td>{{ product.item }}</td>
                           <td class="text-center">{{ product.quantity }}</td>
-                          <td>{{ product.total/product.quantity | currency }}</td>
-                          <td>{{ product.total | currency }}</td>
+                          <td>{{ product.total/product.quantity | customCurrency }}</td>
+                          <td>{{ product.total | customCurrency }}</td>
                         </tr>
                       </tbody>
                     </table>
-                    <p class="text-end">Total: {{ order.total | currency}}</p>
+                    <p class="text-end">Total: {{ order.total | customCurrency }}</p>
                   </div>
                   
             </div>
