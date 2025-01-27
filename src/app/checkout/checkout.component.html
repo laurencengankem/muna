@@ -3,7 +3,7 @@
     <div class="container mt-3">
         <form (ngSubmit)="onSearch()">
           <div class="input-group">
-            <input type="text" class="form-control text-center" placeholder="Code Modèle / Taille" [(ngModel)]="productCode" name="productCode" required>
+            <input type="text" class="form-control text-center" placeholder="Code Modèle et/ou Taille" [(ngModel)]="productCode" name="productCode" required>
             <button class="btn btn-success" type="submit">{{ directMode ? 'Ajouter': 'Chercher'}}</button>
           </div>
         </form>
@@ -38,7 +38,7 @@
                 <div>
                     <p *ngIf="product.size!==null">Taille: {{ product.size }}</p>
                     <p>Nom: {{ product.name }}</p>
-                    <p>Emplacement: {{ product.location }}</p>
+                    <p *ngIf="product.size!==null" >Store: {{ product.location }}</p>
                     <p *ngIf="!directMode && product.size!==null">Quantité: {{ product.quantity }}  </p>
                 </div>
               </div>
@@ -51,7 +51,7 @@
               <!-- Availability Section -->
               <div *ngIf="product.size!==null" class="col-3 d-flex align-items-center">
                 <ng-container *ngIf="product.available; else outOfStock">
-                  <button *ngIf="!directMode" class="btn btn-success" (click)="addProduct()" style="margin-top: -30px;">Add to Cart</button>
+                  <button *ngIf="!directMode" class="btn btn-success" (click)="addProduct()" style="margin-top: -30px;">Ajouter</button>
                   <p *ngIf="directMode">Quantité: {{ product.quantity }}  </p>
                 </ng-container>
                 <ng-template #outOfStock>
@@ -59,11 +59,34 @@
                 </ng-template>
               </div>
               
-              <div *ngIf="product.size==null" class="col-3 d-flex align-items-center">
+              <!-- <div *ngIf="product.size==null" class="col-3 d-flex align-items-center">
                 <p>Tailles Disponibles <br /> {{ product.availableSizes }}  </p>
+              </div> -->
+
+              <div class="col-12 col-md-6" *ngIf="product.size==null" style="max-height: 200px; overflow-y: scroll;">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Taille</th>
+                      <th>Quantité</th>
+                      <th>Store</th>
+                      <th>Prix</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let size of product.availableSizes; let i = index">
+                      <td>{{ size.name }}</td>
+                      <td>{{ size.quantity }}</td>
+                      <td>{{ size.location }}</td>
+                      <td>{{ size.price | customCurrency }}</td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
 
             </div>
+          
+
         </div>
     </div>
 

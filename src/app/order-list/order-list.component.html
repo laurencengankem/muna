@@ -56,7 +56,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg" style="font-size: 0.85em" >
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Commande N° {{order.orderId}} </h5>
@@ -67,6 +67,7 @@
                     <table class="table table-striped table-hover">
                       <thead class="table-dark">
                         <tr>
+                          <th scope="col">Code</th>
                           <th scope="col">Article</th>
                           <th scope="col">Quantité</th>
                           <th scope="col">Prix</th>
@@ -75,6 +76,7 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let product of orderItems">
+                          <td>{{ product.code }}</td>
                           <td>{{ product.item }}</td>
                           <td class="text-center">{{ product.quantity }}</td>
                           <td>{{ product.total/product.quantity | customCurrency }}</td>

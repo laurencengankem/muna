@@ -34,9 +34,9 @@ export class CheckoutComponent implements OnInit{
     price: 19.99,
     available: true, // Change to false if not available
     outOfStock: true,
-    location: "Inconnu",
     quantity: 0,
-    availableSizes: "",
+    location: '',
+    availableSizes: [{name:'',quantity:'',price:0,location:''}],
     picture: 'https://via.placeholder.com/150' // Replace with actual image URL
   };
 
@@ -75,9 +75,7 @@ export class CheckoutComponent implements OnInit{
         this.product.picture= res.pictures.length>0? res.pictures[0].url: null;
         this.product.available= res.available;
         this.product.quantity= res.quantity;
-        this.product.location= "Inconnu";
-        if(res.location!=null)
-          this.product.location= res.location;
+        this.product.location= res.location;
         this.found=true;
         if(res.requestedSize==null){
           this.product.availableSizes= res.availableSizes;

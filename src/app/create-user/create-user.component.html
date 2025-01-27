@@ -12,9 +12,9 @@
                 class="form-control" 
                 id="email" 
                 formControlName="email" 
-                placeholder="Enter your email">
+                placeholder="Entrer Une Addresse Email">
               <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
-                Entrer Un Mot De Passe Valide
+                Entrer Une Addresse Email Valide
               </div>
             </div>
             
@@ -25,7 +25,7 @@
                 class="form-control" 
                 id="firstName" 
                 formControlName="firstName" 
-                placeholder="Enter your first name">
+                placeholder="Prénom">
               <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
                 Entrer Le Prénom.
               </div>
@@ -38,9 +38,36 @@
                 class="form-control" 
                 id="lastName" 
                 formControlName="lastName" 
-                placeholder="Enter your last name">
+                placeholder="Nom">
               <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
-                Entrer Le Nom.
+               Nom
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Mot De Passe</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password" 
+                formControlName="password" 
+                placeholder="Choisir Un Mot De Passe">
+              <div *ngIf="userForm.get('password')?.invalid   && userForm.get('password')?.touched" class="text-danger">
+                Mot De Passe Invalide.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="repeat" class="form-label">Repéter Mot De Passe</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="repeat" 
+                formControlName="repeat" 
+                placeholder="Repéter Le Mot De Passe" 
+                (blur)="check()">
+              <div *ngIf="notCoinciding && userForm.get('repeat')?.touched" class="text-danger">
+                Les Mots De Passe ne coincident pas.
               </div>
             </div>
             
@@ -60,7 +87,7 @@
             </div>
             
             <div class="d-grid">
-              <button type="submit" class="btn btn-success" [disabled]="userForm.invalid">Envoyer</button>
+              <button type="submit" class="btn btn-success" [disabled]="userForm.invalid || notCoinciding">Envoyer</button>
             </div>
           </form>
         </div>

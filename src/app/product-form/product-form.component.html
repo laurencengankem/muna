@@ -11,7 +11,7 @@
               id="code" 
               type="text" 
               class="form-control" 
-              placeholder="Enter Code Modèle">
+              placeholder="Code du Modèle">
             </div>
 
             <div class="col-md-4 mb-3">
@@ -21,7 +21,7 @@
                 id="name" 
                 type="text" 
                 class="form-control" 
-                placeholder="Enter Product Name">
+                placeholder="Nom du modèle">
                 <div *ngIf="clothProductForm.get('name')?.invalid && clothProductForm.get('name')?.touched" class="text-danger">
                     Nom obligatoire
                 </div>
@@ -34,7 +34,7 @@
                 id="brand" 
                 type="text" 
                 class="form-control" 
-                placeholder="Enter Product Brand">
+                placeholder="Marque du modèle">
             </div>
 
             
@@ -47,7 +47,7 @@
             formControlName="description" 
             id="description" 
             class="form-control" 
-            placeholder="Enter product description"></textarea>
+            placeholder="Description du modèle"></textarea>
           <div *ngIf="clothProductForm.get('description')?.invalid && clothProductForm.get('description')?.touched" class="text-danger">
             Description obligatoire
           </div>
@@ -55,20 +55,20 @@
 
       
         <div class="row">
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <label for="discount" class="form-label">Reduction (%)</label>
             <input 
               formControlName="discount" 
               id="discount" 
               type="number" 
               class="form-control" 
-              placeholder="Enter discount percentage">
+              placeholder="Entre 0 et 100%">
             <div *ngIf="clothProductForm.get('discount')?.invalid && clothProductForm.get('discount')?.touched" class="text-danger">
               Entre 0 et 100
             </div>
           </div>
       
-          <div class="col-md-6 mb-3">
+          <div class="col-md-4 mb-3">
             <label for="sex" class="form-label">Sexe</label>
             <select formControlName="sex" id="sex" class="form-select">
               <option value="MALE">Garçon</option>
@@ -76,10 +76,8 @@
               <option value="UNISEX">Unisex</option>
             </select>
           </div>
-        </div>
 
-        <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label for="category" class="form-label">Categorie</label>
             <input 
               formControlName="category" 
@@ -89,48 +87,42 @@
               placeholder="Entrer la Categorie">
           </div>
 
-          <div class="col-md-6">
-            <label for="location" class="form-label">Emplacement</label>
-            <input 
-              formControlName="location" 
-              id="locqtion" 
-              type="text" 
-              class="form-control" 
-              placeholder="Entrer l'Emplacement">
-          </div>
-
         </div>
-      
-        
 
-        
       
         <div class="mb-3">
           <label for="sizes" class="form-label">Sizes</label>
           <div formArrayName="sizes">
-            <div *ngFor="let size of sizes.controls; let i = index" class="row mb-2">
-              <div [formGroupName]="i" class="col-md-3">
+            <div *ngFor="let size of sizes.controls; let i = index" class="row mb-2 d-flex justify-content-center">
+              <div [formGroupName]="i" class="col-md-2">
                 <input 
                   formControlName="name" 
                   type="text" 
                   class="form-control" 
-                  placeholder="Size (e.g. S, M, L)">
+                  placeholder="Taille (e.g. S, M, L)">
               </div>
-              <div [formGroupName]="i" class="col-md-3">
+              <div [formGroupName]="i" class="col-md-2">
                 <input 
                   formControlName="quantity" 
                   type="number" 
                   class="form-control" 
-                  placeholder="Quantity">
+                  placeholder="Quantité">
               </div>
-              <div [formGroupName]="i" class="col-md-3">
+              <div [formGroupName]="i" class="col-md-2">
                 <input 
                   formControlName="price" 
                   type="number" 
                   class="form-control" 
-                  placeholder="Price">
+                  placeholder="Prix">
               </div>
-              <div class="col-md-3" style="margin-top: -12px;">
+              <div [formGroupName]="i" class="col-md-2">
+                <input 
+                  formControlName="location" 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Emplacement">
+              </div>
+              <div class="col-md-2" style="margin-top: -12px;">
                 <button type="button" class="btn btn-danger" (click)="removeSize(i)">Remove</button>
               </div>
             </div>

@@ -2,11 +2,11 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><strong class="text-white fs-3">MUNA</strong></a>
-      <div *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-block d-md-none">
+      <!-- <div *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-block d-md-none">
         <a class="nav-link" href="javascript:void(0)" (click)=goToCart()>
-          <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) <!-- Font Awesome cart icon -->
+          <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) 
         </a>
-      </div>
+      </div> -->
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@
               Articles
             </a>
           </li>
-          <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
+          <!-- <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Garcon
             </a>
@@ -26,10 +26,6 @@
               <li *ngFor="let category of categoriesBoy">
                 <a class="dropdown-item" href="/{{ category.route }}">{{ category.name }}</a>
               </li>
-              <!-- <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item" [routerLink]="allCategory.route">{{ allCategory.name }}</a>
-              </li> -->
             </ul>
           </li>
           <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
@@ -40,12 +36,8 @@
               <li *ngFor="let category of categoriesGirl">
                 <a class="dropdown-item" href="/{{ category.route }}">{{ category.name }}</a>
               </li>
-              <!-- <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item" [routerLink]="allCategory.route">{{ allCategory.name }}</a>
-              </li> -->
             </ul>
-          </li>
+          </li> -->
         </ul>
         <!-- Add cart icon here, aligned to the right -->
         <ul class="navbar-nav ms-auto">
@@ -76,11 +68,11 @@
               </ul>
               <a *ngIf="user==''" class="nav-link" routerLink="/login">Connexion</a>
           </li>
-          <li *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-none d-md-block">
+          <!-- <li *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-none d-md-block">
             <a class="nav-link" href="javascript:void(0)" (click)=goToCart()>
-              <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) <!-- Font Awesome cart icon -->
+              <i class="fas fa-shopping-cart" style="color:white;"></i> ({{numItems}}) 
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

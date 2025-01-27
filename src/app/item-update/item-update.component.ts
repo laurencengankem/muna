@@ -74,7 +74,6 @@ export class ItemUpdateComponent implements OnInit {
         discount: [this.item.discount, [Validators.min(0), Validators.max(100)]],
         sex: [this.item.sex, Validators.required],
         brand:[this.item.brand],
-        location: [this.item.location],
         code: [this.item.code],
         category: [this.item.category, Validators.required],
         sizes: this.fb.array(this.addSavedSize(this.item.sizes))
@@ -201,13 +200,15 @@ export class ItemUpdateComponent implements OnInit {
 
 
   addSavedSize(sizes: any[]): FormGroup[]{
+    console.log(sizes);
     let sizeArray=[]
     if(sizes.length>0){
       for(let i=0; i<sizes.length;i++){
           sizeArray.push(this.fb.group({
             name: [sizes[i].name, Validators.required],
             quantity: [sizes[i].quantity, Validators.required],
-            price: [sizes[i].price, Validators.required]
+            price: [sizes[i].price, Validators.required],
+            location: [sizes[i].location]
           }));
       }
       return sizeArray;
@@ -221,7 +222,8 @@ export class ItemUpdateComponent implements OnInit {
     return this.fb.group({
       name: ['', Validators.required],
       quantity: ['', Validators.required],
-      price: ['', Validators.required]
+      price: ['', Validators.required],
+      location: ['']
     });
   }
 
