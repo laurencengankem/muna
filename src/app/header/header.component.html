@@ -18,6 +18,9 @@
               Articles
             </a>
           </li>
+          <li>
+            <a *ngIf="userRole=='ADMIN' ||  userRole=='OPERATOR'"  class="nav-link" href="/catalog">Catalogue</a>
+          </li>
           <!-- <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Garcon

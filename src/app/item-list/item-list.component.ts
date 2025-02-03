@@ -25,6 +25,7 @@ export class ItemListComponent implements OnInit {
   selectedFile: any= null;
   JsonString: string='';
   b:boolean= false;
+  page=1;
   headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
 
   @ViewChild('myFile')
@@ -139,7 +140,7 @@ export class ItemListComponent implements OnInit {
     this.spinner.show();
     this.http.post<Item[]>(GlobalVariable.BASE_API_URL+"item/searchAllItems",body).
     subscribe(
-      res=>{this.items=res;this.spinner.hide();},
+      res=>{this.items=res;this.spinner.hide(); this.page=1},
       error=>{this.spinner.hide();}
   );
   }

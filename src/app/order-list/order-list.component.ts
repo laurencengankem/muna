@@ -20,6 +20,7 @@ export class OrderListComponent implements OnInit {
   orders: any[]=[];
   orderItems: any[] = [];
   order: any={};
+  page=1;
   orderNumFilter= null;
   orderDateFilter=null;
   orderTotalFilter= null;
@@ -50,23 +51,31 @@ export class OrderListComponent implements OnInit {
     
   }
 
-  generateReceipt(){
+  generateReceipt() {
     this.spinner.show();
-    this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/generate-receipt/"+this.order.orderId,{headers:this.headers})
-     .subscribe(res=>{
-      if(res!=null){
-        let assembledBase64 = res.join('');
-        const receiptUrl = `data:image/png;base64,${assembledBase64}`
-        this.spinner.hide();
-        setTimeout(() => {
-          this.downloadBase64Image(receiptUrl);
-        },500);
-      }
-    },error=>{
-      this.toastr.error('Something went wrong!');
-      this.spinner.hide();
-    });
+    
+    this.http.get(GlobalVariable.BASE_API_URL + "operator/generate-receipt/" + this.order.orderId, 
+    { headers: this.headers, responseType: 'blob' }) // Specify responseType
+      .subscribe(
+        res => {
+          this.spinner.hide(); // Hide spinner on success
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.order.orderId+'_receipt.pdf';
+          document.body.appendChild(a); // Append to body
+          a.click();
+          document.body.removeChild(a); // Remove after click
+          window.URL.revokeObjectURL(url);
+        },
+        error => {
+          this.toastr.error('Something went wrong!');
+          this.spinner.hide();
+        }
+      );
   }
+  
 
   downloadBase64Image(base64: string) {
 
@@ -83,6 +92,7 @@ export class OrderListComponent implements OnInit {
     downloadLink.click();
     document.body.removeChild(downloadLink);
   }
+
 
   filterOrders(){
     console.log(this.orderNumFilter);
@@ -122,6 +132,7 @@ export class OrderListComponent implements OnInit {
   
       return isExactDateMatch && containsOrderId && isTotalMatch && isOperatorMatch;
     });
+    this.page=1;
   }
 
 

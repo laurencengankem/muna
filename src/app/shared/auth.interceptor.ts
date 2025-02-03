@@ -21,6 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.userService.setLoggedUser('');
           this.cartService.cartItemList=[];
           this.cartService.setCartItemNumber(0);
+          window.alert('Session Expirée')
           this.router.navigate(['/login']); 
         }
         throw error;

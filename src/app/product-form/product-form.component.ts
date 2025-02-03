@@ -31,6 +31,7 @@ export class ProductFormComponent implements OnInit {
       sex: ['U', Validators.required],
       brand:[''],
       location: [''],
+      color:[''],
       code: [null, Validators.required],
       category: ['', Validators.required],
       sizes: this.fb.array([this.createSize()])

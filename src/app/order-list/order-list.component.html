@@ -36,7 +36,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let order of orders">
+                <tr *ngFor="let order of orders | paginate: { itemsPerPage: 10, currentPage: page }">
                   <td>{{ order.orderId }}</td>
                   <td>{{ order.total | customCurrency }}</td>
                   <td>{{ order.username }}</td>
@@ -44,9 +44,20 @@
                   <td> <button class="btn" (click)="openModal(order)"><i class="bi bi-eye"></i></button></td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="7" class="text-end text-muted" style="font-style: italic;">
+                    {{ orders.length }} Commandes Trouvées
+                  </td>
+                </tr>
+              </tfoot>
             </table>
         </div>
+        <div class="text-center mt-3"  *ngIf="orders.length>0">
+          <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </div>
     </div>
+
     
     
     <!-- Button trigger modal -->
@@ -76,7 +87,7 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let product of orderItems">
-                          <td>{{ product.code }}</td>
+                          <td><span style="white-space: nowrap;">{{ product.code }}</span></td>
                           <td>{{ product.item }}</td>
                           <td class="text-center">{{ product.quantity }}</td>
                           <td>{{ product.total/product.quantity | customCurrency }}</td>
@@ -84,7 +95,10 @@
                         </tr>
                       </tbody>
                     </table>
-                    <p class="text-end">Total: {{ order.total | customCurrency }}</p>
+                    <p class="text-end">
+                      Total: {{ order.total | customCurrency }} <br/>
+                      <span class="text-muted">TVA (5%): {{order.total*5/100 | customCurrency}}</span>
+                    </p>
                   </div>
                   
             </div>
@@ -95,7 +109,7 @@
             </div>
         </div>
         </div>
-    </div>
+      </div>
   
 
 </div>

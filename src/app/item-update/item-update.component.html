@@ -1,13 +1,32 @@
 <div class="component-body">
-    <div class="deleteConfirmation">
-        <p style="font-size: 1.3em">Effacer l'Article Du Catalogue?</p>
-        <button class="sub nm" (click)="delete()" >OUI</button>
-        <button class="sub" (click)="showConfirmation()">NON</button>
-    </div>
     <div id="itemUpdate">
         <h1>Articles</h1>
 
-    <button class="sub nm" (click)="showConfirmation()">Effacer</button>
+
+     <!-- Button trigger modal -->
+  <button id="modalButton" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Effacer Le Modèle
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" style="font-size: 0.85em" >
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+          <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <p style="font-size: 1.3em">Effacer Le modèle Du Catalogue?</p>
+              <button class="btn btn-danger me-3" (click)="delete()" >OUI</button>
+              <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">NON</button>
+          </div>
+                
+          </div>
+      </div>
+      </div>
+    </div>
     
         
     
@@ -88,7 +107,7 @@
             </div>
           
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="category" class="form-label">Categorie</label>
                     <input 
                       formControlName="category" 
@@ -97,16 +116,16 @@
                       class="form-control" 
                       placeholder="Enter product category">
                 </div>
-                <!-- <div class="col-md-4 mb-3">
-                  <label for="location" class="form-label">Emplacement</label>
+                <div class="col-md-4 mb-3">
+                  <label for="color" class="form-label">Couleur</label>
                   <input 
-                    formControlName="location" 
-                    id="location" 
+                    formControlName="color" 
+                    id="color" 
                     type="text" 
                     class="form-control" 
-                    placeholder="Entrer L'Emplacement">
-                </div> -->
-                <div class="col-md-6 mb-3">
+                    placeholder="Entrer La Couleur">
+                </div>
+                <div class="col-md-4 mb-3">
                     <label for="available" class="form-label">Disponibilité</label>
                     <select formControlName="available" id="available" class="form-select">
                       <option value="true">OUI</option>
@@ -161,7 +180,7 @@
               <button type="button" class="btn btn-primary" (click)="addSize()">Ajouter Une Taille</button>
             </div>
           
-            <button type="submit" class="btn btn-success" [disabled]="!clothProductForm.valid">Modifier L'Article</button>
+            <button type="submit" class="btn btn-success" [disabled]="!clothProductForm.valid">Sauvegarder Les Modifications</button>
           </form>
     
       </div>

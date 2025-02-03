@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnInit {
 
   userForm: FormGroup;
   notCoinciding= true;
@@ -30,6 +30,12 @@ export class CreateUserComponent {
       password: ['',[Validators.required,Validators.minLength(6)]],
       repeat: ['',[Validators.required,Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    if(localStorage.getItem("userRole")!="ADMIN"){
+      window.location.href='/login';
+    }
   }
 
   onSubmit(): void {

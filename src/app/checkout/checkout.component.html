@@ -45,7 +45,7 @@
               
               <!-- Price Section -->
               <div *ngIf="product.size!==null" class="col-3 d-flex align-items-center">
-                <p>Prix: {{ product.price | customCurrency }}</p>
+                <p >Prix: <span style="white-space: nowrap;">{{ product.price | customCurrency }}</span></p>
               </div>
           
               <!-- Availability Section -->
@@ -74,7 +74,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let size of product.availableSizes; let i = index">
+                    <tr *ngFor="let size of product.availableSizes; let i = index" (click)="searchSize(size.name)" class="clickable">
                       <td>{{ size.name }}</td>
                       <td>{{ size.quantity }}</td>
                       <td>{{ size.location }}</td>

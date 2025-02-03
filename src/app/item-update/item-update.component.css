@@ -51,19 +51,6 @@
     font-size: 1.1em;
 }
 
-.deleteConfirmation{
-  position: absolute;
-  top: 35%;
-  z-index: 10;
-  background-color: rgb(143, 140, 140);
-  width: 90%;
-  left: 5%;
-  margin:auto;
-  display: none;
-  justify-content: center;
-  text-align: center;
-
-}
 
 .deletePicture{
   position: absolute;

@@ -19,6 +19,7 @@ export class UserSetupComponent implements OnInit {
 
   users: any[] = [];
   emailAddress= '';
+  page=1;
 
   userForm: FormGroup;
   notCoinciding= true;
@@ -38,6 +39,9 @@ export class UserSetupComponent implements OnInit {
   }
     
   ngOnInit(): void {
+    if(localStorage.getItem("userRole")!="ADMIN"){
+      window.location.href='/login';
+    }
     var url=GlobalVariable.BASE_API_URL+"admin/getUserList"
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
     this.spinner.show();
@@ -49,8 +53,6 @@ export class UserSetupComponent implements OnInit {
   }
 
   switchUserStatus(user: any): void {
-    console.log('Enabling user:', user);
-    // Add your logic to enable the user here
     const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       this.spinner.show();
       var body={

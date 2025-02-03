@@ -16,7 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class CheckoutComponent implements OnInit{
 
-  productCode=null;
+  productCode:any=null;
   searchedProcduct: any=undefined;
   directMode= false;
   errorsMsg: any[]=[];
@@ -53,12 +53,17 @@ export class CheckoutComponent implements OnInit{
     }
   }
 
+  searchSize(size:string){
+    this.productCode= this.productCode+size;
+    this.onSearch();
+  }
+
   onSearch() {
     // Add your logic for the search action here
     if(this.productCode!=null){
       this.found=false;
-    this.notFound= false;
-    this.searching=true;
+      this.notFound= false;
+      this.searching=true;
     var data={
       code: this.productCode
     }
@@ -66,23 +71,29 @@ export class CheckoutComponent implements OnInit{
     setTimeout(() => {
       this.http.post<any>(url,data,  {headers:this.headers}).
       subscribe(res => {
-        this.searching=false;
-        this.searchedProcduct=res;
-        this.product.id= res.id;
-        this.product.name= res.name;
-        this.product.size=  res.requestedSize;
-        this.product.price= res.requestedPrice==null? 0 : res.requestedPrice;
-        this.product.picture= res.pictures.length>0? res.pictures[0].url: null;
-        this.product.available= res.available;
-        this.product.quantity= res.quantity;
-        this.product.location= res.location;
-        this.found=true;
-        if(res.requestedSize==null){
-          this.product.availableSizes= res.availableSizes;
+        if(res != null){
+          this.searching=false;
+          this.searchedProcduct=res;
+          this.product.id= res.id;
+          this.product.name= res.name;
+          this.product.size=  res.requestedSize;
+          this.product.price= res.requestedPrice==null? 0 : res.requestedPrice;
+          this.product.picture= res.pictures.length>0? res.pictures[0].url: null;
+          this.product.available= res.available;
+          this.product.quantity= res.quantity;
+          this.product.location= res.location;
+          this.found=true;
+          if(res.requestedSize==null){
+            this.product.availableSizes= res.availableSizes;
+          }
+          else if(this.directMode && res.available){
+            this.addProduct();
+          }
+        }else{
+          this.searching=false;
+          this.notFound=true;
         }
-        else if(this.directMode && res.available){
-          this.addProduct();
-        }
+        
       }, error=>{
         this.searching=false;
         this.notFound=true;
@@ -164,25 +175,33 @@ export class CheckoutComponent implements OnInit{
        username :this.userService.getUser(),
        items: data
     }
-     this.http.post<any>(GlobalVariable.BASE_API_URL+"operator/complete-checkout",body,{headers:this.headers})
+    this.spinner.show();
+     this.http.post<any>(GlobalVariable.BASE_API_URL+"operator/complete-checkout",body,{headers:this.headers, responseType: 'blob' as 'json'})
      .subscribe(res=>{
-      if(res!=null){
-        let assembledBase64 = res.join('');
-        this.toastr.success("Achat Compléter avec succès")
-        const receiptUrl = `data:image/png;base64,${assembledBase64}`
-        this.products=[];
-        this.productCode=null;
-        button?.click();
-        this.spinner.hide();
-        setTimeout(() => {
-          this.downloadBase64Image(receiptUrl);
-        },500);
-      }
+          this.products=[];
+          button?.click();
+          this.spinner.hide();
+          this.toastr.success('Commande Complétée avec succès!')
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'muna_receipt.pdf';
+          document.body.appendChild(a); // Append to body
+          setTimeout(()=>{
+            a.click();
+            document.body.removeChild(a); // Remove after click
+            window.URL.revokeObjectURL(url);
+          },1500)
+          
     },error=>{
       this.toastr.error('Something went wrong!');
       this.spinner.hide();
     });
   }
+
+
+
 
   downloadBase64Image(base64: string) {
 

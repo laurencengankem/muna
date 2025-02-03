@@ -46,6 +46,11 @@ export class ItemUpdateComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
+      window.location.href='/login';
+    }
+
     var id= <number> <unknown>this.route.snapshot.paramMap.get('id');
 
     var url=GlobalVariable.BASE_API_URL+"item/searchItems/"+id;
@@ -75,6 +80,7 @@ export class ItemUpdateComponent implements OnInit {
         sex: [this.item.sex, Validators.required],
         brand:[this.item.brand],
         code: [this.item.code],
+        color: [this.item.color],
         category: [this.item.category, Validators.required],
         sizes: this.fb.array(this.addSavedSize(this.item.sizes))
       });
@@ -138,48 +144,31 @@ export class ItemUpdateComponent implements OnInit {
       this.http.post<Boolean>(url+this.item.id,data,{headers:this.headers}).
         subscribe(res=>{
           if(res){
-            alert("Item correctly updated");
+            alert("Modifications Sauvegardées");
             window.location.href='/itemslist'
           }
           else{
-            alert("Insert admissible values");
+            alert("Insérer des données valides");
             
           }
         });
     }
     else
-      alert("Insert admissible values");
+      alert("Insérer des donneés valides");
     
   }
 
-  showConfirmation(){
-   
-    let elmt1= document.getElementsByClassName('deleteConfirmation');
-    let elmt2= document.getElementById('itemUpdate'); 
-    if((elmt1[0] as HTMLElement).style.display=='none'){
-      (elmt1[0] as HTMLElement).style.display='block';
-      (elmt2 as  HTMLElement).style.opacity='0.3';
-      (elmt2 as  HTMLElement).style.pointerEvents='none';
-    }
-    else{
-      (elmt1[0] as HTMLElement).style.display='none';
-      (elmt2 as  HTMLElement).style.opacity='1';
-      (elmt2 as  HTMLElement).style.pointerEvents='auto';
-    }
-    
-
-  }
 
   delete(){
     var url=GlobalVariable.BASE_API_URL+"admin/deleteItem/";
     this.http.post<Boolean>(url+this.item.id,null,{headers:this.headers}).
     subscribe(res=>{
       if(res){
-        alert("Item correctly deleted");
-        window.location.href='/itemslist'
+        this.toastr.success("Modèles Effacé");
+        window.location.href='/catalog'
       }
       
-      alert("Item impossible to delete");
+      this.toastr.error("Impossible d'effacer le modèle");
         
       
     });
@@ -251,7 +240,8 @@ export class ItemUpdateComponent implements OnInit {
           console.log(res);
           this.spinner.hide();
           if(res){
-            this.toastr.success('item updated correctly');
+            this.toastr.success('Modifications  Sauvergardées');
+            this.ngOnInit();
           }else{
             this.toastr.error('something went wrong!');
           }

@@ -72,12 +72,12 @@
             <th scope="col" class="d-none d-md-table-cell">Description</th>
             <th scope="col">Categorie</th>
             <th scope="col">Réduction</th>
-            <th scope="col" class="d-none d-lg-table-cell">Disponibilité</th>
+            <th scope="col" class="d-none d-lg-table-cell">Disponible</th>
             <th scope="col">Modifier</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of items">
+          <tr *ngFor="let item of items| paginate: { itemsPerPage: 10, currentPage: page }">
             <td>{{ item.code }}</td>
             <td>
               {{ item.name }}
@@ -86,7 +86,7 @@
             <td class="d-none d-md-table-cell">{{ item.description }}</td>
             <td>{{ item.category }}</td>
             <td>{{ item.discount }}</td>
-            <td class="d-none d-lg-table-cell">{{ item.available }}</td>
+            <td class="d-none d-lg-table-cell">{{ item.available? 'OUI':'NON' }}</td>
             <td class="update">
               <button
                 class="btn"
@@ -130,7 +130,17 @@
             </td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" class="text-end text-muted" style="font-style: italic;">
+              {{ items.length }} Modèles Trouvés
+            </td>
+          </tr>
+        </tfoot>
       </table>
+    </div>
+    <div class="text-center mt-3"  *ngIf="items.length>0">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
     </div>
     
     

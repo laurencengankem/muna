@@ -8,26 +8,26 @@
     <svg fill="#000000" style=" height:10px;width:10px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M213.333 960c0-167.36 56-321.707 149.44-446.4L1406.4 1557.227c-124.693 93.44-279.04 149.44-446.4 149.44-411.627 0-746.667-335.04-746.667-746.667m1493.334 0c0 167.36-56 321.707-149.44 446.4L513.6 362.773c124.693-93.44 279.04-149.44 446.4-149.44 411.627 0 746.667 335.04 746.667 746.667M960 0C429.76 0 0 429.76 0 960s429.76 960 960 960 960-429.76 960-960S1490.24 0 960 0" fill-rule="evenodd"></path> </g></svg>
 </div>
 
-<a  *ngIf="filtered.length>0" href="javascript:void(0)" style="text-decoration: none;  color: green" (click)="toggleContent()">
+<a href="javascript:void(0)" style="text-decoration: none;  color: green" (click)="toggleContent()">
     <div id="filterButton" class="toggle" style="min-height: 30px; background-color: black; text-align: center; font-size: 1.2em;">
-        <i class="bi bi-funnel"></i>Filters
+        <i class="bi bi-funnel"></i>Filtres
     </div>
 </a>
 
 
 <div *ngIf="b && !error">
-    <div id="phn" *ngIf="filtered.length>0"  [ngClass]="showFilters ? 'content show': 'content'">
-        <div id="cart-icon" class="dropdown" *ngIf="filtered.length>1">
-            <button id="price" class="dropbtn">Price</button>
+    <div id="phn"  [ngClass]="showFilters ? 'content show': 'content'">
+        <div id="cart-icon" class="dropdown" *ngIf="filtered.length>0">
+            <button id="price" [ngClass]="priceFlag ? 'dropbtn bg-success' : 'dropbtn'">Prix</button>
             <div class="dropdown-content">
                 <form [formGroup]="priceForm" (submit)="filterProducts()">
                     <table style="width:100%; padding: 10px; margin-bottom: 10px;">
                         <tr>
-                            <th style="text-align: right;">From</th>
+                            <th style="text-align: right;">De &nbsp; </th>
                             <td><input type="number" style="width:100px" formControlName="from"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
                         </tr>
                         <tr>
-                            <th style="text-align: right;">To</th>
+                            <th style="text-align: right;">à &nbsp; </th>
                             <td><input type="number" style="width:100px"  formControlName="to" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
                         </tr> 
                         <br>
@@ -38,13 +38,15 @@
                 </form>
             </div>
         </div>
-        <div id="cart-icon" class="dropdown" *ngIf="categories.length>1">
-            <button  id="category" class="dropbtn">Category</button>
+        <div id="cart-icon" class="dropdown" *ngIf="categories.length>0">
+            <button  id="category" [ngClass]="categoryFlag ? 'dropbtn bg-success' : 'dropbtn'">Categorie</button>
             <div class="dropdown-content " (submit)="filterProducts()">
                 <form [formGroup]="categoryForm">
-                    <div *ngFor="let cat of categories">
-                        <input type="checkbox" id="" name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)">
-                        {{cat}}<br>
+                    <div style="max-height: 200px; overflow-y: scroll;">
+                        <div *ngFor="let cat of categories">
+                            <input type="checkbox" id="" name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)">
+                            {{cat}}<br>
+                        </div>
                     </div>
                     <br>
                     <input type="submit" value="save"> &nbsp;
@@ -52,13 +54,15 @@
                 </form>
             </div>
         </div>
-        <div id="cart-icon" class="dropdown" *ngIf="sizes.length>1">
-            <button  id="category" class="dropbtn">Size</button>
+        <div id="cart-icon" class="dropdown" *ngIf="sizes.length>0">
+            <button  id="category" [ngClass]="sizeFlag ? 'dropbtn bg-success' : 'dropbtn'">Taille</button>
             <div class="dropdown-content " (submit)="filterProducts()">
                 <form [formGroup]="sizeForm">
-                    <div *ngFor="let size of sizes">
-                        <input type="checkbox" id="" name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)">
-                        {{size}}<br>
+                    <div style="max-height: 200px; overflow-y: scroll;">
+                        <div *ngFor="let size of sizes" >
+                            <input type="checkbox" id="" name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)">
+                            {{size}}<br>
+                        </div>
                     </div>
                     <br>
                     <input type="submit" value="save"> &nbsp;
@@ -66,8 +70,8 @@
                 </form>
             </div>
         </div>
-        <div id="cart-icon" class="dropdown" *ngIf="brands.length>1">
-            <button  id="category" class="dropbtn">Brand</button>
+        <div id="cart-icon" class="dropdown" *ngIf="brands.length>0">
+            <button  id="brand" [ngClass]="brandFlag ? 'dropbtn bg-success' : 'dropbtn'">Marque</button>
             <div class="dropdown-content " (submit)="filterProducts()">
                 <form [formGroup]="brandForm">
                     <div *ngFor="let brand of brands">
@@ -80,6 +84,40 @@
                 </form>
             </div>
         </div>
+        <div id="cart-icon" class="dropdown" *ngIf="colors.length>0">
+            <button  id="color" [ngClass]="colorFlag ? 'dropbtn bg-success' : 'dropbtn'">Couleur</button>
+            <div class="dropdown-content " (submit)="filterProducts()">
+                <form [formGroup]="colorForm">
+                    <div *ngFor="let color of colors">
+                        <input type="checkbox" id="" name="{{color}}" [value]="color" (change)="onCheckboxGenericChange($event,colorForm)">
+                        {{color}}<br>
+                    </div>
+                    <br>
+                    <input type="submit" value="save"> &nbsp;
+                    <input type="reset" value="reset">
+                </form>
+            </div>
+        </div>
+        <div id="cart-icon" class="dropdown">
+            <button id="genre" [ngClass]="genreFlag ? 'dropbtn bg-success' : 'dropbtn'">Sexe</button>
+            <div class="dropdown-content">
+                <form (ngSubmit)="filterProducts()">
+                    <div class="mb-3">
+                        <label>
+                            <input type="radio" [formControl]="genre" value="MALE"> Garçon
+                        </label>
+                        <br>
+                        <label>
+                            <input type="radio" [formControl]="genre" value="FEMALE"> Fille
+                        </label>
+                    </div>
+                    <button type="submit">Save</button> &nbsp;
+                    <button type="reset" (click)="genre.reset()">Reset</button>
+                </form>
+                
+            </div>
+        </div>
+        
         <!-- <div id="cart-icon" class="dropdown">
             <button class="dropbtn">Order</button>
             <div class="dropdown-content">
@@ -95,21 +133,25 @@
     </div>
 
     <div *ngIf="!error">  
-        <p id="numResult" style="text-align: center; font-size: 1.2em ; margin-top: 20px;"> {{filtered!.length}} products found </p>
+        <p id="numResult" style="text-align: center; font-size: 1.2em ; margin-top: 20px;"> {{filtered!.length}} Modèles Trouvés </p>
     </div>
 
     <div>
         <div class="container">
             <div class="row">
-                <div class="col s12 m6" *ngFor="let item of filtered | paginate: { itemsPerPage: 5, currentPage: page }">
+                <div class="col s12 m6" *ngFor="let item of filtered | paginate: { itemsPerPage: 10, currentPage: page }">
                     <app-card-item [item]="item"></app-card-item>
                 </div>
             </div>
         </div>
         
     </div>
-    <div class="text-center mt-3"  *ngIf="filtered.length>0">
+    <!-- <div class="text-center mt-3"  *ngIf="filtered.length>0">
         <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div> -->
+
+    <div class="text-center mt-3" *ngIf="filtered.length > 0">
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
     </div>
 
     

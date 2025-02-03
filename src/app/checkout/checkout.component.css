@@ -1,3 +1,8 @@
+.clickable:hover{
+    opacity: 0.4;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 700px) {
     .component-body{
         font-size: 0.7em;

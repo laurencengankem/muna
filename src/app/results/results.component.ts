@@ -22,6 +22,7 @@ export class ResultsComponent implements OnInit {
   sizeForm: FormGroup;
   categoryForm: FormGroup;
   brandForm: FormGroup;
+  colorForm: FormGroup;
   filtered: Item[] =[];
   items: Item[] = [];
   txt='';
@@ -31,9 +32,20 @@ export class ResultsComponent implements OnInit {
   page=1;
   sizes: string[]=[];
   brands: string[]=[];
+  colors: string[]=[];
+  genre= new FormControl()
   sex='';
   category='';
   error= false;
+
+  genreFlag=false;
+  colorFlag=false;
+  categoryFlag=false;
+  sizeFlag=false;
+  brandFlag=false;
+  priceFlag=false;
+
+  maxPrice=0;
 
   constructor(public route: ActivatedRoute, private http: HttpClient, 
      public router: Router, private fb: FormBuilder,private spinner: NgxSpinnerService ) {
@@ -56,6 +68,11 @@ export class ResultsComponent implements OnInit {
       this.brandForm= fb.group({
         "selected": new FormArray([])
       });
+
+      this.colorForm= fb.group({
+        "selected": new FormArray([])
+      });
+      
     
   }
       
@@ -83,6 +100,7 @@ export class ResultsComponent implements OnInit {
         this.setCategories();
         this.setBrands();
         this.setSizes();
+        this.setColors();
       }
        
       this.b=true;
@@ -141,6 +159,7 @@ export class ResultsComponent implements OnInit {
     }
     this.priceForm.controls['from'].setValue(min);
     this.priceForm.controls['to'].setValue(max);
+    this.maxPrice=max;
   }
 
   setCategories(){
@@ -157,10 +176,22 @@ export class ResultsComponent implements OnInit {
     let temp:string[]=new Array(0);
     for(let i=0;i<this.filtered.length;i++){
       if(!temp.find(it=> it==this.filtered[i].brand)){
-        temp.push(this.filtered[i].brand);
+        if(this.filtered[i].brand!=null && this.filtered[i].brand.trim().length>0)
+          temp.push(this.filtered[i].brand);
       }
     }
     this.brands= temp;
+  }
+
+  setColors(){
+    let temp:string[]=new Array(0);
+    for(let i=0;i<this.filtered.length;i++){
+      if(!temp.find(it=> it==this.filtered[i].color)){
+        if(this.filtered[i].color!=null && this.filtered[i].color.trim().length>0)
+          temp.push(this.filtered[i].color);
+      }
+    }
+    this.colors= temp;
   }
 
   setSizes(){
@@ -175,6 +206,8 @@ export class ResultsComponent implements OnInit {
     }
     this.sizes= temp;
   }
+
+
 
 
   ordertheProducts(){
@@ -223,12 +256,28 @@ export class ResultsComponent implements OnInit {
     this.spinner.show();
     setTimeout(()=>{
       this.filtered=this.items;
+      this.filterBySex(this.filtered);
       this.filterByPrice(this.filtered);
       this.filterByCategory(this.filtered);
       this.filterBySizes(this.filtered);
+      this.filterByBrand(this.filtered);
+      this.filterByColor(this.filtered);
       this.page=1;
       this.spinner.hide();
     },700) 
+  }
+
+  filterBySex(data: Item[]){
+    let temp= new Array(0);
+    console.log(this.genre.value);
+    if(this.genre.value!=null && this.genre.value!=''){
+      this.genreFlag=true;
+      for(let i=0;i<data.length;i++){
+        if(data[i].sex==this.genre.value || data[i].sex=='UNISEX')
+          temp.push(data[i]);
+      }
+      this.filtered=temp;
+    }else{this.genreFlag=false}
   }
 
   filterByPrice(data: Item[]) {
@@ -241,6 +290,10 @@ export class ResultsComponent implements OnInit {
         temp.push(data[i]); // add item if size is found
       }
     }
+    if(from!==0 || to!==this.maxPrice){
+      this.priceFlag=true
+    }else this.priceFlag=false;
+    
     this.filtered = temp;
   }
 
@@ -249,12 +302,13 @@ export class ResultsComponent implements OnInit {
     categories= categories.filter(value => value !== null);
     let temp= new Array(0);
     if(categories.length>0){
+      this.categoryFlag=true;
       for(let i=0;i<data.length;i++){
         if(categories.find(cat=>data[i].category==cat))
           temp.push(data[i]);
       }
       this.filtered=temp;
-    }
+    }else this.categoryFlag=false;
   }
 
   filterByBrand(data: Item[]){
@@ -262,12 +316,13 @@ export class ResultsComponent implements OnInit {
     brands= brands.filter(value => value !== null);
     let temp= new Array(0);
     if(brands.length>0){
+      this.brandFlag=true;
       for(let i=0;i<data.length;i++){
         if(brands.find(brand=>data[i].brand==brand))
           temp.push(data[i]);
       }
       this.filtered=temp;
-    }
+    } else this.brandFlag=false;
   }
 
   filterBySizes(data: Item[]){
@@ -275,6 +330,7 @@ export class ResultsComponent implements OnInit {
     sizes= sizes.filter(value => value !== null);
     let temp= new Array(0);
     if(sizes.length>0){
+      this.sizeFlag=true;
       for(let i=0;i<data.length;i++){
         let size = data[i].sizes.find(s => sizes.includes(s.name) && s.quantity>0);
         if (size != null) {
@@ -282,7 +338,22 @@ export class ResultsComponent implements OnInit {
         }
       }
       this.filtered=temp;
-    }
+    }else this.sizeFlag= false;
+  }
+
+  filterByColor(data: Item[]){
+    let colors:string[]=this.colorForm.controls['selected'].value;
+    colors= colors.filter(value => value !== null);
+    let temp= new Array(0);
+    if(colors.length>0){
+      this.colorFlag=true;
+      for(let i=0;i<data.length;i++){
+        if (colors.find(color=>data[i].color==color)) {
+          temp.push(data[i]);
+        }
+      }
+      this.filtered=temp;
+    }else this.colorFlag= false;
   }
   
 
@@ -308,6 +379,11 @@ export class ResultsComponent implements OnInit {
     this.showFilters=!this.showFilters;
   }
 
+  onPageChange(event: number) {
+    this.page = event;
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scrolling
+  }
+  
   
 }
 

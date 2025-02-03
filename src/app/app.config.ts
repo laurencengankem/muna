@@ -1,11 +1,12 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Import for animations
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './shared/auth.interceptor';
+import { AppRouteReuseStrategy } from './shared/app-route-reuse.strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +26,9 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: true,
       maxOpened: 1
-    }), provideAnimationsAsync()
+    }), 
+    provideAnimationsAsync(),
+    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }
  ]
 };
 

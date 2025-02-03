@@ -14,24 +14,24 @@
         <div class="card-body text-center">
             <h5>{{item.name}}</h5>
             <p class="card-title">{{item.category}} <strong>{{item.brand}}</strong></p>
-            <p class="card-text"><strong>Product Code: </strong>{{item.id.toString().padStart(5, '0')}}</p>
+            <p class="card-text" style="white-space: nowrap;"><strong>Code Modèle: </strong>{{item.code}}</p>
 
             <p class="card-text" *ngIf="item.discount > 0">
-                <strong>Price:</strong>
-                <em style="text-decoration: line-through; color: grey;">{{item.sizes[0].price | customCurrency}}</em>
-                <strong style="color: rgba(255, 123, 0, 0.781);"> {{item.sizes[0].price * (1 - item.discount / 100) | customCurrency }}</strong><br/>
-                <em style="color: red;">discount: {{item.discount}}%</em>
+                <strong>Prix: </strong>
+                <em style="text-decoration: line-through; color: grey; white-space: nowrap;">{{item.sizes[0].price | customCurrency}}</em>
+                <strong style="color: rgba(255, 123, 0, 0.781); white-space: nowrap;"> {{item.sizes[0].price * (1 - item.discount / 100) | customCurrency }}</strong><br/>
+                <em style="color: red; white-space: nowrap;">discount: {{item.discount}}%</em>
             </p>
 
             <p class="card-text" *ngIf="item.discount == 0">
-                <strong>Price:</strong>
+                <strong>Prix: </strong>
                 <strong style="color: rgba(255, 123, 0, 0.781);">{{item.sizes[0].price | customCurrency }}</strong>
                 <br>
                 <em style="visibility: hidden;">discount:{{item.discount}}%</em>
             </p>
             
             <hr>
-            <button type="submit" class="btn btn-success" (click)="viewDetails()">View Details</button>
+            <button type="submit" class="btn btn-success" (click)="viewDetails()">Détails</button>
         </div>
     </div>
 </div>

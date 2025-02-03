@@ -14,6 +14,7 @@ export class Item{
     brand!: string;
     location!: string;
     code!: string;
+    color!: string
     sex!:string;
     sizes!: any[];
     requestedSize!: string;

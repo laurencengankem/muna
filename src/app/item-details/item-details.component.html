@@ -50,7 +50,7 @@
             <p>Description: <strong>{{item.description}}</strong> </p>
 
             <div>
-              <label for="size-select">*Choisir Une Taille &nbsp; </label>
+              <label for="size-select">Voir Les Tailles &nbsp; </label>
               <select id="size-select" [(ngModel)]="selectedSize" (change)="onSizeChange($event)" style="width: 70px;">
                 <option *ngFor="let size of item.sizes" [value]="size.name" [disabled]="size.quantity === 0">
                   {{ size.name }}
