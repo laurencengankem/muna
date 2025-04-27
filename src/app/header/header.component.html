@@ -21,6 +21,9 @@
           <li>
             <a *ngIf="userRole=='ADMIN' ||  userRole=='OPERATOR'"  class="nav-link" href="/catalog">Catalogue</a>
           </li>
+          <li>
+            <a  class="nav-link" href="/receipt">Test Reçu</a>
+          </li>
           <!-- <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Garcon
@@ -48,10 +51,10 @@
               <a *ngIf="user!=''" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{user}}</a>
               <ul class="dropdown-menu">
                 <li>
-                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/indirect">Caisse</a>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/indirect">Recherche Produit</a>
                 </li>
                 <li>
-                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/direct">Caisse Directe</a>
+                  <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/checkout/direct">Caisse</a>
                 </li>
                 <li>
                   <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/catalog">Catalogue</a>
@@ -65,6 +68,9 @@
                 <li>
                   <a *ngIf="userRole=='ADMIN' "  class="dropdown-item" href="/orderList">Liste Commandes</a>
                 </li>
+                <!-- <li>
+                  <a *ngIf="userRole=='ADMIN'"  class="dropdown-item" href="/dashboard">Dashboard</a>
+                </li> -->
                 <li>
                   <a class="dropdown-item"  href="javascript:void(0)" (click)="logout()">Déconnexion</a>
                 </li>

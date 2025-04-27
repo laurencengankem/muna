@@ -17,6 +17,7 @@ import { GlobalVariable } from '../global/global';
 export class OrderListComponent implements OnInit {
 
   originalOrders: any[]=[];
+  userRole: any='';
   orders: any[]=[];
   orderItems: any[] = [];
   order: any={};
@@ -33,10 +34,18 @@ export class OrderListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.userRole= localStorage.getItem("userRole");
+
+    this.spinner.show();
     this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderList",{headers:this.headers})
     .subscribe(res=>{
+      this.spinner.hide();
       this.orders=res;
       this.originalOrders=this.orders;
+    },error=>{
+      this.spinner.hide();
+      this.toastr.error('Oops il y\'a un problème');
     })
   }
 
@@ -49,6 +58,42 @@ export class OrderListComponent implements OnInit {
       button?.click();
     })
     
+  }
+
+  openDeleteModal(order:any){
+    this.order=order;
+    const button = document.getElementById('cancelButton');
+    button?.click();
+    
+  }
+
+  deleteOrder(){
+
+    this.spinner.show();
+
+    this.http.get(GlobalVariable.BASE_API_URL + "admin/delete-order/" + this.order.orderId, 
+      { headers: this.headers, responseType: 'blob' }).subscribe(res=>{
+        this.spinner.hide();
+        const button = document.getElementById('deleteModalClose');
+        button?.click();
+        if(res){
+          this.toastr.success('Commande Effacée Avec Succès');
+          setTimeout(()=>{
+            this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderList",{headers:this.headers})
+            .subscribe(res=>{
+              this.orders=res;
+              this.originalOrders=this.orders;
+              if(this.orders.length<=10)
+                this.page=1;
+            })
+          },1000)
+        }else{
+          this.toastr.error('Quelque chose s\'est mal passée');
+        }
+      }, error =>{
+        this.spinner.hide();
+        this.toastr.error('Quelque chose s\'est mal passée');
+      })
   }
 
   generateReceipt() {

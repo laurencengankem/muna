@@ -18,6 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
           console.error('Access forbidden: 403');
           localStorage.removeItem('access_token');
           localStorage.removeItem('cart');
+          localStorage.removeItem('userRole');
           this.userService.setLoggedUser('');
           this.cartService.cartItemList=[];
           this.cartService.setCartItemNumber(0);

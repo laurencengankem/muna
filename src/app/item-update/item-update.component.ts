@@ -31,6 +31,7 @@ export class ItemUpdateComponent implements OnInit {
   loaded: Boolean= false;
   form: FormGroup;
   mainPhoto="";
+  imageToDeleteIndex: number= 0;
  
   headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
 
@@ -70,7 +71,6 @@ export class ItemUpdateComponent implements OnInit {
         this.flag=true;
       }
 
-      console.log(this.item);
       this.clothProductForm = this.fb.group({
         id: [this.item.id],
         available: [this.item.available,Validators.required],
@@ -111,7 +111,7 @@ export class ItemUpdateComponent implements OnInit {
         "name":(this.selectedFile as File).name
 
       }
-      var url=GlobalVariable.BASE_API_URL+"admin/uploadPictures";
+      var url=GlobalVariable.BASE_API_URL+"operator/uploadPictures";
       this.http.post<Boolean>(url,data,  {headers:this.headers}).
         subscribe(res => {
           console.log(res);
@@ -164,11 +164,12 @@ export class ItemUpdateComponent implements OnInit {
     this.http.post<Boolean>(url+this.item.id,null,{headers:this.headers}).
     subscribe(res=>{
       if(res){
-        this.toastr.success("Modèles Effacé");
-        window.location.href='/catalog'
+        this.toastr.success("Modèle Effacé");
+        setTimeout(()=>{
+          window.location.href='/catalog';
+        },1500)
       }
-      
-      this.toastr.error("Impossible d'effacer le modèle");
+      else this.toastr.error("Impossible d'effacer le modèle");
         
       
     });
@@ -196,6 +197,7 @@ export class ItemUpdateComponent implements OnInit {
           sizeArray.push(this.fb.group({
             name: [sizes[i].name, Validators.required],
             quantity: [sizes[i].quantity, Validators.required],
+            magasin: [sizes[i].magasin,Validators.required],
             price: [sizes[i].price, Validators.required],
             location: [sizes[i].location]
           }));
@@ -211,6 +213,7 @@ export class ItemUpdateComponent implements OnInit {
     return this.fb.group({
       name: ['', Validators.required],
       quantity: ['', Validators.required],
+      magasin: [0,Validators.required],
       price: ['', Validators.required],
       location: ['']
     });
@@ -254,28 +257,24 @@ export class ItemUpdateComponent implements OnInit {
   show(picture:string){
       window.location.href=picture;
   }
+  
 
-  deletePic(i:number,n:number){
-    if(n==1){
-      var data={
-        "itemId":this.item.id,
-        "url":this.item.pictures[i].url
-      }
-      console.log(data);
-      this.http.post<Boolean>(GlobalVariable.BASE_API_URL+'admin/deletePicture',data,{headers:this.headers}).
-        subscribe(res=>
-          {
-            console.log(res);
-            this.ngOnInit();
-      })
+  deletePic(){
+    var data={
+      "itemId":this.item.id,
+      "url":this.item.pictures[this.imageToDeleteIndex].url
     }
-    else if(n==2){
-      (document.getElementsByClassName("deletePicture")[i] as HTMLElement).style.display='none';
-    }
-    else if(n==0){
-      (document.getElementsByClassName("deletePicture")[i] as HTMLElement).style.display='block';
-    }
-    
+    this.spinner.show();
+    this.http.post<Boolean>(GlobalVariable.BASE_API_URL+'admin/deletePicture',data,{headers:this.headers}).
+      subscribe(res=>
+        {
+          console.log(res);
+          this.spinner.hide();
+          setTimeout(()=>{
+            this.ngOnInit()
+          },500);
+          
+    })
   }
 
   updateMain(i:number){

@@ -30,6 +30,7 @@ export class ItemListComponent implements OnInit {
 
   @ViewChild('myFile')
   myInputFile!: ElementRef;
+  userRole: any='';
 
   constructor(public fb: FormBuilder, public http:HttpClient, private spinner: NgxSpinnerService) { 
     this.form= fb.group({
@@ -43,7 +44,8 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
+    this.userRole=localStorage.getItem("userRole");
+    if(this.userRole!="ADMIN" && this.userRole!="OPERATOR"){
       window.location.href='/login';
     }
     this.loadItems();

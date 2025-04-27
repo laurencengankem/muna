@@ -1,0 +1,19 @@
+<div class="component-body">
+    <div class="chart-container">
+      <h1 class="mb-3">Statistiques De Ventes</h1>
+      <div class="row d-flex justify-content-center">
+
+        <select [(ngModel)]="selectedScale" (change)="updateChartData()">
+            <option *ngFor="let scale of xAxisOptions" [value]="scale">{{ scale }}</option>
+          </select>
+    
+          <select [(ngModel)]="selectedType" (change)="updateChartData()">
+            <option *ngFor="let type of yAxisOptions" [value]="type">{{ type }}</option>
+          </select>
+
+      </div>
+
+      <echarts [options]="chartOptions" class="chart" style="width: 100%; height: 100%;"></echarts>
+
+    </div>
+  </div>

@@ -44,7 +44,7 @@
                 <form [formGroup]="categoryForm">
                     <div style="max-height: 200px; overflow-y: scroll;">
                         <div *ngFor="let cat of categories">
-                            <input type="checkbox" id="" name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)">
+                            <input type="checkbox"  name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)">
                             {{cat}}<br>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                 <form [formGroup]="sizeForm">
                     <div style="max-height: 200px; overflow-y: scroll;">
                         <div *ngFor="let size of sizes" >
-                            <input type="checkbox" id="" name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)">
+                            <input type="checkbox"  name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)">
                             {{size}}<br>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
             <div class="dropdown-content " (submit)="filterProducts()">
                 <form [formGroup]="brandForm">
                     <div *ngFor="let brand of brands">
-                        <input type="checkbox" id="" name="{{brand}}" [value]="brand" (change)="onCheckboxGenericChange($event,brandForm)">
+                        <input type="checkbox"  name="{{brand}}" [value]="brand" (change)="onCheckboxGenericChange($event,brandForm)">
                         {{brand}}<br>
                     </div>
                     <br>
@@ -88,9 +88,11 @@
             <button  id="color" [ngClass]="colorFlag ? 'dropbtn bg-success' : 'dropbtn'">Couleur</button>
             <div class="dropdown-content " (submit)="filterProducts()">
                 <form [formGroup]="colorForm">
-                    <div *ngFor="let color of colors">
-                        <input type="checkbox" id="" name="{{color}}" [value]="color" (change)="onCheckboxGenericChange($event,colorForm)">
-                        {{color}}<br>
+                    <div style="max-height: 200px; overflow-y: scroll;">
+                        <div *ngFor="let color of colors">
+                            <input type="checkbox" name="{{color}}" [value]="color" (change)="onCheckboxGenericChange($event,colorForm)">
+                            {{color}}<br>
+                        </div>
                     </div>
                     <br>
                     <input type="submit" value="save"> &nbsp;
@@ -139,7 +141,7 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col s12 m6" *ngFor="let item of filtered | paginate: { itemsPerPage: 10, currentPage: page }">
+                <div class="col-12 col-md-4 col-xl-3" *ngFor="let item of filtered | paginate: { itemsPerPage: 11, currentPage: page }">
                     <app-card-item [item]="item"></app-card-item>
                 </div>
             </div>

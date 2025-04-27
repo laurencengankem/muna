@@ -26,7 +26,7 @@
           </div>
       </div>
       </div>
-    </div>
+  </div>
     
         
     
@@ -149,12 +149,18 @@
                       placeholder="Taille (e.g. S, M, L)">
                   </div>
                   <div [formGroupName]="i" class="col-md-2">
-                    Quantité
+                    Quantité Store
                     <input 
                       formControlName="quantity" 
                       type="number" 
                       class="form-control" 
                       placeholder="Quantité">
+                    Quantité Magasin
+                    <input style="margin-top: 0px;"
+                    formControlName="magasin" 
+                    type="number" 
+                    class="form-control" 
+                    placeholder="">
                   </div>
                   <div [formGroupName]="i" class="col-md-2">
                     Prix
@@ -198,20 +204,38 @@
     <div id="images">
         
         <div *ngFor="let pic of item.pictures; let i= index" class="image" >
-            <div class="deletePicture">
-                <p>confirm deletion?</p>
-                <button class="sub nm" (click)="deletePic(i,1)">YES</button>
-                <button class="sub" (click)="deletePic(i,2)">No</button>
-            </div>
-            <a href="javascript:void(0)" (click)="updateMain(i)" >set as main picture</a>
+            <a href="javascript:void(0)" (click)="updateMain(i)" >image principale</a>
             <img src={{pic.url}} alt=""  (click)="show(pic.url)">
-            <a href="javascript:void(0)" (click)="deletePic(i,0)" >delete</a><br>
+            <button id="modalButton" type="button" (click)="imageToDeleteIndex=i" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeletePic">
+              Effacer
+            </button>
+            
         </div>
     </div>
     <hr>
-    <p style="font-size:1.2em;">Main Image</p>
-    <div id="main">
+    <p style="font-size:1.2em;">Image principale</p>
+    <div id="main" >
         <img src={{mainPhoto}} (click)="show(mainPhoto)" alt="">
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="DeletePic" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="font-size: 0.85em" >
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <p style="font-size: 1.3em">Effacer L'image ?</p>
+                <button class="btn btn-danger me-3" (click)="deletePic()" data-bs-dismiss="modal" aria-label="Close" >OUI</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">NON</button>
+            </div>
+                  
+            </div>
+        </div>
+        </div>
     </div>
     
     </div>

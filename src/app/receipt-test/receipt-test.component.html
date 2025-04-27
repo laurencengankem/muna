@@ -1,0 +1,22 @@
+<div class="component-body">
+
+    <div class="mt-5 d-flex justify-content-center" >
+        <div class="text-center">
+            <table >
+                <tr>
+                    <th>Largeur Reçu</th>
+                    <td> <input class="ms-2" type="number" min="5" step="1" required [(ngModel)]="width"/></td>
+                </tr>
+                <tr>
+                    <th>Taille Police</th>
+                    <td> <input class="ms-2"  type="number" min="5" step="0.1" required [(ngModel)]="size"/></td>
+                </tr>
+            </table>
+            <div class="mt-3">
+                <input class="btn btn-sm btn-success"  value="submit" (click)="submit()">
+            </div>
+
+        </div>
+    
+    </div>
+</div>

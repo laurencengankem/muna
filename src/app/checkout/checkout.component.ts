@@ -19,6 +19,9 @@ export class CheckoutComponent implements OnInit{
   productCode:any=null;
   searchedProcduct: any=undefined;
   directMode= false;
+  discount= 0;
+  paymentMethod: any= "";
+
   errorsMsg: any[]=[];
 
   products: any[]= [];
@@ -36,7 +39,7 @@ export class CheckoutComponent implements OnInit{
     outOfStock: true,
     quantity: 0,
     location: '',
-    availableSizes: [{name:'',quantity:'',price:0,location:''}],
+    availableSizes: [{name:'',quantity:'', magasin: '',price:0,location:''}],
     picture: 'https://via.placeholder.com/150' // Replace with actual image URL
   };
 
@@ -64,6 +67,7 @@ export class CheckoutComponent implements OnInit{
       this.found=false;
       this.notFound= false;
       this.searching=true;
+      this.replaceInvalidChar();
     var data={
       code: this.productCode
     }
@@ -88,6 +92,7 @@ export class CheckoutComponent implements OnInit{
           }
           else if(this.directMode && res.available){
             this.addProduct();
+            this.productCode=null;
           }
         }else{
           this.searching=false;
@@ -120,6 +125,19 @@ export class CheckoutComponent implements OnInit{
     return this.products.reduce((total, product) => total + product.price, 0);
   }
 
+  checkDiscount(){
+    this.discount = Number(this.discount);
+    if(this.discount<0 || this.calculateTotalPrice()<this.discount)
+      this.discount=0;
+  }
+
+  calculateDiscountedPrice(): number {
+    let discounted = this.calculateTotalPrice();
+    if(this.discount>0)
+      return discounted - this.discount;
+    else return discounted;
+  }
+
 
   submit(){
     this.errorsMsg=[];
@@ -127,14 +145,15 @@ export class CheckoutComponent implements OnInit{
     const url=GlobalVariable.BASE_API_URL+"operator/validate-checkout";
     this.spinner.show();
     var body={
-      items: data
+      items: data,
+      discount: this.discount
     }
     this.http.post<any>(url,body,  {headers:this.headers}).subscribe(res => {
       this.spinner.hide();
       if(res.status==400){
         this.errorsMsg= res.messages;
       }else if(res.status==200){
-        const button = document.getElementById('modalButton');
+        const button = document.getElementById('modalPaymentButton');
         button?.click();
       }
     }, error => {
@@ -164,8 +183,19 @@ export class CheckoutComponent implements OnInit{
   
     productMap.forEach(value => groupedProducts.push(value));
 
-    console.log(groupedProducts);
     return groupedProducts;
+  }
+
+
+  validatePaymentMethod(){
+    if(this.paymentMethod!==""){
+      const button = document.getElementById('paymentmodalClose');
+      button?.click();
+      setTimeout(()=>{
+        const buttonM = document.getElementById('modalButton');
+        buttonM?.click();
+      },100)
+    }
   }
 
   generateReceipt(){
@@ -173,12 +203,16 @@ export class CheckoutComponent implements OnInit{
     const data= this.groupAndSumProducts(this.products);
     var body={
        username :this.userService.getUser(),
-       items: data
+       items: data,
+       paymentMethod: this.paymentMethod,
+       discount: this.discount
     }
     this.spinner.show();
      this.http.post<any>(GlobalVariable.BASE_API_URL+"operator/complete-checkout",body,{headers:this.headers, responseType: 'blob' as 'json'})
      .subscribe(res=>{
           this.products=[];
+          this.discount=0;
+          this.paymentMethod='';
           button?.click();
           this.spinner.hide();
           this.toastr.success('Commande Complétée avec succès!')
@@ -219,6 +253,11 @@ export class CheckoutComponent implements OnInit{
     document.body.removeChild(downloadLink);
   }
 
+
+  replaceInvalidChar(){
+    this.productCode=  this.productCode
+    .replace(/[^a-zA-Z0-9]/g, '-').replace('z','Y').replace('Z','Y');
+  }
 
 
 }

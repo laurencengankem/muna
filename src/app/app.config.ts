@@ -7,6 +7,7 @@ import { provideToastr } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { AppRouteReuseStrategy } from './shared/app-route-reuse.strategy';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,7 +29,8 @@ export const appConfig: ApplicationConfig = {
       maxOpened: 1
     }), 
     provideAnimationsAsync(),
-    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }
+    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
+    importProvidersFrom(NgxEchartsModule.forRoot({ echarts: () => import('echarts') })),
  ]
 };
 

@@ -169,7 +169,7 @@ export class ResultsComponent implements OnInit {
         temp.push(this.filtered[i].category);
       }
     }
-    this.categories= temp;
+    this.categories= temp.sort();
   }
 
   setBrands(){
@@ -191,7 +191,7 @@ export class ResultsComponent implements OnInit {
           temp.push(this.filtered[i].color);
       }
     }
-    this.colors= temp;
+    this.colors= temp.sort();
   }
 
   setSizes(){
@@ -204,7 +204,7 @@ export class ResultsComponent implements OnInit {
         }
       }
     }
-    this.sizes= temp;
+    this.sizes= temp.sort();
   }
 
 
@@ -381,7 +381,10 @@ export class ResultsComponent implements OnInit {
 
   onPageChange(event: number) {
     this.page = event;
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scrolling
+    //console.log('scrolling');
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 60);
   }
   
   

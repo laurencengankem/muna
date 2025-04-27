@@ -14,6 +14,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UserSetupComponent } from './user-setup/user-setup.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ReceiptTestComponent } from './receipt-test/receipt-test.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 export const routes: Routes = [
@@ -33,5 +35,7 @@ export const routes: Routes = [
     { path:'user-setup', component: UserSetupComponent},
     { path: 'itemupdate/:id', component: ItemUpdateComponent},
     { path: 'password/reset', component: PasswordResetComponent},
+    { path: 'receipt', component: ReceiptTestComponent},
+    { path: 'dashboard', component: DashboardComponent},
     { path: '**', component: HomeComponent}
 ];

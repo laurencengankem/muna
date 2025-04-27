@@ -68,28 +68,28 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("user",body["username"]);
           this.userService.setLoggedUser(body["username"].split("@")[0])
           localStorage.setItem("username",body["username"].split("@")[0]);
-          this.cartService.getUserRemoteCart()?.
-          subscribe(res=>{
-            if(res!=null){
-              for(let i=0;i<res.length;i++){
-                if(!this.cartService.updateQty(res[i])){
-                  this.cartService.addToCart(res[i])
-                }
-              }
-            }
+          // this.cartService.getUserRemoteCart()?.
+          // subscribe(res=>{
+          //   if(res!=null){
+          //     for(let i=0;i<res.length;i++){
+          //       if(!this.cartService.updateQty(res[i])){
+          //         this.cartService.addToCart(res[i])
+          //       }
+          //     }
+          //   }
             
-            this.cartService.updateUserRemoteCart()?.
-            subscribe(res=>{
-              let lastUrl = localStorage.getItem("lastUrl");
-              this.cartService.setCartItemNumber(this.cartService.cartItemList.length)
-              window.location.href="/";
-              this.spinner.hide();
+            // this.cartService.updateUserRemoteCart()?.
+            // subscribe(res=>{
+            //   let lastUrl = localStorage.getItem("lastUrl");
+            //   this.cartService.setCartItemNumber(this.cartService.cartItemList.length)
+            //   window.location.href="/";
+            //   this.spinner.hide();
               
-            });
+            // });
             
-          });
+          //});
 
-          //this.location.back();
+          window.location.href="/";
           this.spinner.hide()
         }
         
