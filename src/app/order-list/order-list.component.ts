@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
 import { SharedModule } from '../shared/shared.module';
 import { GlobalVariable } from '../global/global';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class OrderListComponent implements OnInit {
   userRole: any='';
   orders: any[]=[];
   orderItems: any[] = [];
+  updatedItems: any[] = [];
   order: any={};
   page=1;
   orderNumFilter= null;
@@ -29,7 +31,7 @@ export class OrderListComponent implements OnInit {
   headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") });
 
   constructor(private http: HttpClient, private userService: UserService,
-        private toastr: ToastrService, private spinner: NgxSpinnerService){
+        private toastr: ToastrService, private spinner: NgxSpinnerService, private router: Router){
 
   }
 
@@ -46,14 +48,16 @@ export class OrderListComponent implements OnInit {
     },error=>{
       this.spinner.hide();
       this.toastr.error('Oops il y\'a un problème');
-    })
+    });
+    localStorage.removeItem('order');
   }
 
   openModal(order:any){
     this.order=order;
     this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderItems/"+order.orderId,{headers:this.headers})
     .subscribe(res=>{
-      this.orderItems=res;
+      this.orderItems=res.items;
+      this.updatedItems = res.updates;
       const button = document.getElementById('modalButton');
       button?.click();
     })
@@ -94,6 +98,12 @@ export class OrderListComponent implements OnInit {
         this.spinner.hide();
         this.toastr.error('Quelque chose s\'est mal passée');
       })
+  }
+
+
+  modifyOrder(order : any){
+    localStorage.setItem('order',JSON.stringify(order));
+    this.router.navigate(['/checkout/return'],{ queryParams: { orderId : order.orderId } });
   }
 
   generateReceipt() {

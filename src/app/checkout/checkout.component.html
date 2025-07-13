@@ -3,7 +3,7 @@
     <div class="container mt-3">
         <form (ngSubmit)="onSearch()">
           <div class="input-group">
-            <input type="text" class="form-control text-center" (blur)="replaceInvalidChar()" placeholder="Code Modèle et/ou Taille" [(ngModel)]="productCode" name="productCode" required>
+            <input type="text" class="form-control text-center" placeholder="Code Modèle et/ou Taille" [(ngModel)]="productCode" name="productCode" required>
             <button class="btn btn-success" type="submit">{{ directMode ? 'Ajouter': 'Chercher'}}</button>
           </div>
         </form>
@@ -123,6 +123,14 @@
                 <button class="btn btn-danger btn-sm" (click)="removeProduct(i)">Eliminer</button>
               </td>
             </tr>
+            <tr *ngFor="let product of oldProducts; let i = index">
+              <td>{{ product.name }}</td>
+              <td>{{ product.size }}</td>
+              <td>{{ product.price | customCurrency }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="removeOldProduct(i)">Eliminer</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -134,17 +142,23 @@
 
       <div class="mt-5 container">
         <div class="row text-center d-flex justify-content-center">
-          <label>Réduction &nbsp;</label>
+          <label>Réduction <span *ngIf="return">Appliquée</span></label>
           <div class="col-10 col-md-4">
             <input class="mb-4 form-control text-center" type="number" min="0" [(ngModel)]="discount" (blur)="checkDiscount()"><br>
           </div>
-          <p *ngIf="discount>0"><strong>Nouveau Total: </strong>{{ calculateDiscountedPrice() | customCurrency }}</p>
+          <p *ngIf="discount>0 && !return"><strong>Nouveau Total: </strong>{{ calculateDiscountedPrice() | customCurrency }}</p>
+          <p *ngIf="return"><strong>Somme Payée: </strong>{{ oldTotal | customCurrency }}</p>
+          <p *ngIf="return" style="font-size: 1.1em;"><strong>Nouveau Total: </strong>{{ calculateDiscountedPrice() | customCurrency }}</p>
+          <p *ngIf="return" style="font-size: 1.5em;"><strong>Somme à Payer: </strong>
+            {{  calculateDiscountedPrice() - oldTotal| customCurrency }}
+          </p>
         </div>
       </div>
       
       <div class="container mt-1">
         <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
-          <button class="btn btn-success" (click)="submit()" [disabled]="this.products.length==0">Valider La Commande</button>
+          <button *ngIf="!return" class="btn btn-success" (click)="submit()" [disabled]="this.products.length==0">Valider La Commande</button>
+          <button *ngIf="return" class="btn btn-success" (click)="submit()" [disabled]="false">Valider La Commande</button>
         </div>
       </div>
       
@@ -162,7 +176,8 @@
           <button type="button" id="modalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Le paiement a-t-il correctement été complété?
+          <span *ngIf="shouldPay">Le paiement a-t-il correctement été complété?</span>
+          <span *ngIf="!shouldPay">Confirmer La Modification?</span>
         </div>
         <div class="modal-footer">
           <div class="text-start">
