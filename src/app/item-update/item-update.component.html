@@ -83,7 +83,19 @@
     
           
             <div class="row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-4 mb-3">
+                <label for="cost" class="form-label">Coût</label>
+                <input 
+                  formControlName="cost" 
+                  id="cost" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="prix d'achat">
+                <div *ngIf="clothProductForm.get('cost')?.invalid && clothProductForm.get('cost')?.touched" class="text-danger">
+                  Le coût doit être supérieur à 0
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
                 <label for="discount" class="form-label">Réduction (%)</label>
                 <input 
                   formControlName="discount" 
@@ -96,7 +108,7 @@
                 </div>
               </div>
           
-              <div class="col-md-6 mb-3">
+              <div class="col-md-4 mb-3">
                 <label for="sex" class="form-label">Sexe</label>
                 <select formControlName="sex" id="sex" class="form-select">
                   <option value="MALE">Masculin</option>

@@ -77,6 +77,7 @@ export class ItemUpdateComponent implements OnInit {
         name: [this.item.name,Validators.required],
         description: [this.item.description, Validators.required],
         discount: [this.item.discount, [Validators.min(0), Validators.max(100)]],
+        cost: [this.item.cost, [Validators.min(0)]],
         sex: [this.item.sex, Validators.required],
         brand:[this.item.brand],
         code: [this.item.code],
@@ -136,10 +137,8 @@ export class ItemUpdateComponent implements OnInit {
 
   onSubmit(){
     var data=this.is.setData();
-    console.log(data);
     if(this.form.valid){
       var data=this.is.setData();
-      console.log(data);
       var url=GlobalVariable.BASE_API_URL+"admin/updateItem/";
       this.http.post<Boolean>(url+this.item.id,data,{headers:this.headers}).
         subscribe(res=>{
@@ -190,7 +189,6 @@ export class ItemUpdateComponent implements OnInit {
 
 
   addSavedSize(sizes: any[]): FormGroup[]{
-    console.log(sizes);
     let sizeArray=[]
     if(sizes.length>0){
       for(let i=0; i<sizes.length;i++){

@@ -6,6 +6,7 @@ export class Item{
     description!: string;
     price!: number;
     discount!: number;
+    cost! : number;
     quantity!: number;
     discounted!: number;
     pictures!: Picture[];

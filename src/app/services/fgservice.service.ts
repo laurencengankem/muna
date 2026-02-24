@@ -27,6 +27,8 @@ export class ItemFormService{
             'description':this.form.controls['description'].value,
             'price':this.form.controls['price'].value,
             'discount':this.form.controls['discount'].value,
+            'cost':this.form.controls['cost'].value,
+            'brand':this.form.controls['brand'].value,
             'category': this.form.controls['category'].value,
             'quantity':this.form.controls['quantity'].value
         }

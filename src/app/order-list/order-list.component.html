@@ -140,7 +140,7 @@
                                         }">{{ item.code }}</td>
                                     <td [ngClass]="{
                                           'text-success fw-bold d-none d-md-table-cell': item.description === 'Ajouté',
-                                          'text-danger fw-bold ': item.description === 'Rétiré'
+                                          'text-danger fw-bold  d-none d-md-table-cell': item.description === 'Rétiré'
                                         }">{{ item.item }}</td>
                                     <td [ngClass]="{
                                           'text-success fw-bold': item.description === 'Ajouté',
