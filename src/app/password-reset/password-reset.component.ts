@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -29,7 +29,7 @@ export class PasswordResetComponent implements OnInit {
       "email": this.fc.value
     }
     this.spinner.show();
-    this.http.post<Boolean>(`${GlobalVariable.BASE_API_URL}prelogin/passwordReset`, body).subscribe(res =>{
+    this.http.post<Boolean>(`${environment.apiUrl}prelogin/passwordReset`, body).subscribe(res =>{
       if(res){
         this.spinner.hide();
         (document.getElementById('link-message') as HTMLElement).innerHTML = 'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.';

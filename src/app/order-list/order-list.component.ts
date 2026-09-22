@@ -1,10 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
 import { SharedModule } from '../shared/shared.module';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
 
@@ -28,7 +28,6 @@ export class OrderListComponent implements OnInit {
   orderDateFilter=null;
   orderTotalFilter= null;
   orderOpFilter= null;
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") });
 
   constructor(private http: HttpClient, private userService: UserService,
         private toastr: ToastrService, private spinner: NgxSpinnerService, private router: Router){
@@ -40,7 +39,7 @@ export class OrderListComponent implements OnInit {
     this.userRole= localStorage.getItem("userRole");
 
     this.spinner.show();
-    this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderList",{headers:this.headers})
+    this.http.get<any>(environment.apiUrl+"operator/getOrderList")
     .subscribe(res=>{
       this.spinner.hide();
       this.orders=res;
@@ -54,7 +53,7 @@ export class OrderListComponent implements OnInit {
 
   openModal(order:any){
     this.order=order;
-    this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderItems/"+order.orderId,{headers:this.headers})
+    this.http.get<any>(environment.apiUrl+"operator/getOrderItems/"+order.orderId)
     .subscribe(res=>{
       this.orderItems=res.items;
       this.updatedItems = res.updates;
@@ -75,15 +74,15 @@ export class OrderListComponent implements OnInit {
 
     this.spinner.show();
 
-    this.http.get(GlobalVariable.BASE_API_URL + "admin/delete-order/" + this.order.orderId, 
-      { headers: this.headers, responseType: 'blob' }).subscribe(res=>{
+    this.http.get(environment.apiUrl + "admin/delete-order/" + this.order.orderId,
+      { responseType: 'blob' }).subscribe(res=>{
         this.spinner.hide();
         const button = document.getElementById('deleteModalClose');
         button?.click();
         if(res){
           this.toastr.success('Commande Effacée Avec Succès');
           setTimeout(()=>{
-            this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderList",{headers:this.headers})
+            this.http.get<any>(environment.apiUrl+"operator/getOrderList")
             .subscribe(res=>{
               this.orders=res;
               this.originalOrders=this.orders;
@@ -109,8 +108,8 @@ export class OrderListComponent implements OnInit {
   generateReceipt() {
     this.spinner.show();
     
-    this.http.get(GlobalVariable.BASE_API_URL + "operator/generate-receipt/" + this.order.orderId, 
-    { headers: this.headers, responseType: 'blob' }) // Specify responseType
+    this.http.get(environment.apiUrl + "operator/generate-receipt/" + this.order.orderId,
+    { responseType: 'blob' }) // Specify responseType
       .subscribe(
         res => {
           this.spinner.hide(); // Hide spinner on success

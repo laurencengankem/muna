@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { Country } from '../models/country.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
   form :FormGroup;
 
   constructor(public fb: FormBuilder, private http: HttpClient, private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService, private toastr: ToastrService
   ) {
     this.form= fb.group({
       'email':['',[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
@@ -70,13 +71,13 @@ export class RegisterComponent implements OnInit {
       }
       console.log(data)
       this.spinner.show();
-      this.http.post<Boolean>(GlobalVariable.BASE_API_URL+"prelogin/email/send",data).
+      this.http.post<Boolean>(environment.apiUrl+"prelogin/email/send",data).
         subscribe(res=>{
           if(res){
             this.spinner.hide();
             this.router.navigate(["/verification/"+this.form.get("email")?.value]);
           }
-          else alert("something went wrong. Retry later")
+          else this.toastr.error("something went wrong. Retry later")
         });
       
     }

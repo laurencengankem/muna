@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,10 +57,9 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
+
     this.spinner.show();
-    this.http.get<any>(GlobalVariable.BASE_API_URL+"item/getDashboardStats")
+    this.http.get<any>(environment.apiUrl+"item/getDashboardStats")
     .subscribe(data => {
       this.spinner.hide();
       //console.log(data);

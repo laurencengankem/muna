@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
@@ -34,7 +34,7 @@ export class VerificationComponent implements OnInit {
       "code":this.fc.value
     }
     this.spinner.show();
-    this.http.post<Boolean>(GlobalVariable.BASE_API_URL+"prelogin/email/validation",data).
+    this.http.post<Boolean>(environment.apiUrl+"prelogin/email/validation",data).
       subscribe(res=>{
         if(res){
           this.spinner.hide();
@@ -57,7 +57,7 @@ export class VerificationComponent implements OnInit {
         "password":password
       }
       this.spinner.show();
-      this.http.post<Boolean>(GlobalVariable.BASE_API_URL+"prelogin/email/send",data).
+      this.http.post<Boolean>(environment.apiUrl+"prelogin/email/send",data).
         subscribe(res=>{
           if(res)
             this.spinner.hide()

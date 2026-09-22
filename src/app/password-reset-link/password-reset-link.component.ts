@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -49,7 +49,7 @@ export class PasswordResetLinkComponent implements OnInit {
         "code": this.code
       }
       this.spinner.show();
-      this.http.post<Boolean>(`${GlobalVariable.BASE_API_URL}prelogin/passwordChange`, body).subscribe(res =>{
+      this.http.post<Boolean>(`${environment.apiUrl}prelogin/passwordChange`, body).subscribe(res =>{
         let pswChg:HTMLElement =(document.getElementById('password-change') as HTMLElement);
         this.spinner.hide();
         if(res){

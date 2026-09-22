@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { CartService } from '../services/cart.service';
 import { UserService } from '../services/user.service';
@@ -45,7 +45,7 @@ export class CartComponent implements OnInit {
     if(this.datas!=null && this.datas.length>0){
       this.spinner.show();
       var body={"data":JSON.stringify(this.datas)};
-      this.http.post<any>(GlobalVariable.BASE_API_URL+"item/getCartItems",body).
+      this.http.post<any>(environment.apiUrl+"item/getCartItems",body).
       subscribe(result=>{
         this.spinner.hide();
         this.datas=result;
@@ -114,7 +114,7 @@ export class CartComponent implements OnInit {
   }
 
   viewDetails(n:number){
-    window.location.href='/itemdetails/'+this.datas[n].id;
+    this.router.navigate(['/itemdetails/'+this.datas[n].id]);
   }
 
   deleteElement(n:number){

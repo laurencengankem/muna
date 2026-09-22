@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../models/item.model';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CardItemComponent } from '../card-item/card-item.component';
@@ -85,9 +85,9 @@ export class ResultsComponent implements OnInit {
     localStorage.setItem("lastUrl",'other')
     this.spinner.show();
 
-    var URL= GlobalVariable.BASE_API_URL+"item/getItemsList"
+    var URL= environment.apiUrl+"item/getItemsList"
     if(this.sex!=null && this.category!=null){
-      URL= GlobalVariable.BASE_API_URL+"item/"+this.sex+"/"+this.category;
+      URL= environment.apiUrl+"item/"+this.sex+"/"+this.category;
     }
     
     this.http.get<Item[]>(URL).
@@ -121,7 +121,7 @@ export class ResultsComponent implements OnInit {
     (elmt1 as HTMLElement).style.display='none';
     let elmt2= document.getElementById("cnx");
     console.log(data);
-    this.http.post<Item[]>(GlobalVariable.BASE_API_URL+"item/searchItems",{"txt":data}).
+    this.http.post<Item[]>(environment.apiUrl+"item/searchItems",{"txt":data}).
     subscribe(
       res=> {
         this.items=res;

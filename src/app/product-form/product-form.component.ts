@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GlobalVariable } from '../global/global';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-product-form',
@@ -22,9 +22,7 @@ export class ProductFormComponent implements OnInit {
   Base64String: any=null;
   productCode: any|null = null;
 
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
-
-  constructor(private fb: FormBuilder,private toastr:ToastrService, 
+  constructor(private fb: FormBuilder,private toastr:ToastrService,
     private spinner: NgxSpinnerService, private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -41,8 +39,8 @@ export class ProductFormComponent implements OnInit {
       sizes: this.fb.array([this.createSize()])
     });
 
-    var url= GlobalVariable.BASE_API_URL+"operator/getNextCode";
-    this.http.get<any>(url,{headers:this.headers}).subscribe(res=>{
+    var url= environment.apiUrl+"operator/getNextCode";
+    this.http.get<any>(url).subscribe(res=>{
       this.productCode=res.code;
       this.clothProductForm.patchValue({code: this.productCode});
       //this.clothProductForm.controls['code'].disable();
@@ -77,9 +75,9 @@ export class ProductFormComponent implements OnInit {
     if (this.clothProductForm.valid) {
       //console.log('Product saved:', this.clothProductForm.value);
 
-      var url=GlobalVariable.BASE_API_URL+"operator/addItem";
+      var url=environment.apiUrl+"operator/addItem";
       this.spinner.show();
-      this.http.post<Boolean>(url, this.clothProductForm.value,{headers:this.headers}).
+      this.http.post<Boolean>(url, this.clothProductForm.value).
         subscribe(res=>{
           console.log(res);
           this.spinner.hide();
@@ -115,8 +113,8 @@ export class ProductFormComponent implements OnInit {
         "name":(this.selectedFile as File).name
 
       }
-      var url=GlobalVariable.BASE_API_URL+"operator/uploadPictures";
-      this.http.post<Boolean>(url,data,  {headers:this.headers}).
+      var url=environment.apiUrl+"operator/uploadPictures";
+      this.http.post<Boolean>(url,data).
         subscribe(res => {
           //this.ngOnInit();
           if(document.getElementById("myFile")!=null)

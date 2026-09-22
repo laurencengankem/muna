@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,8 @@ intervalId: any;
 
   public orderPageNum= new BehaviorSubject<number>(1);
   public loggedUser= new BehaviorSubject<any>(localStorage.getItem('username'));
-  constructor() { }
+  public userRole= new BehaviorSubject<string>(localStorage.getItem('userRole') || '');
+  constructor(private router: Router, private toastr: ToastrService) { }
 
   isUserlogged():boolean{
     var token= localStorage.getItem("access_token");
@@ -44,10 +47,18 @@ intervalId: any;
     this.loggedUser.next(user);
   }
 
+  getUserRole(){
+    return this.userRole.asObservable();
+  }
+
+  setUserRole(role: string){
+    this.userRole.next(role);
+  }
+
   checkLogin(){
     if (!this.isUserlogged()) {
-      alert("Session has expired")
-      window.location.href="login";
+      this.toastr.error("Session has expired");
+      this.router.navigate(['/login']);
     }
   }
   

@@ -2,7 +2,7 @@ import { HttpBackend, HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, TitleStrategy } from '@angular/router';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { CartService } from '../services/cart.service';
 import { ItemService } from '../services/item.service';
@@ -44,7 +44,7 @@ export class ItemDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     var id= <number> <unknown>this.route.snapshot.paramMap.get('id');
-    var url=GlobalVariable.BASE_API_URL+"item/searchItems/"
+    var url=environment.apiUrl+"item/searchItems/"
     this.spinner.show();
     this.http.get<Item>(url+id).
       subscribe(it=>
@@ -119,7 +119,7 @@ export class ItemDetailsComponent implements OnInit {
       
     }
     else{
-      alert("select the number of item you desire");
+      this.toastr.error("select the number of item you desire");
     }
   }
 

@@ -1,11 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup,FormBuilder, Validators } from '@angular/forms'
 import { Observable } from 'rxjs/internal/Observable';
+import { Router } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { ProductFormComponent } from '../product-form/product-form.component';
 
 
@@ -26,13 +28,13 @@ export class ItemListComponent implements OnInit {
   JsonString: string='';
   b:boolean= false;
   page=1;
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
 
   @ViewChild('myFile')
   myInputFile!: ElementRef;
   userRole: any='';
 
-  constructor(public fb: FormBuilder, public http:HttpClient, private spinner: NgxSpinnerService) { 
+  constructor(public fb: FormBuilder, public http:HttpClient, private spinner: NgxSpinnerService,
+    private router: Router, private toastr: ToastrService) {
     this.form= fb.group({
       'name':['',Validators.required],
       'description':['',Validators.required],
@@ -46,7 +48,7 @@ export class ItemListComponent implements OnInit {
   ngOnInit(): void {
     this.userRole=localStorage.getItem("userRole");
     if(this.userRole!="ADMIN" && this.userRole!="OPERATOR"){
-      window.location.href='/login';
+      this.router.navigate(['/login']);
     }
     this.loadItems();
   }
@@ -63,7 +65,7 @@ export class ItemListComponent implements OnInit {
 
   send(){
     if(!this.form.valid){
-      alert("fill the required fields correctly");
+      this.toastr.error("fill the required fields correctly");
     }
     else{
       var data={
@@ -75,21 +77,21 @@ export class ItemListComponent implements OnInit {
       'quantity':this.form.controls['quantity'].value
       }
       console.log(data['quantity']);
-      var url=GlobalVariable.BASE_API_URL+"admin/addItem";
-      this.http.post<Boolean>(url,data,{headers:this.headers}).
+      var url=environment.apiUrl+"admin/addItem";
+      this.http.post<Boolean>(url,data).
         subscribe(res=>{
           console.log(res);
           if(res){
-            alert('item correctly added');
+            this.toastr.success('item correctly added');
             this.ngOnInit();
           }
         });
     }
-    
+
   }
 
   loadItems(){
-    var url=GlobalVariable.BASE_API_URL+"item/getAllItems";
+    var url=environment.apiUrl+"item/getAllItems";
     this.spinner.show();
     this.http.get<Item[]>(url).subscribe(res=>
       {
@@ -101,7 +103,7 @@ export class ItemListComponent implements OnInit {
 
   edit(item:Item){
     console.log(item);
-    window.location.href='/itemupdate/' + item.id;
+    this.router.navigate(['/itemupdate/' + item.id]);
   }
 
   onFileSelected(event: any): void{
@@ -120,7 +122,7 @@ export class ItemListComponent implements OnInit {
 
   onUpload(){
     var body={"items":this.JsonString};
-    this.http.post<any>(GlobalVariable.BASE_API_URL+"admin/item/addItemList",body).
+    this.http.post<any>(environment.apiUrl+"admin/item/addItemList",body).
     subscribe(res=>{
       console.log(res.msg);
       (document.getElementById("msg") as HTMLElement).style.color='green';
@@ -140,7 +142,7 @@ export class ItemListComponent implements OnInit {
       "txt":val
     }
     this.spinner.show();
-    this.http.post<Item[]>(GlobalVariable.BASE_API_URL+"item/searchAllItems",body).
+    this.http.post<Item[]>(environment.apiUrl+"item/searchAllItems",body).
     subscribe(
       res=>{this.items=res;this.spinner.hide(); this.page=1},
       error=>{this.spinner.hide();}

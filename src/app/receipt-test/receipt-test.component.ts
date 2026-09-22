@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GlobalVariable } from '../global/global';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
@@ -19,9 +19,6 @@ export class ReceiptTestComponent  {
   width: Number=167;
   size: Number= 5.5;
 
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
-
-
   constructor(private http: HttpClient,private route: ActivatedRoute, private userService: UserService,
     private toastr: ToastrService, private spinner: NgxSpinnerService){
 
@@ -35,7 +32,7 @@ export class ReceiptTestComponent  {
    }
 
     this.spinner.show();
-      this.http.post<any>(GlobalVariable.BASE_API_URL+"operator/testImage",body,{headers:this.headers, responseType: 'blob' as 'json'})
+      this.http.post<any>(environment.apiUrl+"operator/testImage",body,{responseType: 'blob' as 'json'})
       .subscribe(res=>{
           this.spinner.hide();
           this.toastr.success('Image générée avec succès!')

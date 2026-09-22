@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GlobalVariable } from '../global/global';
+import { environment } from '../../environments/environment';
 import { UserService } from './user.service';
 import { ItemNumberService } from './itemnumber.service';
 
@@ -14,8 +14,7 @@ export class CartService {
   public cartItemList: any=[];
   public cartItemNumber= new BehaviorSubject<number>(0);
   public ItemsList = new BehaviorSubject<any>([]);
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
-  
+
   constructor(private http: HttpClient,private userService: UserService,private itemNumberService: ItemNumberService) {
     var data= localStorage.getItem('cart');
         if(data){
@@ -99,38 +98,35 @@ export class CartService {
 
   updateUserRemoteCart(): Observable<boolean>|null{
     if(this.userService.isUserlogged()){
-      const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       var body={
         "username":this.userService.getUser(),
         "cartData": JSON.stringify(this.cartItemList)
       }
-      return  this.http.post<any>(GlobalVariable.BASE_API_URL+"user/update-userCart",body,{headers})
+      return  this.http.post<any>(environment.apiUrl+"user/update-userCart",body)
     }
     else return null;
-    
+
   }
 
   getUserRemoteCart():Observable<any[]>|null{
     if(this.userService.isUserlogged()){
-      const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       var user=this.userService.getUser();
-      return this.http.get<any[]>(GlobalVariable.BASE_API_URL+"user/get-userCart/"+user,{headers})
-      
+      return this.http.get<any[]>(environment.apiUrl+"user/get-userCart/"+user)
+
     }
     else return null;
-    
+
   }
 
   CompleteOrder(): Observable<any>|null{
     if(this.userService.isUserlogged()){
-      const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       var body={
         "username":this.userService.getUser(),
         "cartData": JSON.stringify(this.cartItemList)
       }
-      return  this.http.post<any>(GlobalVariable.BASE_API_URL+"user/initialize-order",body,{headers})
+      return  this.http.post<any>(environment.apiUrl+"user/initialize-order",body)
     }
     else return null;
-    
+
   }
 }

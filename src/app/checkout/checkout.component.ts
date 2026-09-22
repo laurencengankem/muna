@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GlobalVariable } from '../global/global';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
@@ -31,7 +31,6 @@ export class CheckoutComponent implements OnInit{
   products: any[]= [];
   oldProducts: any[]= [];
 
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
   searching= false;
   notFound= false;
   found=false;
@@ -58,7 +57,7 @@ export class CheckoutComponent implements OnInit{
       this.return = true;
       this.route.queryParams.subscribe(params => {
         const orderId = params['orderId'];
-        this.http.get<any>(GlobalVariable.BASE_API_URL+"operator/getOrderItems/"+orderId,{headers:this.headers})
+        this.http.get<any>(environment.apiUrl+"operator/getOrderItems/"+orderId)
         .subscribe(res=>{
           res.items.forEach((it:any) =>{
             console.log(it);
@@ -76,7 +75,7 @@ export class CheckoutComponent implements OnInit{
 
   ngOnInit(): void {
     if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
-      window.location.href='/login';
+      this.router.navigate(['/login']);
     }
   }
 
@@ -95,9 +94,9 @@ export class CheckoutComponent implements OnInit{
     var data={
       code: this.productCode
     }
-    var url=GlobalVariable.BASE_API_URL+"item/searchItemByCode";
+    var url=environment.apiUrl+"item/searchItemByCode";
     setTimeout(() => {
-      this.http.post<any>(url,data,  {headers:this.headers}).
+      this.http.post<any>(url,data).
       subscribe(res => {
         if(res != null){
           this.searching=false;
@@ -169,14 +168,14 @@ export class CheckoutComponent implements OnInit{
   submit(){
     this.errorsMsg=[];
     const data= this.groupAndSumProducts(this.products);
-    const url=GlobalVariable.BASE_API_URL+"operator/validate-checkout";
+    const url=environment.apiUrl+"operator/validate-checkout";
     this.spinner.show();
     var body={
       items: data,
       discount: this.discount
     }
     console.log(body);
-    this.http.post<any>(url,body,  {headers:this.headers}).subscribe(res => {
+    this.http.post<any>(url,body).subscribe(res => {
       this.spinner.hide();
       if(res.status==400){
         this.errorsMsg= res.messages;
@@ -273,7 +272,7 @@ export class CheckoutComponent implements OnInit{
     }
     console.log(body);
     this.spinner.show();
-     this.http.post<any>(GlobalVariable.BASE_API_URL+"operator/complete-checkout",body,{headers:this.headers})
+     this.http.post<any>(environment.apiUrl+"operator/complete-checkout",body)
      .subscribe(res=>{
           if(!this.return){
             this.products=[];
@@ -311,8 +310,8 @@ export class CheckoutComponent implements OnInit{
   generateReceiptImg(orderId:string) {
     this.spinner.show();
     
-    this.http.get(GlobalVariable.BASE_API_URL + "operator/generate-receipt/" + orderId, 
-    { headers: this.headers, responseType: 'blob' }) // Specify responseType
+    this.http.get(environment.apiUrl + "operator/generate-receipt/" + orderId,
+    { responseType: 'blob' }) // Specify responseType
       .subscribe(
         res => {
           this.spinner.hide(); // Hide spinner on success

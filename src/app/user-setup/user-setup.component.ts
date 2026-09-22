@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GlobalVariable } from '../global/global';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -25,7 +26,7 @@ export class UserSetupComponent implements OnInit {
   notCoinciding= true;
 
 
-  constructor(private http: HttpClient, private fb: FormBuilder,
+  constructor(private http: HttpClient, private router: Router, private fb: FormBuilder,
     private toast: ToastrService, private spinner: NgxSpinnerService) {
 
       this.userForm = this.fb.group({
@@ -40,36 +41,34 @@ export class UserSetupComponent implements OnInit {
     
   ngOnInit(): void {
     if(localStorage.getItem("userRole")!="ADMIN"){
-      window.location.href='/login';
+      this.router.navigate(['/login']);
     }
-    var url=GlobalVariable.BASE_API_URL+"admin/getUserList"
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
+    var url=environment.apiUrl+"admin/getUserList"
     this.spinner.show();
-    this.http.get<any>(url,{headers}).subscribe(res=>{
+    this.http.get<any>(url).subscribe(res=>{
       this.users=res;
       this.spinner.hide();
     }, error=>{this.spinner.hide();});
- 
+
   }
 
   switchUserStatus(user: any): void {
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       this.spinner.show();
       var body={
         email: user.username
       }
-      this.http.post<any>(GlobalVariable.BASE_API_URL+"admin/update-user-status",body,{headers})
+      this.http.post<any>(environment.apiUrl+"admin/update-user-status",body)
       .subscribe(res=>{
         this.spinner.hide();
         if(res){
           this.toast.success('Utilisateur ajourné correctement');
-          var url=GlobalVariable.BASE_API_URL+"admin/getUserList"
+          var url=environment.apiUrl+"admin/getUserList"
           this.spinner.show();
-          this.http.get<any>(url,{headers}).subscribe(res=>{
+          this.http.get<any>(url).subscribe(res=>{
             this.users=res;
             this.spinner.hide();
           }, error=>{this.spinner.hide();});
-          
+
         }else{
           this.toast.error('Oops! Quelque chose s\'est mal passée');
         }
@@ -78,11 +77,10 @@ export class UserSetupComponent implements OnInit {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
       this.spinner.show();
       var body={ email: this.emailAddress};
       body= {...body,...this.userForm.value}
-      this.http.post<any>(GlobalVariable.BASE_API_URL+"admin/editUserPassword",body,{headers})
+      this.http.post<any>(environment.apiUrl+"admin/editUserPassword",body)
       .subscribe(res=>{
         this.spinner.hide();
         if(res){
@@ -90,7 +88,6 @@ export class UserSetupComponent implements OnInit {
           const button = document.getElementById('modalClose');
           this.userForm.reset();
           button?.click();
-          //window.location.href='/home';
         }else{
           this.toast.error('Oups! Quelque chose s\'est mal passée');
         }

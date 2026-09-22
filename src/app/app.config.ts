@@ -2,24 +2,19 @@ import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } fr
 import { provideAnimations } from '@angular/platform-browser/animations'; // Import for animations
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { routes } from './app.routes';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { AuthInterceptor } from './shared/auth.interceptor';
+import { authInterceptor } from './shared/auth.interceptor';
 import { AppRouteReuseStrategy } from './shared/app-route-reuse.strategy';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), 
-    importProvidersFrom(HttpClientModule),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimations(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
     provideToastr({
       timeOut: 1500,
       positionClass: 'toast-top-center',

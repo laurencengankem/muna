@@ -49,13 +49,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.getCartItemNumber().subscribe(res=>this.numItems=res);
     this.userService.getLoggedUser().subscribe(res=> this.user=res);
+    this.userService.getUserRole().subscribe(res=> this.userRole=res);
     if(!this.userService.isUserlogged()){
       localStorage.removeItem('user');
       localStorage.removeItem('username');
       localStorage.removeItem("userRole");
       this.userService.setLoggedUser('');
+      this.userService.setUserRole('');
     }else{
-      this.userRole=localStorage.getItem("userRole");
+      this.userService.setUserRole(localStorage.getItem("userRole") || '');
     }
 
   }
@@ -65,12 +67,14 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-    
+
     localStorage.removeItem('access_token');
     localStorage.removeItem('cart');
+    localStorage.removeItem('userRole');
     this.userService.setLoggedUser('');
+    this.userService.setUserRole('');
     this.cartService.cartItemList=[];
     this.cartService.setCartItemNumber(0);
-    window.location.href='/home';
+    this.router.navigate(['/home']);
   }
 }

@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { GlobalVariable } from '../global/global';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { ItemFormService } from '../services/fgservice.service';
 import { SharedModule } from '../shared/shared.module';
@@ -32,14 +32,11 @@ export class ItemUpdateComponent implements OnInit {
   form: FormGroup;
   mainPhoto="";
   imageToDeleteIndex: number= 0;
- 
-  headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem("access_token") })
-
 
   @ViewChild('myFile')
   myInputFile!: ElementRef;
 
-  constructor(private http: HttpClient,public route: ActivatedRoute,private fb: FormBuilder ,private toastr:ToastrService, 
+  constructor(private http: HttpClient,public route: ActivatedRoute,private router: Router,private fb: FormBuilder ,private toastr:ToastrService,
     private spinner: NgxSpinnerService, private is: ItemFormService) {
      this.form= is.form;
      
@@ -49,12 +46,12 @@ export class ItemUpdateComponent implements OnInit {
   ngOnInit(): void {
 
     if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
-      window.location.href='/login';
+      this.router.navigate(['/login']);
     }
 
     var id= <number> <unknown>this.route.snapshot.paramMap.get('id');
 
-    var url=GlobalVariable.BASE_API_URL+"item/searchItems/"+id;
+    var url=environment.apiUrl+"item/searchItems/"+id;
     this.http.get<Item>(url).subscribe(res=>{
       this.item=res;
       this.loaded=true;
@@ -112,8 +109,8 @@ export class ItemUpdateComponent implements OnInit {
         "name":(this.selectedFile as File).name
 
       }
-      var url=GlobalVariable.BASE_API_URL+"operator/uploadPictures";
-      this.http.post<Boolean>(url,data,  {headers:this.headers}).
+      var url=environment.apiUrl+"operator/uploadPictures";
+      this.http.post<Boolean>(url,data).
         subscribe(res => {
           console.log(res);
           this.ngOnInit();
@@ -139,33 +136,33 @@ export class ItemUpdateComponent implements OnInit {
     var data=this.is.setData();
     if(this.form.valid){
       var data=this.is.setData();
-      var url=GlobalVariable.BASE_API_URL+"admin/updateItem/";
-      this.http.post<Boolean>(url+this.item.id,data,{headers:this.headers}).
+      var url=environment.apiUrl+"admin/updateItem/";
+      this.http.post<Boolean>(url+this.item.id,data).
         subscribe(res=>{
           if(res){
-            alert("Modifications Sauvegardées");
-            window.location.href='/itemslist'
+            this.toastr.success("Modifications Sauvegardées");
+            this.router.navigate(['/itemslist']);
           }
           else{
-            alert("Insérer des données valides");
-            
+            this.toastr.error("Insérer des données valides");
+
           }
         });
     }
     else
-      alert("Insérer des donneés valides");
+      this.toastr.error("Insérer des donneés valides");
     
   }
 
 
   delete(){
-    var url=GlobalVariable.BASE_API_URL+"admin/deleteItem/";
-    this.http.post<Boolean>(url+this.item.id,null,{headers:this.headers}).
+    var url=environment.apiUrl+"admin/deleteItem/";
+    this.http.post<Boolean>(url+this.item.id,null).
     subscribe(res=>{
       if(res){
         this.toastr.success("Modèle Effacé");
         setTimeout(()=>{
-          window.location.href='/catalog';
+          this.router.navigate(['/catalog']);
         },1500)
       }
       else this.toastr.error("Impossible d'effacer le modèle");
@@ -234,9 +231,9 @@ export class ItemUpdateComponent implements OnInit {
     if (this.clothProductForm.valid) {
       console.log('Product updated:', this.clothProductForm.value);
 
-      var url=GlobalVariable.BASE_API_URL+"admin/updateItem/"+this.item.id;
+      var url=environment.apiUrl+"admin/updateItem/"+this.item.id;
       this.spinner.show();
-      this.http.post<Boolean>(url,this.clothProductForm.value,{headers:this.headers}).
+      this.http.post<Boolean>(url,this.clothProductForm.value).
         subscribe(res=>{
           console.log(res);
           this.spinner.hide();
@@ -263,7 +260,7 @@ export class ItemUpdateComponent implements OnInit {
       "url":this.item.pictures[this.imageToDeleteIndex].url
     }
     this.spinner.show();
-    this.http.post<Boolean>(GlobalVariable.BASE_API_URL+'admin/deletePicture',data,{headers:this.headers}).
+    this.http.post<Boolean>(environment.apiUrl+'admin/deletePicture',data).
       subscribe(res=>
         {
           console.log(res);
@@ -276,9 +273,9 @@ export class ItemUpdateComponent implements OnInit {
   }
 
   updateMain(i:number){
-    var url= GlobalVariable.BASE_API_URL+"admin/updateMainPicture/"+this.item.id+"/";
+    var url= environment.apiUrl+"admin/updateMainPicture/"+this.item.id+"/";
     if(this.item.pictures[i].tag!="MAIN"){
-      this.http.get<Boolean>(url+this.item.pictures[i].id,{headers:this.headers}).
+      this.http.get<Boolean>(url+this.item.pictures[i].id).
       subscribe(res=>console.log(res));
     }
     this.mainPhoto=this.item.pictures[i].url;
