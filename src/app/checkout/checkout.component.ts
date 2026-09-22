@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CustomCurrencyPipe } from '../shared/customPipe';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, FormsModule, CustomCurrencyPipe],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })

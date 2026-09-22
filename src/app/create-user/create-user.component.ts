@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })

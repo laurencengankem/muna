@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-receipt-test',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FormsModule],
   templateUrl: './receipt-test.component.html',
   styleUrl: './receipt-test.component.css'
 })

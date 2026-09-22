@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +11,7 @@ import { environment } from '../../environments/environment';
   standalone: true,
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css'],
-  imports: [SharedModule],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ProductFormComponent implements OnInit {
   clothProductForm!: FormGroup;

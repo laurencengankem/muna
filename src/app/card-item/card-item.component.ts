@@ -1,15 +1,16 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Item } from '../models/item.model';
-import { SharedModule } from '../shared/shared.module';
 import { CartService } from '../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
   selector: 'app-card-item',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, CustomCurrencyPipe],
   templateUrl: './card-item.component.html',
   styleUrl: './card-item.component.css',
   providers: []

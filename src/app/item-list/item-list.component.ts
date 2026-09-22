@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup,FormBuilder, Validators } from '@angular/forms'
-import { Observable } from 'rxjs/internal/Observable';
+import { FormGroup,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
 import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ProductFormComponent } from '../product-form/product-form.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-item-list',
   standalone: true,
-  imports: [SharedModule,ProductFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, ProductFormComponent],
   templateUrl: './item-list.component.html',
   styleUrl: './item-list.component.css'
 })

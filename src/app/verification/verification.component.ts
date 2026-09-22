@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-verification',
   standalone: true,
-  imports: [SharedModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './verification.component.html',
   styleUrl: './verification.component.css'
 })

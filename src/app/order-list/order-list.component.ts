@@ -1,17 +1,20 @@
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
-import { SharedModule } from '../shared/shared.module';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
   selector: 'app-order-list',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, FormsModule, NgxPaginationModule, CustomCurrencyPipe],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.css'
 })

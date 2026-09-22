@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { CartService } from '../services/cart.service';
 import { UserService } from '../services/user.service';
-import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, CustomCurrencyPipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
   providers: []

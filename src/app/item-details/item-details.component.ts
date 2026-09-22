@@ -1,21 +1,21 @@
-import { HttpBackend, HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, TitleStrategy } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Item } from '../models/item.model';
 import { CartService } from '../services/cart.service';
-import { ItemService } from '../services/item.service';
-import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
+import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
   selector: 'app-item-details',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CommonModule, FormsModule, CustomCurrencyPipe],
   templateUrl: './item-details.component.html',
   styleUrl: './item-details.component.css',
   providers: []
@@ -86,7 +86,7 @@ export class ItemDetailsComponent implements OnInit {
         for(i=0;i<datas.length;i++){
           if(datas[i]["id"]==this.item.id && this.quantity.value && datas[i]["requestedSize"]===this.selectedSize){
             var n1=datas[i]["quantity"];
-            var total= parseInt(n1)+1;
+            var total= n1+1;
             datas[i]["quantity"]=total;
             datas[i]["total"]=total*datas[i]["discounted"];
             b=1;
@@ -97,7 +97,7 @@ export class ItemDetailsComponent implements OnInit {
           console.log(this.item.sizes)
           datas.push({
             "id":this.item.id,
-            "quantity":this.quantity.value,
+            "quantity":this.quantity.value ?? 1,
             "name":this.item.name,
             "photo": this.photo,
             "price":this.price,

@@ -1,18 +1,19 @@
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../models/item.model';
 import { environment } from '../../environments/environment';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardItemComponent } from '../card-item/card-item.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [SharedModule, CardItemComponent],
+  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, CardItemComponent],
   templateUrl: './results.component.html',
   styleUrl: './results.component.css'
 })

@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [SharedModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.css'
 })

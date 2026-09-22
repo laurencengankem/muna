@@ -1,5 +1,4 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations'; // Import for animations
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -14,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideAnimations(),
     provideToastr({
       timeOut: 1500,
       positionClass: 'toast-top-center',
@@ -22,7 +20,7 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: true,
       maxOpened: 1
-    }), 
+    }),
     provideAnimationsAsync(),
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
     importProvidersFrom(NgxEchartsModule.forRoot({ echarts: () => import('echarts') })),
