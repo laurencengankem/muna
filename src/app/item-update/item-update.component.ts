@@ -45,10 +45,6 @@ export class ItemUpdateComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
-      this.router.navigate(['/login']);
-    }
-
     var id= <number> <unknown>this.route.snapshot.paramMap.get('id');
 
     var url=environment.apiUrl+"item/searchItems/"+id;

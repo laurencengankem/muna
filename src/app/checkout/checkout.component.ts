@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
-export class CheckoutComponent implements OnInit{
+export class CheckoutComponent {
 
   productCode:any=null;
   searchedProcduct: any=undefined;
@@ -70,12 +70,6 @@ export class CheckoutComponent implements OnInit{
           this.oldTotal= res.paid;
         })
       });
-    }
-  }
-
-  ngOnInit(): void {
-    if(localStorage.getItem("userRole")!="ADMIN" && localStorage.getItem("userRole")!="OPERATOR"){
-      this.router.navigate(['/login']);
     }
   }
 

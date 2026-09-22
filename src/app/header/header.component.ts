@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from '../services/cart.service';
-import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 import { SharedModule } from '../shared/shared.module';
+import { UserRole } from '../models/auth.model';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   numItems=0;
   user= ""
-  userRole: any="";
+  userRole: UserRole="";
 
   categoriesBoy = [
     { name: 'Chaussures', route: 'products/male/chaussure' },
@@ -39,27 +40,17 @@ export class HeaderComponent implements OnInit {
   ];
 
   allCategoryFemale = { name: 'Tout', route: 'products/female/tout' };
-  
 
 
-  constructor(private router: Router, private cartService: CartService, private userService: UserService){
-    
+
+  constructor(private router: Router, private cartService: CartService, private authService: AuthService){
+
   }
 
   ngOnInit(): void {
     this.cartService.getCartItemNumber().subscribe(res=>this.numItems=res);
-    this.userService.getLoggedUser().subscribe(res=> this.user=res);
-    this.userService.getUserRole().subscribe(res=> this.userRole=res);
-    if(!this.userService.isUserlogged()){
-      localStorage.removeItem('user');
-      localStorage.removeItem('username');
-      localStorage.removeItem("userRole");
-      this.userService.setLoggedUser('');
-      this.userService.setUserRole('');
-    }else{
-      this.userService.setUserRole(localStorage.getItem("userRole") || '');
-    }
-
+    this.authService.currentUser$.subscribe(res=> this.user=res);
+    this.authService.userRole$.subscribe(res=> this.userRole=res);
   }
 
   goToCart(){
@@ -67,14 +58,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-
-    localStorage.removeItem('access_token');
     localStorage.removeItem('cart');
-    localStorage.removeItem('userRole');
-    this.userService.setLoggedUser('');
-    this.userService.setUserRole('');
     this.cartService.cartItemList=[];
     this.cartService.setCartItemNumber(0);
-    this.router.navigate(['/home']);
+    this.authService.logout('/home');
   }
 }

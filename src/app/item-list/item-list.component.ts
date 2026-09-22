@@ -47,9 +47,6 @@ export class ItemListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole=localStorage.getItem("userRole");
-    if(this.userRole!="ADMIN" && this.userRole!="OPERATOR"){
-      this.router.navigate(['/login']);
-    }
     this.loadItems();
   }
 

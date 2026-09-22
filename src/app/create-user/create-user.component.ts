@@ -1,9 +1,8 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -16,12 +15,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent {
 
   userForm: FormGroup;
   notCoinciding= true;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,
+  constructor(private fb: FormBuilder, private http: HttpClient,
     private toast: ToastrService, private spinner: NgxSpinnerService) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -31,12 +30,6 @@ export class CreateUserComponent implements OnInit {
       password: ['',[Validators.required,Validators.minLength(6)]],
       repeat: ['',[Validators.required,Validators.minLength(6)]]
     });
-  }
-
-  ngOnInit(): void {
-    if(localStorage.getItem("userRole")!="ADMIN"){
-      this.router.navigate(['/login']);
-    }
   }
 
   onSubmit(): void {

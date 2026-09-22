@@ -1,14 +1,11 @@
-import {  HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { GlobalVariable } from '../global/global';
-import { environment } from '../../environments/environment';
-import { UserService } from '../services/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +20,8 @@ export class LoginComponent implements OnInit {
   error= false;
 
   constructor(private title: Title,private meta:Meta,
-    private fb: FormBuilder, private http: HttpClient, private router: Router,
-    private userService: UserService,
+    private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
+    private authService: AuthService,
     private spinner: NgxSpinnerService, private toastr: ToastrService) {
     this.title.setTitle("Login page");
     this.meta.updateTag({name:"keywords",content:"kulvida,kuvidaApp"});
@@ -40,32 +37,25 @@ export class LoginComponent implements OnInit {
 
   log(){
     if(this.form.valid){
-      var body={
-        "username": this.form.controls["username"].value,
-        "password": this.form.controls["password"].value
-      }
+      const username: string = this.form.controls['username'].value;
+      const password: string = this.form.controls['password'].value;
       this.spinner.show()
-      this.http.post<any>(environment.apiUrl+"authenticate",body).
-      subscribe(res=> {
-        if(res.jwttoken!=null){
-          localStorage.setItem("userRole",res.role);
-          localStorage.setItem("access_token",res.jwttoken);
-          localStorage.setItem("token_time",((new Date()).getTime()+GlobalVariable.LOGIN_DURATION).toString());
-          localStorage.setItem("user",body["username"]);
-          this.userService.setLoggedUser(body["username"].split("@")[0])
-          localStorage.setItem("username",body["username"].split("@")[0]);
-          this.userService.setUserRole(res.role);
-
-          this.router.navigate(['/']);
-          this.spinner.hide()
-        }
-
-        else if(res==null || res.jwttoken==null){
-          this.error=true;
+      this.authService.login(username, password).subscribe({
+        next: res => {
           this.spinner.hide();
+          if(res.jwttoken!=null){
+            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+            this.router.navigateByUrl(returnUrl || '/');
+          }
+          else{
+            this.error=true;
+          }
+        },
+        error: () => {
+          this.spinner.hide();
+          this.toastr.error('Something went wrong');
         }
-
-      }, error=>{this.spinner.hide(); this.toastr.error('Something went wrong'); });
+      });
 
     }
     else{
@@ -74,7 +64,6 @@ export class LoginComponent implements OnInit {
       else if(!this.form.controls['username'].valid)
         this.toastr.error("The Username input should be filled");
     }
-    
+
   }
 }
-

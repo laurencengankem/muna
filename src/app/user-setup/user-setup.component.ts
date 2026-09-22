@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -26,7 +25,7 @@ export class UserSetupComponent implements OnInit {
   notCoinciding= true;
 
 
-  constructor(private http: HttpClient, private router: Router, private fb: FormBuilder,
+  constructor(private http: HttpClient, private fb: FormBuilder,
     private toast: ToastrService, private spinner: NgxSpinnerService) {
 
       this.userForm = this.fb.group({
@@ -40,9 +39,6 @@ export class UserSetupComponent implements OnInit {
   }
     
   ngOnInit(): void {
-    if(localStorage.getItem("userRole")!="ADMIN"){
-      this.router.navigate(['/login']);
-    }
     var url=environment.apiUrl+"admin/getUserList"
     this.spinner.show();
     this.http.get<any>(url).subscribe(res=>{

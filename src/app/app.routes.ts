@@ -16,7 +16,10 @@ import { UserSetupComponent } from './user-setup/user-setup.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ReceiptTestComponent } from './receipt-test/receipt-test.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { roleGuard } from './shared/role.guard';
 
+const STAFF_ROLES = ['ADMIN', 'OPERATOR'];
+const ADMIN_ROLES = ['ADMIN'];
 
 export const routes: Routes = [
     { path:'',component: HomeComponent},
@@ -28,14 +31,14 @@ export const routes: Routes = [
     { path:'products',component: ResultsComponent},
     { path: 'itemdetails/:id', component: ItemDetailsComponent},
     { path: 'cart', component: CartComponent},
-    { path: 'checkout/:mode', component: CheckoutComponent},
-    { path: 'orderList', component: OrderListComponent},
-    { path:'catalog', component: ItemListComponent},
-    { path:'create-user', component: CreateUserComponent},
-    { path:'user-setup', component: UserSetupComponent},
-    { path: 'itemupdate/:id', component: ItemUpdateComponent},
+    { path: 'checkout/:mode', component: CheckoutComponent, canActivate: [roleGuard], data: { roles: STAFF_ROLES } },
+    { path: 'orderList', component: OrderListComponent, canActivate: [roleGuard], data: { roles: STAFF_ROLES } },
+    { path:'catalog', component: ItemListComponent, canActivate: [roleGuard], data: { roles: STAFF_ROLES } },
+    { path:'create-user', component: CreateUserComponent, canActivate: [roleGuard], data: { roles: ADMIN_ROLES } },
+    { path:'user-setup', component: UserSetupComponent, canActivate: [roleGuard], data: { roles: ADMIN_ROLES } },
+    { path: 'itemupdate/:id', component: ItemUpdateComponent, canActivate: [roleGuard], data: { roles: STAFF_ROLES } },
     { path: 'password/reset', component: PasswordResetComponent},
     { path: 'receipt', component: ReceiptTestComponent},
-    { path: 'dashboard', component: DashboardComponent},
+    { path: 'dashboard', component: DashboardComponent, canActivate: [roleGuard], data: { roles: ADMIN_ROLES } },
     { path: '**', component: HomeComponent}
 ];
