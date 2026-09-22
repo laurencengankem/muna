@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideToastr } from 'ngx-toastr';
 
 import { ProductFormComponent } from './product-form.component';
 
@@ -8,7 +10,8 @@ describe('ProductFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductFormComponent]
+      imports: [ProductFormComponent],
+      providers: [provideHttpClient(), provideToastr()]
     })
     .compileComponents();
 

@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { provideToastr } from 'ngx-toastr';
 
 import { VerificationComponent } from './verification.component';
 
@@ -8,7 +11,8 @@ describe('VerificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerificationComponent]
+      imports: [VerificationComponent],
+      providers: [provideHttpClient(), provideRouter([]), provideToastr()]
     })
     .compileComponents();
 

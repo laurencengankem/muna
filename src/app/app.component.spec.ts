@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { provideToastr } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [provideHttpClient(), provideRouter([]), provideToastr()]
     }).compileComponents();
   });
 
@@ -14,16 +18,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'muna' title`, () => {
+  it('should start with loading set to true', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('muna');
+    expect(app.loading).toBeTrue();
   });
 
-  it('should render title', () => {
+  it('should toggle loading when toggleLoading() is called', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, muna');
+    const app = fixture.componentInstance;
+    app.toggleLoading();
+    expect(app.loading).toBeFalse();
   });
 });

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideToastr } from 'ngx-toastr';
 
 import { UserSetupComponent } from './user-setup.component';
 
@@ -8,7 +10,8 @@ describe('UserSetupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserSetupComponent]
+      imports: [UserSetupComponent],
+      providers: [provideHttpClient(), provideToastr()]
     })
     .compileComponents();
 

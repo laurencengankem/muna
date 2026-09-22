@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { provideToastr } from 'ngx-toastr';
 
 import { ReceiptTestComponent } from './receipt-test.component';
 
@@ -8,7 +11,8 @@ describe('ReceiptTestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReceiptTestComponent]
+      imports: [ReceiptTestComponent],
+      providers: [provideHttpClient(), provideRouter([]), provideToastr()]
     })
     .compileComponents();
 
