@@ -7,11 +7,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
-  selector: 'app-password-reset',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './password-reset.component.html',
-  styleUrl: './password-reset.component.css'
+    selector: 'app-password-reset',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './password-reset.component.html',
+    styleUrl: './password-reset.component.css'
 })
 export class PasswordResetComponent implements OnInit {
 

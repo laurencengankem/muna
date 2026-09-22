@@ -12,11 +12,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
-  selector: 'app-item-list',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, ProductFormComponent],
-  templateUrl: './item-list.component.html',
-  styleUrl: './item-list.component.css'
+    selector: 'app-item-list',
+    imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, ProductFormComponent],
+    templateUrl: './item-list.component.html',
+    styleUrl: './item-list.component.css'
 })
 
 export class ItemListComponent implements OnInit {

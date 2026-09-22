@@ -9,11 +9,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
-  selector: 'app-create-user',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './create-user.component.html',
-  styleUrl: './create-user.component.css'
+    selector: 'app-create-user',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './create-user.component.html',
+    styleUrl: './create-user.component.css'
 })
 export class CreateUserComponent {
 

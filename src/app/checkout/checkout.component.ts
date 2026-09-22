@@ -10,11 +10,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CustomCurrencyPipe } from '../shared/customPipe';
 
 @Component({
-  selector: 'app-checkout',
-  standalone: true,
-  imports: [CommonModule, FormsModule, CustomCurrencyPipe],
-  templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.css'
+    selector: 'app-checkout',
+    imports: [CommonModule, FormsModule, CustomCurrencyPipe],
+    templateUrl: './checkout.component.html',
+    styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
 

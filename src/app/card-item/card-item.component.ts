@@ -8,12 +8,11 @@ import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
-  selector: 'app-card-item',
-  standalone: true,
-  imports: [CommonModule, CustomCurrencyPipe],
-  templateUrl: './card-item.component.html',
-  styleUrl: './card-item.component.css',
-  providers: []
+    selector: 'app-card-item',
+    imports: [CommonModule, CustomCurrencyPipe],
+    templateUrl: './card-item.component.html',
+    styleUrl: './card-item.component.css',
+    providers: []
 })
 
 export class CardItemComponent implements OnInit {

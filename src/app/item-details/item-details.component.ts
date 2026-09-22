@@ -13,12 +13,11 @@ import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
-  selector: 'app-item-details',
-  standalone: true,
-  imports: [CommonModule, FormsModule, CustomCurrencyPipe],
-  templateUrl: './item-details.component.html',
-  styleUrl: './item-details.component.css',
-  providers: []
+    selector: 'app-item-details',
+    imports: [CommonModule, FormsModule, CustomCurrencyPipe],
+    templateUrl: './item-details.component.html',
+    styleUrl: './item-details.component.css',
+    providers: []
 })
 
 export class ItemDetailsComponent implements OnInit {

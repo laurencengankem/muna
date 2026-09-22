@@ -7,11 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-product-form',
-  standalone: true,
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.css'],
-  imports: [CommonModule, ReactiveFormsModule],
+    selector: 'app-product-form',
+    templateUrl: './product-form.component.html',
+    styleUrls: ['./product-form.component.css'],
+    imports: [CommonModule, ReactiveFormsModule]
 })
 export class ProductFormComponent implements OnInit {
   clothProductForm!: FormGroup;

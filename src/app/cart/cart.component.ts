@@ -12,12 +12,11 @@ import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
-  selector: 'app-cart',
-  standalone: true,
-  imports: [CommonModule, CustomCurrencyPipe],
-  templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
-  providers: []
+    selector: 'app-cart',
+    imports: [CommonModule, CustomCurrencyPipe],
+    templateUrl: './cart.component.html',
+    styleUrl: './cart.component.css',
+    providers: []
 })
 export class CartComponent implements OnInit {
 

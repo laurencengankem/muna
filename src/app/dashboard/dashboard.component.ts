@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
-import { NgFor, NgIf, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -8,19 +8,18 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, FormsModule, NgxEchartsModule, NgFor, NgIf],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
-  providers: [
-    {
-      provide: NGX_ECHARTS_CONFIG,
-      useValue: {
-        echarts: () => import('echarts'), // Lazy-load ECharts
-      },
-    },
-  ],
+    selector: 'app-dashboard',
+    imports: [CommonModule, FormsModule, NgxEchartsModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css',
+    providers: [
+        {
+            provide: NGX_ECHARTS_CONFIG,
+            useValue: {
+                echarts: () => import('echarts'), // Lazy-load ECharts
+            },
+        },
+    ]
 })
 export class DashboardComponent implements OnInit {
   xAxisOptions = ['Jours', 'Semaines', 'Mois'];

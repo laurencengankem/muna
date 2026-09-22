@@ -12,11 +12,10 @@ import { CustomCurrencyPipe } from '../shared/customPipe';
 
 
 @Component({
-  selector: 'app-order-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule, NgxPaginationModule, CustomCurrencyPipe],
-  templateUrl: './order-list.component.html',
-  styleUrl: './order-list.component.css'
+    selector: 'app-order-list',
+    imports: [CommonModule, FormsModule, NgxPaginationModule, CustomCurrencyPipe],
+    templateUrl: './order-list.component.html',
+    styleUrl: './order-list.component.css'
 })
 export class OrderListComponent implements OnInit {
 

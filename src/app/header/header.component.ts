@@ -6,12 +6,11 @@ import { AuthService } from '../services/auth.service';
 import { UserRole } from '../models/auth.model';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
-  providers: []
+    selector: 'app-header',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css',
+    providers: []
 })
 export class HeaderComponent implements OnInit {
 

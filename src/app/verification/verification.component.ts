@@ -7,11 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-verification',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './verification.component.html',
-  styleUrl: './verification.component.css'
+    selector: 'app-verification',
+    imports: [ReactiveFormsModule],
+    templateUrl: './verification.component.html',
+    styleUrl: './verification.component.css'
 })
 export class VerificationComponent implements OnInit {
 

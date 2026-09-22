@@ -12,11 +12,10 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-item-update',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './item-update.component.html',
-  styleUrl: './item-update.component.css'
+    selector: 'app-item-update',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './item-update.component.html',
+    styleUrl: './item-update.component.css'
 })
 export class ItemUpdateComponent implements OnInit {
 

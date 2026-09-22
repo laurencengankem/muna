@@ -8,11 +8,10 @@ import { UserService } from '../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-receipt-test',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './receipt-test.component.html',
-  styleUrl: './receipt-test.component.css'
+    selector: 'app-receipt-test',
+    imports: [FormsModule],
+    templateUrl: './receipt-test.component.html',
+    styleUrl: './receipt-test.component.css'
 })
 export class ReceiptTestComponent  {
 

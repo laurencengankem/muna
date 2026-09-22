@@ -11,11 +11,10 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-password-reset-link',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './password-reset-link.component.html',
-  styleUrl: './password-reset-link.component.css'
+    selector: 'app-password-reset-link',
+    imports: [ReactiveFormsModule],
+    templateUrl: './password-reset-link.component.html',
+    styleUrl: './password-reset-link.component.css'
 })
 export class PasswordResetLinkComponent implements OnInit {
   form: FormGroup;

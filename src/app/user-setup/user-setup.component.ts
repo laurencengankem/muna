@@ -8,11 +8,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-user-setup',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
-  templateUrl: './user-setup.component.html',
-  styleUrl: './user-setup.component.css'
+    selector: 'app-user-setup',
+    imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
+    templateUrl: './user-setup.component.html',
+    styleUrl: './user-setup.component.css'
 })
 export class UserSetupComponent implements OnInit {
 

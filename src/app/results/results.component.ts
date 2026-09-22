@@ -11,11 +11,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
-  selector: 'app-results',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, CardItemComponent],
-  templateUrl: './results.component.html',
-  styleUrl: './results.component.css'
+    selector: 'app-results',
+    imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, CardItemComponent],
+    templateUrl: './results.component.html',
+    styleUrl: './results.component.css'
 })
 export class ResultsComponent implements OnInit {
 
