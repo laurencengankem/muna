@@ -1,9 +1,28 @@
 <div class="component-body">
-    <div id="verification">
-        <form (ngSubmit)="verify()">
-            Insert the code received &nbsp; <input type="text" id="code" [formControl]="fc" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-            <input type="submit" value="send">
-        </form>
-        <a href="javascript:void(0)" (click)="resend()">Resend the code</a>
-    </div>    
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+        <div class="card shadow-sm border-0 my-4 my-md-5">
+          <div class="card-body p-4 p-md-5">
+
+            <h1 class="page-title text-center">Vérification</h1>
+            <p class="text-center text-muted">Insert the code received</p>
+
+            <form (ngSubmit)="verify()">
+              <div class="mb-3">
+                <label for="code" class="form-label">Code</label>
+                <input type="text" id="code" class="form-control" [formControl]="fc" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+              </div>
+              <button type="submit" class="btn btn-success w-100">send</button>
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+              <a href="javascript:void(0)" (click)="resend()" class="link-success">Resend the code</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

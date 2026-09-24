@@ -1,5 +1,5 @@
 <div class="navbar-div">
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><strong class="text-white fs-3">MUNA</strong></a>
       <!-- <div *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'" class="nav-item d-block d-md-none">
@@ -13,15 +13,15 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto"> <!-- 'me-auto' pushes links to the left -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown me-lg-3">
             <a class="nav-link" href="/products" role="button" >
               Articles
             </a>
           </li>
-          <li>
+          <li class="nav-item me-lg-3">
             <a *ngIf="userRole=='ADMIN' ||  userRole=='OPERATOR'"  class="nav-link" href="/catalog">Catalogue</a>
           </li>
-          <li>
+          <li class="nav-item">
             <a  class="nav-link" href="/receipt">Test Reçu</a>
           </li>
           <!-- <li class="nav-item dropdown" *ngIf="userRole==!'ADMIN' && userRole==!'OPERATOR'">

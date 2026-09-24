@@ -1,18 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
+/* ==========================================================================
+   Design foundation (UI modernization)
+   Reusable tokens/conventions for the rest of the UI modernization to build
+   on. Colors are taken from the application's existing visual language and
+   from Bootstrap's own theme variables (already loaded via bootstrap.min.css)
+   rather than inventing a new palette.
 
+   Responsive convention: new rules in this section target Bootstrap's own
+   md breakpoint (768px) via `max-width: 767.98px`, not the ad hoc 700px
+   breakpoint used by existing per-component styles. Existing component media
+   queries are intentionally left as-is for now.
+   ========================================================================== */
+:root {
+  --brand-dark: #000000;
+  --surface: #ffffff;
+  --surface-accent: rgb(208, 229, 248);
+
+  /* Primary/destructive actions reuse Bootstrap's own success/danger colors
+     (already the de facto action colors across the app) instead of a new hue. */
+  --brand-primary: var(--bs-success);
+  --brand-primary-rgb: var(--bs-success-rgb);
+  --brand-danger: var(--bs-danger);
+
+  /* One intentional font stack: system fonts only, no external font request. */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Minimal type hierarchy: page titles / section titles / body / labels. */
+  --font-size-page-title: 1.75rem;
+  --font-size-section-title: 1.25rem;
+  --font-size-body: 1rem;
+  --font-size-label: 0.95rem;
+}
 
 body {
     display: block;
     height: 100vh;
     width: 100vw;
     overflow-x: hidden;
+    margin: 0;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     background-color: black;
-    font-family: 'Merriweather', sans-serif;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
   }
 
   .navbar{
@@ -115,10 +148,6 @@ body {
 
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
 @media screen and (max-width: 700px) {
 
 
@@ -130,4 +159,84 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     overflow-x: hidden;
 
   }
+}
+
+/* ==========================================================================
+   Page title convention
+   Use `.page-title` for the main heading of a page instead of each component
+   inventing its own heading size/weight/margin. Not yet applied to existing
+   pages (added here for the rest of the UI modernization to adopt).
+   ========================================================================== */
+.page-title {
+  font-size: var(--font-size-page-title);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: var(--font-size-section-title);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+label,
+.form-label {
+  font-size: var(--font-size-label);
+}
+
+/* ==========================================================================
+   Empty state
+   Reusable pattern for "no data" situations (empty cart, empty catalog, no
+   results, etc.): centered content, muted text, optional Bootstrap icon.
+   Not applied to any existing page yet.
+
+   Example usage:
+   <div class="empty-state">
+     <i class="bi bi-inbox"></i>
+     <p>Nothing to show yet.</p>
+   </div>
+   ========================================================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--bs-secondary-color);
+}
+
+.empty-state .bi {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--bs-secondary-color);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: var(--font-size-body);
+}
+
+@media screen and (max-width: 767.98px) {
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+}
+
+/* ==========================================================================
+   Alert conventions
+   Bootstrap's compiled CSS already fully styles .alert-danger/.alert-success/
+   .alert-warning/.alert-info (colors, borders, padding) — intentionally not
+   overridden here to avoid diverging from Bootstrap's semantics. The one
+   addition is consistent spacing for an icon placed inside an alert, so
+   future alerts can optionally pair a bootstrap-icon with the message
+   without each usage re-inventing the spacing.
+
+   Example usage:
+   <div class="alert alert-danger" role="alert">
+     <i class="bi bi-exclamation-triangle"></i> Something went wrong.
+   </div>
+   ========================================================================== */
+.alert .bi {
+  margin-right: 0.5rem;
 }

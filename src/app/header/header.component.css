@@ -1,4 +1,25 @@
 
-a{
-    padding-right: 10px;
+/* Single navbar background instead of the previous global rule that painted
+   every individual nav-link black; brand color comes from the Phase 1 token. */
+.navbar {
+  background-color: var(--brand-dark);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Slightly stronger wordmark presence via typography only (no new logo asset). */
+.navbar-brand strong {
+  letter-spacing: 0.08em;
+}
+
+/* Neutralize the global a.nav-link background/margin so spacing is driven
+   deliberately by the me-3 utility classes on the nav items instead. */
+.navbar .nav-link {
+  background-color: transparent;
+  margin-right: 0;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus-visible {
+  opacity: 0.75;
 }

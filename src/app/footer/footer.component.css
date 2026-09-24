@@ -1,0 +1,15 @@
+/* Overrides the global .footer rule (fixed 50px height) with content-driven
+   padding, the Phase 1 brand token, and a subtle top border so the footer
+   reads as an intentional element rather than an abrupt black bar. */
+.footer {
+  background-color: var(--brand-dark);
+  color: var(--surface);
+  height: auto;
+  padding: 1rem;
+  font-size: var(--font-size-body);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer strong {
+  letter-spacing: 0.05em;
+}

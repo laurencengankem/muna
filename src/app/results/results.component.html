@@ -1,161 +1,190 @@
 <div class="component-body">
-<div *ngIf="error" id="cnx" style="text-align: center; margin-top: 10%;">
-    <p style="font-weight: bold;">Check your internet connection</p>
-    <i class="bi bi-wifi-off fs-1"></i>
-</div>
-<div id="found" style="display: none;text-align: center; margin-top: 10%">
-    <p style="font-weight: bold;">No results found</p>
-    <svg fill="#000000" style=" height:10px;width:10px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M213.333 960c0-167.36 56-321.707 149.44-446.4L1406.4 1557.227c-124.693 93.44-279.04 149.44-446.4 149.44-411.627 0-746.667-335.04-746.667-746.667m1493.334 0c0 167.36-56 321.707-149.44 446.4L513.6 362.773c124.693-93.44 279.04-149.44 446.4-149.44 411.627 0 746.667 335.04 746.667 746.667M960 0C429.76 0 0 429.76 0 960s429.76 960 960 960 960-429.76 960-960S1490.24 0 960 0" fill-rule="evenodd"></path> </g></svg>
-</div>
+  <div class="container-fluid px-lg-4">
 
-<a href="javascript:void(0)" style="text-decoration: none;  color: green" (click)="toggleContent()">
-    <div id="filterButton" class="toggle" style="min-height: 30px; background-color: black; text-align: center; font-size: 1.2em;">
-        <i class="bi bi-funnel"></i>Filtres
-    </div>
-</a>
-
-
-<div *ngIf="b && !error">
-    <div id="phn"  [ngClass]="showFilters ? 'content show': 'content'">
-        <div id="cart-icon" class="dropdown" *ngIf="filtered.length>0">
-            <button id="price" [ngClass]="priceFlag ? 'dropbtn bg-success' : 'dropbtn'">Prix</button>
-            <div class="dropdown-content">
-                <form [formGroup]="priceForm" (submit)="filterProducts()">
-                    <table style="width:100%; padding: 10px; margin-bottom: 10px;">
-                        <tr>
-                            <th style="text-align: right;">De &nbsp; </th>
-                            <td><input type="number" style="width:100px" formControlName="from"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
-                        </tr>
-                        <tr>
-                            <th style="text-align: right;">à &nbsp; </th>
-                            <td><input type="number" style="width:100px"  formControlName="to" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
-                        </tr> 
-                        <br>
-                        <tr>
-                            <td colspan="2" style="text-align: center;"><input type="submit" value="save"></td>
-                        </tr>
-                      </table>
-                </form>
-            </div>
-        </div>
-        <div id="cart-icon" class="dropdown" *ngIf="categories.length>0">
-            <button  id="category" [ngClass]="categoryFlag ? 'dropbtn bg-success' : 'dropbtn'">Categorie</button>
-            <div class="dropdown-content " (submit)="filterProducts()">
-                <form [formGroup]="categoryForm">
-                    <div style="max-height: 200px; overflow-y: scroll;">
-                        <div *ngFor="let cat of categories">
-                            <input type="checkbox"  name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)">
-                            {{cat}}<br>
-                        </div>
-                    </div>
-                    <br>
-                    <input type="submit" value="save"> &nbsp;
-                    <input type="reset" value="reset">
-                </form>
-            </div>
-        </div>
-        <div id="cart-icon" class="dropdown" *ngIf="sizes.length>0">
-            <button  id="category" [ngClass]="sizeFlag ? 'dropbtn bg-success' : 'dropbtn'">Taille</button>
-            <div class="dropdown-content " (submit)="filterProducts()">
-                <form [formGroup]="sizeForm">
-                    <div style="max-height: 200px; overflow-y: scroll;">
-                        <div *ngFor="let size of sizes" >
-                            <input type="checkbox"  name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)">
-                            {{size}}<br>
-                        </div>
-                    </div>
-                    <br>
-                    <input type="submit" value="save"> &nbsp;
-                    <input type="reset" value="reset">
-                </form>
-            </div>
-        </div>
-        <div id="cart-icon" class="dropdown" *ngIf="brands.length>0">
-            <button  id="brand" [ngClass]="brandFlag ? 'dropbtn bg-success' : 'dropbtn'">Marque</button>
-            <div class="dropdown-content " (submit)="filterProducts()">
-                <form [formGroup]="brandForm">
-                    <div *ngFor="let brand of brands">
-                        <input type="checkbox"  name="{{brand}}" [value]="brand" (change)="onCheckboxGenericChange($event,brandForm)">
-                        {{brand}}<br>
-                    </div>
-                    <br>
-                    <input type="submit" value="save"> &nbsp;
-                    <input type="reset" value="reset">
-                </form>
-            </div>
-        </div>
-        <div id="cart-icon" class="dropdown" *ngIf="colors.length>0">
-            <button  id="color" [ngClass]="colorFlag ? 'dropbtn bg-success' : 'dropbtn'">Couleur</button>
-            <div class="dropdown-content " (submit)="filterProducts()">
-                <form [formGroup]="colorForm">
-                    <div style="max-height: 200px; overflow-y: scroll;">
-                        <div *ngFor="let color of colors">
-                            <input type="checkbox" name="{{color}}" [value]="color" (change)="onCheckboxGenericChange($event,colorForm)">
-                            {{color}}<br>
-                        </div>
-                    </div>
-                    <br>
-                    <input type="submit" value="save"> &nbsp;
-                    <input type="reset" value="reset">
-                </form>
-            </div>
-        </div>
-        <div id="cart-icon" class="dropdown">
-            <button id="genre" [ngClass]="genreFlag ? 'dropbtn bg-success' : 'dropbtn'">Sexe</button>
-            <div class="dropdown-content">
-                <form (ngSubmit)="filterProducts()">
-                    <div class="mb-3">
-                        <label>
-                            <input type="radio" [formControl]="genre" value="MALE"> Garçon
-                        </label>
-                        <br>
-                        <label>
-                            <input type="radio" [formControl]="genre" value="FEMALE"> Fille
-                        </label>
-                    </div>
-                    <button type="submit">Save</button> &nbsp;
-                    <button type="reset" (click)="genre.reset()">Reset</button>
-                </form>
-                
-            </div>
-        </div>
-        
-        <!-- <div id="cart-icon" class="dropdown">
-            <button class="dropbtn">Order</button>
-            <div class="dropdown-content">
-               <form (submit)="ordertheProducts()">
-                <input type="radio" id="asc" name="order" value="asc" [formControl]="order">
-                <label for="asc">ascending price</label> <br>
-                <input type="radio" id="desc" name="order" value="desc" [formControl]="order">
-                <label for="desc">descending price</label> <br><br>
-                <input type="submit" style="margin-left: 45%;" value="save">
-               </form> 
-            </div>
-        </div> -->
+    <div id="cnx" *ngIf="error" class="empty-state">
+      <i class="bi bi-wifi-off"></i>
+      <p class="fw-bold">Check your internet connection</p>
     </div>
 
-    <div *ngIf="!error">  
-        <p id="numResult" style="text-align: center; font-size: 1.2em ; margin-top: 20px;"> {{filtered!.length}} Modèles Trouvés </p>
+    <div id="found" style="display: none;" class="text-center text-muted py-5">
+      <i class="bi bi-search fs-1"></i>
+      <p class="fw-bold mb-0">No results found</p>
     </div>
 
-    <div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 col-xl-3" *ngFor="let item of filtered | paginate: { itemsPerPage: 11, currentPage: page }">
-                    <app-card-item [item]="item"></app-card-item>
+    <div *ngIf="b && !error" class="row">
+
+      <!-- Filters: persistent sidebar on desktop (d-lg-block), collapsible
+           drawer on mobile driven by the existing showFilters/toggleContent()
+           binding (unchanged) -->
+      <aside class="col-lg-3 col-xl-2 mb-3 mb-lg-0">
+        <button type="button" class="btn btn-dark w-100 d-lg-none mb-2" (click)="toggleContent()" [attr.aria-expanded]="showFilters" aria-controls="phn">
+          <i class="bi bi-funnel me-1"></i>Filtres
+        </button>
+
+        <div id="phn" class="collapse d-lg-block" [class.show]="showFilters">
+          <p class="section-title d-none d-lg-block">Filtrer par</p>
+          <div class="accordion" id="filterAccordion">
+
+            <div class="accordion-item" *ngIf="filtered.length>0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': priceFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterPrice">Prix</button>
+              </h2>
+              <div id="filterPrice" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                  <form [formGroup]="priceForm" (submit)="filterProducts()">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <label class="form-label mb-0">De</label>
+                      <input type="number" class="form-control form-control-sm" style="width:100px" formControlName="from" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <label class="form-label mb-0">à</label>
+                      <input type="number" class="form-control form-control-sm" style="width:100px" formControlName="to" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                    </div>
+                    <input type="submit" value="save" class="btn btn-success btn-sm w-100">
+                  </form>
                 </div>
+              </div>
             </div>
+
+            <div class="accordion-item" *ngIf="categories.length>0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': categoryFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterCategory">Categorie</button>
+              </h2>
+              <div id="filterCategory" class="accordion-collapse collapse">
+                <div class="accordion-body" (submit)="filterProducts()">
+                  <form [formGroup]="categoryForm">
+                    <div style="max-height: 200px; overflow-y: auto;" class="mb-2">
+                      <div class="form-check" *ngFor="let cat of categories">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="{{cat}}" [value]="cat" (change)="onCheckboxGenericChange($event,categoryForm)"> {{cat}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <input type="submit" value="save" class="btn btn-success btn-sm flex-fill">
+                      <input type="reset" value="reset" class="btn btn-outline-secondary btn-sm flex-fill">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item" *ngIf="sizes.length>0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': sizeFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterSize">Taille</button>
+              </h2>
+              <div id="filterSize" class="accordion-collapse collapse">
+                <div class="accordion-body" (submit)="filterProducts()">
+                  <form [formGroup]="sizeForm">
+                    <div style="max-height: 200px; overflow-y: auto;" class="mb-2">
+                      <div class="form-check" *ngFor="let size of sizes">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="{{size}}" [value]="size" (change)="onCheckboxGenericChange($event,sizeForm)"> {{size}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <input type="submit" value="save" class="btn btn-success btn-sm flex-fill">
+                      <input type="reset" value="reset" class="btn btn-outline-secondary btn-sm flex-fill">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item" *ngIf="brands.length>0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': brandFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterBrand">Marque</button>
+              </h2>
+              <div id="filterBrand" class="accordion-collapse collapse">
+                <div class="accordion-body" (submit)="filterProducts()">
+                  <form [formGroup]="brandForm">
+                    <div class="mb-2">
+                      <div class="form-check" *ngFor="let brand of brands">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="{{brand}}" [value]="brand" (change)="onCheckboxGenericChange($event,brandForm)"> {{brand}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <input type="submit" value="save" class="btn btn-success btn-sm flex-fill">
+                      <input type="reset" value="reset" class="btn btn-outline-secondary btn-sm flex-fill">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item" *ngIf="colors.length>0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': colorFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterColor">Couleur</button>
+              </h2>
+              <div id="filterColor" class="accordion-collapse collapse">
+                <div class="accordion-body" (submit)="filterProducts()">
+                  <form [formGroup]="colorForm">
+                    <div style="max-height: 200px; overflow-y: auto;" class="mb-2">
+                      <div class="form-check" *ngFor="let color of colors">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="{{color}}" [value]="color" (change)="onCheckboxGenericChange($event,colorForm)"> {{color}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <input type="submit" value="save" class="btn btn-success btn-sm flex-fill">
+                      <input type="reset" value="reset" class="btn btn-outline-secondary btn-sm flex-fill">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" [ngClass]="{'text-success fw-semibold': genreFlag}" type="button" data-bs-toggle="collapse" data-bs-target="#filterGenre">Sexe</button>
+              </h2>
+              <div id="filterGenre" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                  <form (ngSubmit)="filterProducts()">
+                    <div class="mb-3">
+                      <div class="form-check">
+                        <input type="radio" class="form-check-input" [formControl]="genre" value="MALE" id="genre-male">
+                        <label class="form-check-label" for="genre-male">Garçon</label>
+                      </div>
+                      <div class="form-check">
+                        <input type="radio" class="form-check-input" [formControl]="genre" value="FEMALE" id="genre-female">
+                        <label class="form-check-label" for="genre-female">Fille</label>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-success btn-sm flex-fill">Save</button>
+                      <button type="reset" (click)="genre.reset()" class="btn btn-outline-secondary btn-sm flex-fill">Reset</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        
-    </div>
-    <!-- <div class="text-center mt-3"  *ngIf="filtered.length>0">
-        <pagination-controls (pageChange)="page = $event"></pagination-controls>
-    </div> -->
+      </aside>
 
-    <div class="text-center mt-3" *ngIf="filtered.length > 0">
-        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
-    </div>
+      <!-- Results -->
+      <div class="col-lg-9 col-xl-10">
+        <div *ngIf="!error" class="d-flex justify-content-between align-items-center mb-3">
+          <p id="numResult" class="mb-0 text-muted"> {{filtered!.length}} Modèles Trouvés </p>
+        </div>
 
-    
-</div>
+        <div class="row g-3">
+          <div class="col-6 col-md-4 col-xl-3" *ngFor="let item of filtered | paginate: { itemsPerPage: 11, currentPage: page }">
+            <app-card-item [item]="item"></app-card-item>
+          </div>
+        </div>
+
+        <div class="text-center mt-4" *ngIf="filtered.length > 0">
+          <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
